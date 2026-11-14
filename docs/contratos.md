@@ -120,6 +120,7 @@ Para que la comparación valga, la misma variable se calcula igual en los dos pl
 - `earth` es el valor medido en la Tierra; el valor de Marte está en `targets[].values`.
 - `image` es opcional. Si falta, la página no muestra foto.
 - `variables` puede traer más o menos variables según la versión. La página dibuja las que vengan, usando la lista `variables` de arriba para el nombre y la unidad.
+- `sample: true` (opcional, en la raíz) marca datos de ejemplo: la página muestra un aviso al pie. Los datos reales no lo llevan.
 
 ### Capa de similitud (`layer`)
 
@@ -128,21 +129,36 @@ Un PNG por sitio objetivo, con fondo transparente donde no hay dato.
 - Proyección **Web Mercator (EPSG:3857)**, no latitud/longitud plana. Si no, queda corrida respecto del mapa base.
 - Límites: longitud de -180 a 180, latitud de -85 a 85.
 - Tamaño sugerido: 4096 píxeles de ancho.
+- Colores: la misma escala de cinco pasos que usa la página (`--sim-1` a `--sim-5` en `web/styles.css`), con los mismos cortes: rojo `#D94F4F` (< 0,40), `#E8823F` (0,40–0,55), `#D6A13C` (0,55–0,65), `#A9D257` (0,65–0,75), verde `#6EF2AE` (≥ 0,75). Si no, el mapa y la leyenda no coinciden.
+- Mientras un sitio objetivo no tenga `layer`, el interruptor de la capa aparece deshabilitado.
 
 ## 5. `web/data/textos.json` (Contenido → Web)
 
 ```json
 {
+  "jezero": {
+    "region": "Isidis Planitia",
+    "blurb": "Antiguo lago con un delta fluvial. Hoy lo explora el rover Perseverance.",
+    "mission": "Perseverance · desde 2021"
+  },
   "-24.1_-66.9": {
     "name": "Salar de ejemplo",
+    "country": "Argentina"
+  },
+  "jezero:-24.1_-66.9": {
+    "name": "Salar de ejemplo",
     "country": "Argentina",
-    "why": "Por qué se parece…",
+    "why": "Por qué se parece a Jezero…",
     "breaks": "Dónde se rompe la analogía…",
     "use": "Para qué serviría…"
   }
 }
 ```
 
-- La clave es el `id` del sitio en `sites.json`.
+- Tres tipos de clave en el mismo archivo:
+  - **`<sitio de Marte>`** (por ejemplo `jezero`): descripción del sitio marciano para la tarjeta de abajo a la izquierda. Todos los campos son opcionales.
+  - **`<sitio de Marte>:<id del sitio>`**: textos de un sitio terrestre comparado con ese sitio de Marte. Es la forma recomendada para `why`, `breaks` y `use`, porque por qué un lugar se parece a Jezero no es lo mismo que por qué se parece a Gale.
+  - **`<id del sitio>`**: vale para cualquier sitio de Marte. Sirve para nombre y país. Si existen las dos claves, gana la que incluye el sitio de Marte.
+- El `id` del sitio es el de `sites.json`.
 - Para los ~15 sitios alcanza con `name` y `country`. `why`, `breaks` y `use` solo para los 3 mejores.
 - Si un sitio no está en este archivo, la página muestra las coordenadas en vez del nombre y no muestra texto.

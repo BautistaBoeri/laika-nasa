@@ -1,0 +1,150 @@
+{
+ "jezero": {
+  "region": "Isidis Planitia",
+  "blurb": "Antiguo lago con un delta fluvial. Hoy lo explora el rover Perseverance.",
+  "mission": "Perseverance · desde 2021"
+ },
+ "gale": {
+  "region": "Aeolis Mons",
+  "blurb": "Cráter de impacto con una montaña central de capas sedimentarias. Lo recorre Curiosity.",
+  "mission": "Curiosity · desde 2012"
+ },
+ "arcadia": {
+  "region": "Hemisferio norte",
+  "blurb": "Llanura volcánica con hielo cerca de la superficie. Candidata para misiones tripuladas.",
+  "mission": "Candidato a misión tripulada"
+ },
+ "jezero:-24.1_-66.9": {
+  "name": "Puna de Atacama",
+  "country": "Argentina",
+  "why": "Planicie de altura con abanicos aluviales y depósitos de antiguos lagos salinos, de pendiente suave y superficie oscura, como el fondo del cráter.",
+  "breaks": "La presión atmosférica y la temperatura son mucho mayores, y hay agua subterránea activa: la química de los sedimentos no es la de Jezero hoy.",
+  "use": "Probar la navegación autónoma de un rover sobre un delta seco y ensayar la toma de muestras en sedimentos de lago."
+ },
+ "jezero:30.4_58.9": {
+  "name": "Desierto de Lut",
+  "country": "Irán",
+  "why": "Una de las superficies más secas y calientes del planeta, con relieve bajo y albedo parecido al del fondo de Jezero.",
+  "breaks": "El calor diurno es extremo pero muy distinto del frío marciano, y el relieve está modelado por viento y agua en proporciones distintas.",
+  "use": "Ensayar instrumentos de espectroscopía y sensores térmicos en condiciones de sequedad casi total."
+ },
+ "jezero:37.5_93.7": {
+  "name": "Qaidam",
+  "country": "China",
+  "why": "Cuenca cerrada a más de 2.700 m con lagos salinos secos y yardangs, un registro de desecación como el de un lago marciano.",
+  "breaks": "Hay vegetación y vida microbiana abundante en los bordes; el polvo tiene otra composición mineral.",
+  "use": "Estudiar cómo se preservan las biofirmas en sales y entrenar la interpretación de capas sedimentarias."
+ },
+ "jezero:-24.08_-69.93": {
+  "name": "Desierto de Atacama (Yungay)",
+  "country": "Chile",
+  "why": "Uno de los lugares más secos de la Tierra, con suelos casi estériles y oxidantes, usado por la NASA desde los años 2000.",
+  "breaks": "Recibe niebla costera esporádica y tiene una atmósfera densa que filtra la radiación ultravioleta.",
+  "use": "Ya se usa para probar detectores de vida y perforadoras. Aquí sirve para validar el método."
+ },
+ "jezero:38.41_-110.79": {
+  "name": "Desert Research Station (MDRS)",
+  "country": "Estados Unidos",
+  "why": "Sedimentos rojizos jurásicos y arcillas en un paisaje sin vegetación, con pendientes parecidas a las de un cráter erosionado.",
+  "breaks": "El clima es templado y las tormentas eléctricas modelan el relieve de forma muy distinta.",
+  "use": "Estación de simulación de misiones tripuladas desde 2001. Aquí sirve para validar el método."
+ },
+ "jezero:64.85_-16.83": {
+  "name": "Holuhraun",
+  "country": "Islandia",
+  "why": "Campo de lava basáltica reciente, mineralógicamente parecido a las llanuras volcánicas de Marte.",
+  "breaks": "Hay agua líquida, lluvia frecuente y actividad volcánica activa.",
+  "use": "Sitio de pruebas de rovers y entrenamiento de la ESA. Aquí sirve para validar el método."
+ },
+ "jezero:75.38_-89.68": {
+  "name": "Cráter Haughton, isla Devon",
+  "country": "Canadá",
+  "why": "Cráter de impacto en desierto polar, con suelo congelado y sin vegetación, comparable con cráteres marcianos de latitudes altas.",
+  "breaks": "El cráter es mucho más joven y está muy erosionado por glaciares y deshielo.",
+  "use": "Base del proyecto Haughton-Mars de la NASA. Aquí sirve para validar el método."
+ },
+ "gale:-21.3_118.8": {
+  "name": "Pilbara",
+  "country": "Australia",
+  "why": "Rocas sedimentarias muy antiguas, apiladas en capas, con pendientes y relieve local cercanos a la base del monte Sharp.",
+  "breaks": "La gravedad hace que las laderas sean más estables que en Marte, y la erosión por lluvia, aunque escasa, existe.",
+  "use": "Practicar la lectura de estratigrafía con cámaras de rover y calibrar la búsqueda de estromatolitos."
+ },
+ "gale:23.0_5.9": {
+  "name": "Macizo de Hoggar",
+  "country": "Argelia",
+  "why": "Relieve volcánico y sedimentario expuesto, sin cobertura vegetal y con un albedo similar al de las laderas de Gale.",
+  "breaks": "Su origen es volcánico en gran parte; Gale es un cráter de impacto relleno de sedimentos lacustres.",
+  "use": "Probar planificación de rutas en terreno escarpado y tiempos de comunicación con equipo remoto."
+ },
+ "gale:38.41_-110.79": {
+  "name": "Desert Research Station (MDRS)",
+  "country": "Estados Unidos",
+  "why": "Sedimentos rojizos jurásicos y arcillas en un paisaje sin vegetación, con pendientes parecidas a las de un cráter erosionado.",
+  "breaks": "El clima es templado y las tormentas eléctricas modelan el relieve de forma muy distinta.",
+  "use": "Estación de simulación de misiones tripuladas desde 2001. Aquí sirve para validar el método."
+ },
+ "gale:-24.08_-69.93": {
+  "name": "Desierto de Atacama (Yungay)",
+  "country": "Chile",
+  "why": "Uno de los lugares más secos de la Tierra, con suelos casi estériles y oxidantes, usado por la NASA desde los años 2000.",
+  "breaks": "Recibe niebla costera esporádica y tiene una atmósfera densa que filtra la radiación ultravioleta.",
+  "use": "Ya se usa para probar detectores de vida y perforadoras. Aquí sirve para validar el método."
+ },
+ "gale:75.38_-89.68": {
+  "name": "Cráter Haughton, isla Devon",
+  "country": "Canadá",
+  "why": "Cráter de impacto en desierto polar, con suelo congelado y sin vegetación, comparable con cráteres marcianos de latitudes altas.",
+  "breaks": "El cráter es mucho más joven y está muy erosionado por glaciares y deshielo.",
+  "use": "Base del proyecto Haughton-Mars de la NASA. Aquí sirve para validar el método."
+ },
+ "gale:64.85_-16.83": {
+  "name": "Holuhraun",
+  "country": "Islandia",
+  "why": "Campo de lava basáltica reciente, mineralógicamente parecido a las llanuras volcánicas de Marte.",
+  "breaks": "Hay agua líquida, lluvia frecuente y actividad volcánica activa.",
+  "use": "Sitio de pruebas de rovers y entrenamiento de la ESA. Aquí sirve para validar el método."
+ },
+ "arcadia:43.1_103.7": {
+  "name": "Gobi meridional",
+  "country": "Mongolia",
+  "why": "Llanura extensa, de pendiente casi nula, con suelos congelados en invierno y poco relieve local.",
+  "breaks": "El hielo no está estable todo el año y la superficie tiene vegetación rala; en Arcadia el hielo es permanente.",
+  "use": "Ensayar radares de penetración de suelo para detectar hielo y practicar operaciones de aterrizaje en llanura."
+ },
+ "arcadia:37.7_93.3": {
+  "name": "Qaidam",
+  "country": "China",
+  "why": "Cuenca fría y seca, con relieve suave y suelos salinos que retienen hielo y humedad cerca de la superficie.",
+  "breaks": "La temperatura media es decenas de grados más alta y la atmósfera protege de la radiación.",
+  "use": "Probar perforadoras someras y sensores de humedad del subsuelo."
+ },
+ "arcadia:64.85_-16.83": {
+  "name": "Holuhraun",
+  "country": "Islandia",
+  "why": "Campo de lava basáltica reciente, mineralógicamente parecido a las llanuras volcánicas de Marte.",
+  "breaks": "Hay agua líquida, lluvia frecuente y actividad volcánica activa.",
+  "use": "Sitio de pruebas de rovers y entrenamiento de la ESA. Aquí sirve para validar el método."
+ },
+ "arcadia:75.38_-89.68": {
+  "name": "Cráter Haughton, isla Devon",
+  "country": "Canadá",
+  "why": "Cráter de impacto en desierto polar, con suelo congelado y sin vegetación, comparable con cráteres marcianos de latitudes altas.",
+  "breaks": "El cráter es mucho más joven y está muy erosionado por glaciares y deshielo.",
+  "use": "Base del proyecto Haughton-Mars de la NASA. Aquí sirve para validar el método."
+ },
+ "arcadia:-24.08_-69.93": {
+  "name": "Desierto de Atacama (Yungay)",
+  "country": "Chile",
+  "why": "Uno de los lugares más secos de la Tierra, con suelos casi estériles y oxidantes, usado por la NASA desde los años 2000.",
+  "breaks": "Recibe niebla costera esporádica y tiene una atmósfera densa que filtra la radiación ultravioleta.",
+  "use": "Ya se usa para probar detectores de vida y perforadoras. Aquí sirve para validar el método."
+ },
+ "arcadia:38.41_-110.79": {
+  "name": "Desert Research Station (MDRS)",
+  "country": "Estados Unidos",
+  "why": "Sedimentos rojizos jurásicos y arcillas en un paisaje sin vegetación, con pendientes parecidas a las de un cráter erosionado.",
+  "breaks": "El clima es templado y las tormentas eléctricas modelan el relieve de forma muy distinta.",
+  "use": "Estación de simulación de misiones tripuladas desde 2001. Aquí sirve para validar el método."
+ }
+}
