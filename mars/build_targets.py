@@ -74,7 +74,9 @@ def ensure_raster(name: str, url: str) -> Path:
     DATA.mkdir(exist_ok=True)
     part = path.with_suffix(".part")
     print(f"Bajando {name} ...", flush=True)
-    with urllib.request.urlopen(url) as resp, open(part, "wb") as f:
+    # el servidor de USGS rechaza con 403 el identificador por defecto de Python
+    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; mars-analog-search/1.0)"})
+    with urllib.request.urlopen(request) as resp, open(part, "wb") as f:
         total = int(resp.headers.get("Content-Length", 0))
         done = 0
         step = 0
