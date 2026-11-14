@@ -1,0 +1,140 @@
+{
+  "AGUA_MAX": 0.1,
+  "ALBEDO_ANIOS": [
+    2021,
+    2022,
+    2023
+  ],
+  "ALBEDO_CADA_DIAS": 8,
+  "CELDA_GRADOS": 0.05,
+  "COBERTURA_ANIO": 2022,
+  "DEM_BANDA": "DEM",
+  "DEM_COLECCION": "COPERNICUS/DEM/GLO30_2024_1",
+  "DEM_RESPALDO": "COPERNICUS/DEM/GLO30",
+  "ETIQUETAS": {
+    "pendiente_deg": [
+      "Pendiente",
+      "°"
+    ],
+    "relieve_m": [
+      "Relieve local",
+      "m"
+    ],
+    "albedo": [
+      "Albedo",
+      ""
+    ]
+  },
+  "EXCLUIR_HIELO": true,
+  "HIELO_MAX": 0.1,
+  "HILOS": 6,
+  "LAT_MAX_BUSQUEDA": 60,
+  "NDVI_DESDE": "2022-01-01",
+  "NDVI_HASTA": "2024-01-01",
+  "NDVI_MAX": 0.15,
+  "NODATA": -9999.0,
+  "NOMBRE_EN_MARTE": {
+    "pendiente_deg": "slope",
+    "relieve_m": "roughness",
+    "albedo": "albedo"
+  },
+  "N_SITIOS": 15,
+  "PESOS": {
+    "pendiente_deg": 1.0,
+    "relieve_m": 1.0,
+    "albedo": 1.0
+  },
+  "PNG_ANCHO_MAX": 4096,
+  "PNG_LIMITES": [
+    -180.0,
+    -85.0,
+    180.0,
+    85.0
+  ],
+  "PNG_UMBRAL": 0.3,
+  "PROYECTO": "laika-nasa",
+  "RADIO_CONOCIDOS_KM": 300,
+  "RADIO_VALIDACION_KM": 25,
+  "RANGOS_VALIDOS": {
+    "albedo": [
+      0.0,
+      1.0
+    ],
+    "ndvi": [
+      -0.2,
+      1.0
+    ]
+  },
+  "REGIONES": {
+    "noa": [
+      -70.0,
+      -28.0,
+      -64.0,
+      -21.0
+    ],
+    "mundo": [
+      -180.0,
+      -80.0,
+      180.0,
+      84.0
+    ]
+  },
+  "RELIEVE_A_DESVIO": 4.24,
+  "SEPARACION_KM": 300,
+  "SUAVIZADO_KM": 25,
+  "SUAVIZADO_MIN_FRAC": 0.5,
+  "SUBCELDAS": 12,
+  "TEMP_DESDE": "2022-01-01",
+  "TEMP_HASTA": "2024-01-01",
+  "TILE_GRADOS": 10,
+  "VARIABLES": [
+    "pendiente_deg",
+    "relieve_m",
+    "albedo"
+  ],
+  "generado": "2026-11-14T15:46:10-03:00",
+  "region": "mundo",
+  "targets": "mars\\targets.json",
+  "conocidos": "earth\\ejemplo\\known_analogs.json",
+  "sigma": {
+    "pendiente_deg": 2.5531,
+    "relieve_m": 63.705,
+    "albedo": 0.0574
+  },
+  "medicion": {
+    "region": "mundo",
+    "bbox": [
+      -180.0,
+      -80.0,
+      180.0,
+      84.0
+    ],
+    "celda_grados": 0.05,
+    "forma": [
+      3280,
+      7200
+    ],
+    "bandas": [
+      "elevacion_m",
+      "pendiente_deg",
+      "relieve_m",
+      "albedo",
+      "ndvi",
+      "frac_agua",
+      "frac_hielo"
+    ],
+    "dem": "COPERNICUS/DEM/GLO30_2024_1",
+    "albedo_anios": [
+      2021,
+      2022,
+      2023
+    ],
+    "ndvi_fechas": [
+      "2022-01-01",
+      "2024-01-01"
+    ],
+    "pedidos": 612,
+    "segundos": 2765.1,
+    "generado": "2026-11-14T18:07:24+00:00"
+  }
+}
