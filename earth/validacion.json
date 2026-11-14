@@ -1,0 +1,543 @@
+[
+  {
+    "target": "jezero",
+    "candidate_cells": 798983,
+    "candidate_area_km2": 20734247,
+    "score_quantiles": {
+      "p10": 0.4351,
+      "p25": 0.463,
+      "p50": 0.5354,
+      "p75": 0.7101,
+      "p90": 0.866,
+      "p95": 0.9266,
+      "p99": 0.9799
+    },
+    "area_fraction_above": {
+      "0.8": 0.1614,
+      "0.9": 0.0713,
+      "0.95": 0.0319,
+      "0.99": 0.0038
+    },
+    "known_analogs": [
+      {
+        "name": "Desierto de Atacama (núcleo hiperárido, zona de Yungay)",
+        "lat": -24.5,
+        "lon": -69.25,
+        "radius_km": 100,
+        "score": 0.7368,
+        "percentile": 77.64,
+        "variables": {
+          "slope": {
+            "score": 0.6729,
+            "earth": 4.58
+          },
+          "roughness": {
+            "score": 0.7224,
+            "earth": 98.2
+          },
+          "albedo": {
+            "score": 0.815,
+            "earth": 0.211
+          }
+        },
+        "cells_in_circle": 72,
+        "candidate_fraction_in_circle": 1.0,
+        "region": {
+          "cells": 1208,
+          "candidate_fraction": 1.0,
+          "mean_score": 0.764,
+          "median_score": 0.8263,
+          "median_percentile": 86.4,
+          "best_score": 0.9996
+        }
+      },
+      {
+        "name": "Valles Secos de McMurdo",
+        "lat": -77.4667,
+        "lon": 162.5167,
+        "radius_km": 100,
+        "note": "sin celdas medibles a menos de 25 km (agua, hielo o sin dato)"
+      },
+      {
+        "name": "Campo de lava Holuhraun (Islandia)",
+        "lat": 64.85,
+        "lon": -16.83,
+        "radius_km": 75,
+        "score": 0.6305,
+        "percentile": 65.85,
+        "variables": {
+          "slope": {
+            "score": 0.8479,
+            "earth": 2.22
+          },
+          "roughness": {
+            "score": 0.8522,
+            "earth": 46.4
+          },
+          "albedo": {
+            "score": 0.1914,
+            "earth": 0.071
+          }
+        },
+        "cells_in_circle": 46,
+        "candidate_fraction_in_circle": 1.0,
+        "region": {
+          "cells": 405,
+          "candidate_fraction": 0.743,
+          "mean_score": 0.696,
+          "median_score": 0.7037,
+          "median_percentile": 74.37,
+          "best_score": 0.9293
+        }
+      },
+      {
+        "name": "HI-SEAS, Mauna Loa (Hawái)",
+        "lat": 19.6024,
+        "lon": -155.4872,
+        "radius_km": 50,
+        "score": 0.4419,
+        "percentile": 13.63,
+        "variables": {
+          "slope": {
+            "score": 0.5537,
+            "earth": 5.59
+          },
+          "roughness": {
+            "score": 0.5206,
+            "earth": 139.7
+          },
+          "albedo": {
+            "score": 0.2515,
+            "earth": 0.075
+          }
+        },
+        "cells_in_circle": 76,
+        "candidate_fraction_in_circle": 0.408,
+        "region": {
+          "cells": 287,
+          "candidate_fraction": 0.174,
+          "mean_score": 0.5378,
+          "median_score": 0.5855,
+          "median_percentile": 59.12,
+          "best_score": 0.9844
+        }
+      },
+      {
+        "name": "Cráter Haughton, isla Devon (Canadá)",
+        "lat": 75.3833,
+        "lon": -89.6667,
+        "radius_km": 75,
+        "score": 0.788,
+        "percentile": 82.71,
+        "variables": {
+          "slope": {
+            "score": 0.8481,
+            "earth": 2.81
+          },
+          "roughness": {
+            "score": 0.8803,
+            "earth": 42.0
+          },
+          "albedo": {
+            "score": 0.6355,
+            "earth": 0.233
+          }
+        },
+        "cells_in_circle": 57,
+        "candidate_fraction_in_circle": 0.368,
+        "region": {
+          "cells": 424,
+          "candidate_fraction": 0.663,
+          "mean_score": 0.8116,
+          "median_score": 0.8325,
+          "median_percentile": 86.99,
+          "best_score": 0.9939
+        }
+      },
+      {
+        "name": "Death Valley (Badwater, Mars Hill)",
+        "lat": 36.2469,
+        "lon": -116.8169,
+        "radius_km": 75,
+        "score": 0.5543,
+        "percentile": 53.85,
+        "variables": {
+          "slope": {
+            "score": 0.3825,
+            "earth": 8.03
+          },
+          "roughness": {
+            "score": 0.429,
+            "earth": 170.8
+          },
+          "albedo": {
+            "score": 0.8513,
+            "earth": 0.177
+          }
+        },
+        "cells_in_circle": 72,
+        "candidate_fraction_in_circle": 0.889,
+        "region": {
+          "cells": 679,
+          "candidate_fraction": 0.81,
+          "mean_score": 0.6504,
+          "median_score": 0.6728,
+          "median_percentile": 71.09,
+          "best_score": 0.9998
+        }
+      },
+      {
+        "name": "Desierto de Mojave (cráter Pisgah)",
+        "lat": 34.7464,
+        "lon": -116.375,
+        "radius_km": 75,
+        "score": 0.8233,
+        "percentile": 86.12,
+        "variables": {
+          "slope": {
+            "score": 0.8215,
+            "earth": 3.27
+          },
+          "roughness": {
+            "score": 0.8715,
+            "earth": 66.5
+          },
+          "albedo": {
+            "score": 0.777,
+            "earth": 0.211
+          }
+        },
+        "cells_in_circle": 76,
+        "candidate_fraction_in_circle": 0.987,
+        "region": {
+          "cells": 665,
+          "candidate_fraction": 0.824,
+          "mean_score": 0.7467,
+          "median_score": 0.7667,
+          "median_percentile": 80.64,
+          "best_score": 0.999
+        }
+      },
+      {
+        "name": "Mars Desert Research Station, Utah",
+        "lat": 38.4065,
+        "lon": -110.7919,
+        "radius_km": 75,
+        "score": 0.6883,
+        "percentile": 72.75,
+        "variables": {
+          "slope": {
+            "score": 0.8543,
+            "earth": 2.79
+          },
+          "roughness": {
+            "score": 0.895,
+            "earth": 48.0
+          },
+          "albedo": {
+            "score": 0.3156,
+            "earth": 0.268
+          }
+        },
+        "cells_in_circle": 76,
+        "candidate_fraction_in_circle": 0.961,
+        "region": {
+          "cells": 681,
+          "candidate_fraction": 0.438,
+          "mean_score": 0.6818,
+          "median_score": 0.7131,
+          "median_percentile": 75.3,
+          "best_score": 0.999
+        }
+      },
+      {
+        "name": "Río Tinto, Peña de Hierro (España)",
+        "lat": 37.6955,
+        "lon": -6.5489,
+        "radius_km": 50,
+        "score": 0.8471,
+        "percentile": 88.32,
+        "variables": {
+          "slope": {
+            "score": 0.8968,
+            "earth": 3.43
+          },
+          "roughness": {
+            "score": 0.963,
+            "earth": 51.3
+          },
+          "albedo": {
+            "score": 0.6815,
+            "earth": 0.127
+          }
+        },
+        "cells_in_circle": 76,
+        "candidate_fraction_in_circle": 0.0,
+        "region": {
+          "cells": 304,
+          "candidate_fraction": 0.0,
+          "mean_score": 0.855,
+          "median_score": 0.8638,
+          "median_percentile": 89.8,
+          "best_score": 0.9836
+        }
+      },
+      {
+        "name": "Bockfjorden y volcán Sverrefjellet (Svalbard)",
+        "lat": 79.4317,
+        "lon": 13.305,
+        "radius_km": 75,
+        "score": 0.3363,
+        "percentile": 3.53,
+        "variables": {
+          "slope": {
+            "score": 0.0877,
+            "earth": 10.84
+          },
+          "roughness": {
+            "score": 0.1826,
+            "earth": 177.0
+          },
+          "albedo": {
+            "score": 0.7387,
+            "earth": 0.133
+          }
+        },
+        "cells_in_circle": 3,
+        "candidate_fraction_in_circle": 0.0,
+        "region": {
+          "cells": 27,
+          "candidate_fraction": 0.37,
+          "mean_score": 0.4932,
+          "median_score": 0.4424,
+          "median_percentile": 13.88,
+          "best_score": 0.9289
+        }
+      },
+      {
+        "name": "Dallol, depresión de Danakil (Etiopía)",
+        "lat": 14.2386,
+        "lon": 40.2936,
+        "radius_km": 75,
+        "score": 0.647,
+        "percentile": 67.98,
+        "variables": {
+          "slope": {
+            "score": 0.5684,
+            "earth": 2.01
+          },
+          "roughness": {
+            "score": 0.6875,
+            "earth": 37.7
+          },
+          "albedo": {
+            "score": 0.685,
+            "earth": 0.211
+          }
+        },
+        "cells_in_circle": 76,
+        "candidate_fraction_in_circle": 1.0,
+        "region": {
+          "cells": 636,
+          "candidate_fraction": 0.802,
+          "mean_score": 0.6862,
+          "median_score": 0.7337,
+          "median_percentile": 77.33,
+          "best_score": 0.9995
+        }
+      },
+      {
+        "name": "Cuenca de Qaidam (China)",
+        "lat": 37.2667,
+        "lon": 94.45,
+        "radius_km": 150,
+        "score": 0.623,
+        "percentile": 64.73,
+        "variables": {
+          "slope": {
+            "score": 0.6418,
+            "earth": 0.24
+          },
+          "roughness": {
+            "score": 0.7179,
+            "earth": 4.9
+          },
+          "albedo": {
+            "score": 0.5093,
+            "earth": 0.243
+          }
+        },
+        "cells_in_circle": 76,
+        "candidate_fraction_in_circle": 1.0,
+        "region": {
+          "cells": 2638,
+          "candidate_fraction": 0.968,
+          "mean_score": 0.6,
+          "median_score": 0.6096,
+          "median_percentile": 62.69,
+          "best_score": 0.9964
+        }
+      },
+      {
+        "name": "Wadi Rum (Jordania)",
+        "lat": 29.5931,
+        "lon": 35.42,
+        "radius_km": 50,
+        "score": 0.506,
+        "percentile": 42.4,
+        "variables": {
+          "slope": {
+            "score": 0.4957,
+            "earth": 5.78
+          },
+          "roughness": {
+            "score": 0.7708,
+            "earth": 90.5
+          },
+          "albedo": {
+            "score": 0.2514,
+            "earth": 0.29
+          }
+        },
+        "cells_in_circle": 73,
+        "candidate_fraction_in_circle": 1.0,
+        "region": {
+          "cells": 291,
+          "candidate_fraction": 1.0,
+          "mean_score": 0.5752,
+          "median_score": 0.6267,
+          "median_percentile": 65.29,
+          "best_score": 0.9321
+        }
+      },
+      {
+        "name": "Pilbara (Australia Occidental)",
+        "lat": -21.17,
+        "lon": 119.7469,
+        "radius_km": 100,
+        "score": 0.8639,
+        "percentile": 89.81,
+        "variables": {
+          "slope": {
+            "score": 0.8302,
+            "earth": 1.16
+          },
+          "roughness": {
+            "score": 0.8322,
+            "earth": 18.7
+          },
+          "albedo": {
+            "score": 0.9292,
+            "earth": 0.169
+          }
+        },
+        "cells_in_circle": 75,
+        "candidate_fraction_in_circle": 0.0,
+        "region": {
+          "cells": 1211,
+          "candidate_fraction": 0.0,
+          "mean_score": 0.8293,
+          "median_score": 0.827,
+          "median_percentile": 86.48,
+          "best_score": 0.9971
+        }
+      },
+      {
+        "name": "Makhtesh Ramon, desierto del Néguev (Israel)",
+        "lat": 30.5786,
+        "lon": 34.8178,
+        "radius_km": 50,
+        "score": 0.6402,
+        "percentile": 67.14,
+        "variables": {
+          "slope": {
+            "score": 0.9052,
+            "earth": 3.09
+          },
+          "roughness": {
+            "score": 0.9408,
+            "earth": 50.9
+          },
+          "albedo": {
+            "score": 0.0745,
+            "earth": 0.316
+          }
+        },
+        "cells_in_circle": 76,
+        "candidate_fraction_in_circle": 1.0,
+        "region": {
+          "cells": 304,
+          "candidate_fraction": 1.0,
+          "mean_score": 0.6178,
+          "median_score": 0.6313,
+          "median_percentile": 65.96,
+          "best_score": 0.7786
+        }
+      },
+      {
+        "name": "Puna argentina (Antofagasta de la Sierra)",
+        "lat": -26.08,
+        "lon": -67.5,
+        "radius_km": 100,
+        "score": 0.7315,
+        "percentile": 77.12,
+        "variables": {
+          "slope": {
+            "score": 0.6319,
+            "earth": 5.03
+          },
+          "roughness": {
+            "score": 0.7018,
+            "earth": 100.9
+          },
+          "albedo": {
+            "score": 0.8609,
+            "earth": 0.169
+          }
+        },
+        "cells_in_circle": 77,
+        "candidate_fraction_in_circle": 1.0,
+        "region": {
+          "cells": 1205,
+          "candidate_fraction": 0.983,
+          "mean_score": 0.6192,
+          "median_score": 0.6101,
+          "median_percentile": 62.77,
+          "best_score": 0.9991
+        }
+      },
+      {
+        "name": "Lago Salda (Turquía)",
+        "lat": 37.55,
+        "lon": 29.6833,
+        "radius_km": 50,
+        "score": 0.621,
+        "percentile": 64.41,
+        "variables": {
+          "slope": {
+            "score": 0.4603,
+            "earth": 6.01
+          },
+          "roughness": {
+            "score": 0.6308,
+            "earth": 111.0
+          },
+          "albedo": {
+            "score": 0.7719,
+            "earth": 0.143
+          }
+        },
+        "cells_in_circle": 71,
+        "candidate_fraction_in_circle": 0.0,
+        "region": {
+          "cells": 280,
+          "candidate_fraction": 0.0,
+          "mean_score": 0.6542,
+          "median_score": 0.697,
+          "median_percentile": 73.67,
+          "best_score": 0.995
+        }
+      }
+    ]
+  }
+]

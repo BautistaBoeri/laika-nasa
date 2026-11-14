@@ -1,0 +1,64 @@
+{
+  "ndvi_max": 0.15,
+  "land_min": 0.9,
+  "n_sites": 15,
+  "min_separation_km": 300.0,
+  "weights": "iguales",
+  "sigma": {
+    "slope": 2.524,
+    "roughness": 63.87,
+    "albedo": 0.0575
+  },
+  "sigma_source": "desvío global de Marte (mars/targets.json)",
+  "cell_km": 5.094,
+  "region": null,
+  "measurement": {
+    "grid": {
+      "pixel_m": 463.0935,
+      "block": 11,
+      "band_rows": 40,
+      "chunk_cols": 64,
+      "lat_max": 84.0
+    },
+    "terrain": {
+      "dem": "COPERNICUS/DEM/GLO30_2024_1",
+      "dem_level_arcsec": 4,
+      "dem_lon_step": "nativo por latitud"
+    },
+    "surface": {
+      "albedo": [
+        "MODIS/061/MCD43A3",
+        "Albedo_WSA_shortwave",
+        4,
+        16
+      ],
+      "snow": [
+        "MODIS/061/MCD43A2",
+        "Snow_BRDF_Albedo"
+      ],
+      "ndvi": [
+        "MODIS/061/MOD13A2",
+        2
+      ],
+      "landcover": [
+        "MODIS/061/MCD12Q1/2024_01_01",
+        "LC_Type1",
+        [
+          13,
+          15,
+          17
+        ]
+      ],
+      "dates": [
+        "2023-01-01",
+        "2026-01-01"
+      ]
+    }
+  },
+  "screening": {
+    "deg": 0.05,
+    "ndvi": 0.25,
+    "min_pixels": 25
+  },
+  "earth_engine_eecu_hours_estimated": 10.01
+}

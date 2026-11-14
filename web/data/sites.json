@@ -1,0 +1,781 @@
+{
+  "generated": "2026-11-14T14:52:50-03:00",
+  "variables": [
+    {
+      "id": "slope",
+      "label": "Pendiente",
+      "unit": "°"
+    },
+    {
+      "id": "roughness",
+      "label": "Relieve local",
+      "unit": "m"
+    },
+    {
+      "id": "albedo",
+      "label": "Albedo",
+      "unit": ""
+    }
+  ],
+  "targets": [
+    {
+      "id": "jezero",
+      "name": "Cráter Jezero",
+      "lat": 18.44,
+      "lon": 77.45,
+      "values": {
+        "slope": 2.612,
+        "roughness": 56.68,
+        "albedo": 0.1773
+      },
+      "layer": "data/similarity_jezero.png",
+      "sites": [
+        {
+          "id": "-21.5_-68.8",
+          "lat": -21.4813,
+          "lon": -68.7997,
+          "known": false,
+          "score": 1.0,
+          "variables": {
+            "slope": {
+              "score": 0.9999,
+              "earth": 2.58
+            },
+            "roughness": {
+              "score": 1.0,
+              "earth": 56.2
+            },
+            "albedo": {
+              "score": 1.0,
+              "earth": 0.177
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/-21.5_-68.8.jpg"
+        },
+        {
+          "id": "26.2_4.5",
+          "lat": 26.2086,
+          "lon": 4.5163,
+          "known": false,
+          "score": 0.9999,
+          "variables": {
+            "slope": {
+              "score": 1.0,
+              "earth": 2.62
+            },
+            "roughness": {
+              "score": 0.9999,
+              "earth": 57.5
+            },
+            "albedo": {
+              "score": 0.9999,
+              "earth": 0.178
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/26.2_4.5.jpg"
+        },
+        {
+          "id": "17.1_44.0",
+          "lat": 17.1379,
+          "lon": 43.9733,
+          "known": false,
+          "score": 0.9999,
+          "variables": {
+            "slope": {
+              "score": 1.0,
+              "earth": 2.61
+            },
+            "roughness": {
+              "score": 0.9998,
+              "earth": 55.4
+            },
+            "albedo": {
+              "score": 1.0,
+              "earth": 0.177
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/17.1_44.0.jpg"
+        },
+        {
+          "id": "36.0_57.4",
+          "lat": 36.0123,
+          "lon": 57.4289,
+          "known": false,
+          "score": 0.9999,
+          "variables": {
+            "slope": {
+              "score": 1.0,
+              "earth": 2.6
+            },
+            "roughness": {
+              "score": 0.9998,
+              "earth": 55.4
+            },
+            "albedo": {
+              "score": 1.0,
+              "earth": 0.177
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/36.0_57.4.jpg"
+        },
+        {
+          "id": "29.4_56.4",
+          "lat": 29.3696,
+          "lon": 56.3992,
+          "known": false,
+          "score": 0.9999,
+          "variables": {
+            "slope": {
+              "score": 0.9998,
+              "earth": 2.56
+            },
+            "roughness": {
+              "score": 0.9999,
+              "earth": 55.9
+            },
+            "albedo": {
+              "score": 1.0,
+              "earth": 0.178
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/29.4_56.4.jpg"
+        },
+        {
+          "id": "24.8_40.3",
+          "lat": 24.7885,
+          "lon": 40.3373,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 0.9999,
+              "earth": 2.65
+            },
+            "roughness": {
+              "score": 1.0,
+              "earth": 56.7
+            },
+            "albedo": {
+              "score": 0.9996,
+              "earth": 0.179
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/24.8_40.3.jpg"
+        },
+        {
+          "id": "-43.7_-68.5",
+          "lat": -43.6999,
+          "lon": -68.5106,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 1.0,
+              "earth": 2.59
+            },
+            "roughness": {
+              "score": 0.9998,
+              "earth": 55.3
+            },
+            "albedo": {
+              "score": 0.9997,
+              "earth": 0.176
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/-43.7_-68.5.jpg"
+        },
+        {
+          "id": "-17.9_-69.7",
+          "lat": -17.908,
+          "lon": -69.6608,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 1.0,
+              "earth": 2.62
+            },
+            "roughness": {
+              "score": 1.0,
+              "earth": 56.2
+            },
+            "albedo": {
+              "score": 0.9994,
+              "earth": 0.179
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/-17.9_-69.7.jpg"
+        },
+        {
+          "id": "31.1_-5.1",
+          "lat": 31.0647,
+          "lon": -5.1061,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 0.9999,
+              "earth": 2.64
+            },
+            "roughness": {
+              "score": 1.0,
+              "earth": 56.4
+            },
+            "albedo": {
+              "score": 0.9995,
+              "earth": 0.179
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/31.1_-5.1.jpg"
+        },
+        {
+          "id": "31.4_60.2",
+          "lat": 31.4311,
+          "lon": 60.1524,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 0.9998,
+              "earth": 2.66
+            },
+            "roughness": {
+              "score": 0.9996,
+              "earth": 54.8
+            },
+            "albedo": {
+              "score": 1.0,
+              "earth": 0.178
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/31.4_60.2.jpg"
+        },
+        {
+          "id": "34.8_61.6",
+          "lat": 34.8212,
+          "lon": 61.5899,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 0.9997,
+              "earth": 2.55
+            },
+            "roughness": {
+              "score": 0.9998,
+              "earth": 58.0
+            },
+            "albedo": {
+              "score": 0.9999,
+              "earth": 0.178
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/34.8_61.6.jpg"
+        },
+        {
+          "id": "27.1_64.1",
+          "lat": 27.1249,
+          "lon": 64.1399,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 0.9997,
+              "earth": 2.68
+            },
+            "roughness": {
+              "score": 0.9997,
+              "earth": 55.2
+            },
+            "albedo": {
+              "score": 0.9999,
+              "earth": 0.177
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/27.1_64.1.jpg"
+        },
+        {
+          "id": "43.7_90.9",
+          "lat": 43.6629,
+          "lon": 90.9353,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 0.9999,
+              "earth": 2.64
+            },
+            "roughness": {
+              "score": 0.9997,
+              "earth": 55.2
+            },
+            "albedo": {
+              "score": 0.9997,
+              "earth": 0.179
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/43.7_90.9.jpg"
+        },
+        {
+          "id": "38.4_-117.7",
+          "lat": 38.4403,
+          "lon": -117.7466,
+          "known": false,
+          "score": 0.9998,
+          "variables": {
+            "slope": {
+              "score": 0.9999,
+              "earth": 2.65
+            },
+            "roughness": {
+              "score": 0.9995,
+              "earth": 58.7
+            },
+            "albedo": {
+              "score": 1.0,
+              "earth": 0.177
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/38.4_-117.7.jpg"
+        },
+        {
+          "id": "35.6_-115.8",
+          "lat": 35.6,
+          "lon": -115.8141,
+          "known": false,
+          "score": 0.9997,
+          "variables": {
+            "slope": {
+              "score": 1.0,
+              "earth": 2.61
+            },
+            "roughness": {
+              "score": 0.9993,
+              "earth": 54.2
+            },
+            "albedo": {
+              "score": 1.0,
+              "earth": 0.177
+            }
+          },
+          "percentile": 100.0,
+          "image": "data/img/35.6_-115.8.jpg"
+        },
+        {
+          "id": "-21.2_119.7",
+          "lat": -21.17,
+          "lon": 119.7469,
+          "known": true,
+          "score": 0.8639,
+          "variables": {
+            "slope": {
+              "score": 0.8302,
+              "earth": 1.16
+            },
+            "roughness": {
+              "score": 0.8322,
+              "earth": 18.7
+            },
+            "albedo": {
+              "score": 0.9292,
+              "earth": 0.169
+            }
+          },
+          "percentile": 89.81,
+          "name": "Pilbara (Australia Occidental)",
+          "source": "https://www.unsw.edu.au/news/2023/09/nasa-and-esa-visit-the-pilbara-with-the-lifespringsmars-team",
+          "image": "data/img/-21.2_119.7.jpg"
+        },
+        {
+          "id": "37.7_-6.5",
+          "lat": 37.6955,
+          "lon": -6.5489,
+          "known": true,
+          "score": 0.8471,
+          "variables": {
+            "slope": {
+              "score": 0.8968,
+              "earth": 3.43
+            },
+            "roughness": {
+              "score": 0.963,
+              "earth": 51.3
+            },
+            "albedo": {
+              "score": 0.6815,
+              "earth": 0.127
+            }
+          },
+          "percentile": 88.32,
+          "name": "Río Tinto, Peña de Hierro (España)",
+          "source": "https://astrobiology.nasa.gov/news/scientists-practice-mars-drilling-near-acidic-spanish-river/",
+          "image": "data/img/37.7_-6.5.jpg"
+        },
+        {
+          "id": "34.7_-116.4",
+          "lat": 34.7464,
+          "lon": -116.375,
+          "known": true,
+          "score": 0.8233,
+          "variables": {
+            "slope": {
+              "score": 0.8215,
+              "earth": 3.27
+            },
+            "roughness": {
+              "score": 0.8715,
+              "earth": 66.5
+            },
+            "albedo": {
+              "score": 0.777,
+              "earth": 0.211
+            }
+          },
+          "percentile": 86.12,
+          "name": "Desierto de Mojave (cráter Pisgah)",
+          "source": "https://ntrs.nasa.gov/citations/20150005824",
+          "image": "data/img/34.7_-116.4.jpg"
+        },
+        {
+          "id": "75.4_-89.7",
+          "lat": 75.3833,
+          "lon": -89.6667,
+          "known": true,
+          "score": 0.788,
+          "variables": {
+            "slope": {
+              "score": 0.8481,
+              "earth": 2.81
+            },
+            "roughness": {
+              "score": 0.8803,
+              "earth": 42.0
+            },
+            "albedo": {
+              "score": 0.6355,
+              "earth": 0.233
+            }
+          },
+          "percentile": 82.71,
+          "name": "Cráter Haughton, isla Devon (Canadá)",
+          "source": "https://www.marsinstitute.no/hmp",
+          "image": "data/img/75.4_-89.7.jpg"
+        },
+        {
+          "id": "-24.5_-69.2",
+          "lat": -24.5,
+          "lon": -69.25,
+          "known": true,
+          "score": 0.7368,
+          "variables": {
+            "slope": {
+              "score": 0.6729,
+              "earth": 4.58
+            },
+            "roughness": {
+              "score": 0.7224,
+              "earth": 98.2
+            },
+            "albedo": {
+              "score": 0.815,
+              "earth": 0.211
+            }
+          },
+          "percentile": 77.64,
+          "name": "Desierto de Atacama (núcleo hiperárido, zona de Yungay)",
+          "source": "https://doi.org/10.3389/fspas.2021.810426",
+          "image": "data/img/-24.5_-69.2.jpg"
+        },
+        {
+          "id": "-26.1_-67.5",
+          "lat": -26.08,
+          "lon": -67.5,
+          "known": true,
+          "score": 0.7315,
+          "variables": {
+            "slope": {
+              "score": 0.6319,
+              "earth": 5.03
+            },
+            "roughness": {
+              "score": 0.7018,
+              "earth": 100.9
+            },
+            "albedo": {
+              "score": 0.8609,
+              "earth": 0.169
+            }
+          },
+          "percentile": 77.12,
+          "name": "Puna argentina (Antofagasta de la Sierra)",
+          "source": "https://meetingorganizer.copernicus.org/EPSC2022/EPSC2022-1152.html",
+          "image": "data/img/-26.1_-67.5.jpg"
+        },
+        {
+          "id": "38.4_-110.8",
+          "lat": 38.4065,
+          "lon": -110.7919,
+          "known": true,
+          "score": 0.6883,
+          "variables": {
+            "slope": {
+              "score": 0.8543,
+              "earth": 2.79
+            },
+            "roughness": {
+              "score": 0.895,
+              "earth": 48.0
+            },
+            "albedo": {
+              "score": 0.3156,
+              "earth": 0.268
+            }
+          },
+          "percentile": 72.75,
+          "name": "Mars Desert Research Station, Utah",
+          "source": "https://planete-mars.com/wp-content/uploads/2017/02/Utah-Desert-Analog-Sites-for-Mars-Research-and-Missions.pdf",
+          "image": "data/img/38.4_-110.8.jpg"
+        },
+        {
+          "id": "14.2_40.3",
+          "lat": 14.2386,
+          "lon": 40.2936,
+          "known": true,
+          "score": 0.647,
+          "variables": {
+            "slope": {
+              "score": 0.5684,
+              "earth": 2.01
+            },
+            "roughness": {
+              "score": 0.6875,
+              "earth": 37.7
+            },
+            "albedo": {
+              "score": 0.685,
+              "earth": 0.211
+            }
+          },
+          "percentile": 67.98,
+          "name": "Dallol, depresión de Danakil (Etiopía)",
+          "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6459281",
+          "image": "data/img/14.2_40.3.jpg"
+        },
+        {
+          "id": "30.6_34.8",
+          "lat": 30.5786,
+          "lon": 34.8178,
+          "known": true,
+          "score": 0.6402,
+          "variables": {
+            "slope": {
+              "score": 0.9052,
+              "earth": 3.09
+            },
+            "roughness": {
+              "score": 0.9408,
+              "earth": 50.9
+            },
+            "albedo": {
+              "score": 0.0745,
+              "earth": 0.316
+            }
+          },
+          "percentile": 67.14,
+          "name": "Makhtesh Ramon, desierto del Néguev (Israel)",
+          "source": "https://phys.org/news/2021-10-life-mars-simulating-red-planet.html",
+          "image": "data/img/30.6_34.8.jpg"
+        },
+        {
+          "id": "64.8_-16.8",
+          "lat": 64.85,
+          "lon": -16.83,
+          "known": true,
+          "score": 0.6305,
+          "variables": {
+            "slope": {
+              "score": 0.8479,
+              "earth": 2.22
+            },
+            "roughness": {
+              "score": 0.8522,
+              "earth": 46.4
+            },
+            "albedo": {
+              "score": 0.1914,
+              "earth": 0.071
+            }
+          },
+          "percentile": 65.85,
+          "name": "Campo de lava Holuhraun (Islandia)",
+          "source": "https://news.arizona.edu/news/3m-nasa-grant-uarizona-scientists-will-test-mars-exploration-drones-iceland",
+          "image": "data/img/64.8_-16.8.jpg"
+        },
+        {
+          "id": "37.3_94.5",
+          "lat": 37.2667,
+          "lon": 94.45,
+          "known": true,
+          "score": 0.623,
+          "variables": {
+            "slope": {
+              "score": 0.6418,
+              "earth": 0.24
+            },
+            "roughness": {
+              "score": 0.7179,
+              "earth": 4.9
+            },
+            "albedo": {
+              "score": 0.5093,
+              "earth": 0.243
+            }
+          },
+          "percentile": 64.73,
+          "name": "Cuenca de Qaidam (China)",
+          "source": "https://doi.org/10.1016/j.earscirev.2016.11.003",
+          "image": "data/img/37.3_94.5.jpg"
+        },
+        {
+          "id": "37.5_29.7",
+          "lat": 37.55,
+          "lon": 29.6833,
+          "known": true,
+          "score": 0.621,
+          "variables": {
+            "slope": {
+              "score": 0.4603,
+              "earth": 6.01
+            },
+            "roughness": {
+              "score": 0.6308,
+              "earth": 111.0
+            },
+            "albedo": {
+              "score": 0.7719,
+              "earth": 0.143
+            }
+          },
+          "percentile": 64.41,
+          "name": "Lago Salda (Turquía)",
+          "source": "https://www.livescience.com/planet-earth/geology/lake-salda-the-only-place-on-earth-similar-to-jezero-crater-on-mars",
+          "image": "data/img/37.5_29.7.jpg"
+        },
+        {
+          "id": "36.2_-116.8",
+          "lat": 36.2469,
+          "lon": -116.8169,
+          "known": true,
+          "score": 0.5543,
+          "variables": {
+            "slope": {
+              "score": 0.3825,
+              "earth": 8.03
+            },
+            "roughness": {
+              "score": 0.429,
+              "earth": 170.8
+            },
+            "albedo": {
+              "score": 0.8513,
+              "earth": 0.177
+            }
+          },
+          "percentile": 53.85,
+          "name": "Death Valley (Badwater, Mars Hill)",
+          "source": "https://www.nps.gov/deva/learn/news/mars-and-mojave.htm",
+          "image": "data/img/36.2_-116.8.jpg"
+        },
+        {
+          "id": "29.6_35.4",
+          "lat": 29.5931,
+          "lon": 35.42,
+          "known": true,
+          "score": 0.506,
+          "variables": {
+            "slope": {
+              "score": 0.4957,
+              "earth": 5.78
+            },
+            "roughness": {
+              "score": 0.7708,
+              "earth": 90.5
+            },
+            "albedo": {
+              "score": 0.2514,
+              "earth": 0.29
+            }
+          },
+          "percentile": 42.4,
+          "name": "Wadi Rum (Jordania)",
+          "source": "https://jordantimes.com/news/local/jordanian-palestinian-women-lead-historic-space-simulation-in-wadi-rum",
+          "image": "data/img/29.6_35.4.jpg"
+        },
+        {
+          "id": "19.6_-155.5",
+          "lat": 19.6024,
+          "lon": -155.4872,
+          "known": true,
+          "score": 0.4419,
+          "variables": {
+            "slope": {
+              "score": 0.5537,
+              "earth": 5.59
+            },
+            "roughness": {
+              "score": 0.5206,
+              "earth": 139.7
+            },
+            "albedo": {
+              "score": 0.2515,
+              "earth": 0.075
+            }
+          },
+          "percentile": 13.63,
+          "name": "HI-SEAS, Mauna Loa (Hawái)",
+          "source": "https://www.hawaii.edu/news/2013/08/14/groundbreaking-space-exploration-research-at-uh/",
+          "image": "data/img/19.6_-155.5.jpg"
+        },
+        {
+          "id": "79.4_13.3",
+          "lat": 79.4317,
+          "lon": 13.305,
+          "known": true,
+          "score": 0.3363,
+          "variables": {
+            "slope": {
+              "score": 0.0877,
+              "earth": 10.84
+            },
+            "roughness": {
+              "score": 0.1826,
+              "earth": 177.0
+            },
+            "albedo": {
+              "score": 0.7387,
+              "earth": 0.133
+            }
+          },
+          "percentile": 3.53,
+          "name": "Bockfjorden y volcán Sverrefjellet (Svalbard)",
+          "source": "https://www.planetary.org/articles/svalbard",
+          "image": "data/img/79.4_13.3.jpg"
+        }
+      ]
+    }
+  ]
+}
