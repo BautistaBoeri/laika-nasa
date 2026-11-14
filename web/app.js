@@ -190,14 +190,14 @@ function loadOverlay(target) {
 }
 
 function drawLegend(target) {
-  $('legend-title').textContent = `Similitud con ${target.name}`;
+  $('legend-title').textContent = `Similitud con ${target.name} (%)`;
   $('legend-ramp').style.background = `linear-gradient(to right, ${RAMP.join(', ')})`;
   const ticks = $('legend-ticks');
   ticks.replaceChildren();
   const steps = 6;
   for (let i = 0; i <= steps; i++) {
     const value = SCALE_MIN + (SCALE_MAX - SCALE_MIN) * (i / steps);
-    const text = (i === 0 && SCALE_MIN > 0 ? '≤ ' : '') + nf(value * 100, { maximumFractionDigits: 0 }) + (i === steps ? ' %' : '');
+    const text = (i === 0 && SCALE_MIN > 0 ? '≤ ' : '') + nf(value * 100, { maximumFractionDigits: 0 });
     ticks.append(el('span', { text, style: `left: ${(100 * i) / steps}%` }));
   }
   $('legend').hidden = false;

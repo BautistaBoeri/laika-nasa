@@ -3,6 +3,8 @@
   "land_min": 0.9,
   "n_sites": 15,
   "min_separation_km": 300.0,
+  "site_scoring": "celda",
+  "zone_min_coverage": 0.5,
   "weights": "iguales",
   "sigma": {
     "slope": 2.524,

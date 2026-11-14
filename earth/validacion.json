@@ -1,6 +1,7 @@
 [
   {
     "target": "jezero",
+    "site_scoring": "celda",
     "candidate_cells": 798983,
     "candidate_area_km2": 20734247,
     "score_quantiles": {
