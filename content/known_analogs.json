@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Desierto de Atacama (núcleo hiperárido, zona de Yungay)",
+    "lat": -24.5,
+    "lon": -69.25,
+    "radius_km": 100,
+    "body": "mars",
+    "source": "https://doi.org/10.3389/fspas.2021.810426"
+  },
+  {
+    "name": "Valles Secos de McMurdo",
+    "lat": -77.4667,
+    "lon": 162.5167,
+    "radius_km": 100,
+    "body": "mars",
+    "source": "https://blogs.nasa.gov/mission-ames/tag/dry-valleys"
+  },
+  {
+    "name": "Campo de lava Holuhraun (Islandia)",
+    "lat": 64.85,
+    "lon": -16.83,
+    "radius_km": 75,
+    "body": "mars",
+    "source": "https://news.arizona.edu/news/3m-nasa-grant-uarizona-scientists-will-test-mars-exploration-drones-iceland"
+  },
+  {
+    "name": "HI-SEAS, Mauna Loa (Hawái)",
+    "lat": 19.6024,
+    "lon": -155.4872,
+    "radius_km": 50,
+    "body": "both",
+    "source": "https://www.hawaii.edu/news/2013/08/14/groundbreaking-space-exploration-research-at-uh/"
+  },
+  {
+    "name": "Cráter Haughton, isla Devon (Canadá)",
+    "lat": 75.3833,
+    "lon": -89.6667,
+    "radius_km": 75,
+    "body": "both",
+    "source": "https://www.marsinstitute.no/hmp"
+  },
+  {
+    "name": "Death Valley (Badwater, Mars Hill)",
+    "lat": 36.2469,
+    "lon": -116.8169,
+    "radius_km": 75,
+    "body": "mars",
+    "source": "https://www.nps.gov/deva/learn/news/mars-and-mojave.htm"
+  },
+  {
+    "name": "Desierto de Mojave (cráter Pisgah)",
+    "lat": 34.7464,
+    "lon": -116.375,
+    "radius_km": 75,
+    "body": "mars",
+    "source": "https://ntrs.nasa.gov/citations/20150005824"
+  },
+  {
+    "name": "Mars Desert Research Station, Utah",
+    "lat": 38.4065,
+    "lon": -110.7919,
+    "radius_km": 75,
+    "body": "mars",
+    "source": "https://planete-mars.com/wp-content/uploads/2017/02/Utah-Desert-Analog-Sites-for-Mars-Research-and-Missions.pdf"
+  },
+  {
+    "name": "Río Tinto, Peña de Hierro (España)",
+    "lat": 37.6955,
+    "lon": -6.5489,
+    "radius_km": 50,
+    "body": "mars",
+    "source": "https://astrobiology.nasa.gov/news/scientists-practice-mars-drilling-near-acidic-spanish-river/"
+  },
+  {
+    "name": "Bockfjorden y volcán Sverrefjellet (Svalbard)",
+    "lat": 79.4317,
+    "lon": 13.305,
+    "radius_km": 75,
+    "body": "mars",
+    "source": "https://www.planetary.org/articles/svalbard"
+  },
+  {
+    "name": "Dallol, depresión de Danakil (Etiopía)",
+    "lat": 14.2386,
+    "lon": 40.2936,
+    "radius_km": 75,
+    "body": "mars",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6459281"
+  },
+  {
+    "name": "Cuenca de Qaidam (China)",
+    "lat": 37.2667,
+    "lon": 94.45,
+    "radius_km": 150,
+    "body": "mars",
+    "source": "https://doi.org/10.1016/j.earscirev.2016.11.003"
+  },
+  {
+    "name": "Wadi Rum (Jordania)",
+    "lat": 29.5931,
+    "lon": 35.42,
+    "radius_km": 50,
+    "body": "mars",
+    "source": "https://jordantimes.com/news/local/jordanian-palestinian-women-lead-historic-space-simulation-in-wadi-rum"
+  },
+  {
+    "name": "Pilbara (Australia Occidental)",
+    "lat": -21.17,
+    "lon": 119.7469,
+    "radius_km": 100,
+    "body": "mars",
+    "source": "https://www.unsw.edu.au/news/2023/09/nasa-and-esa-visit-the-pilbara-with-the-lifespringsmars-team"
+  },
+  {
+    "name": "Makhtesh Ramon, desierto del Néguev (Israel)",
+    "lat": 30.5786,
+    "lon": 34.8178,
+    "radius_km": 50,
+    "body": "mars",
+    "source": "https://phys.org/news/2021-10-life-mars-simulating-red-planet.html"
+  },
+  {
+    "name": "Puna argentina (Antofagasta de la Sierra)",
+    "lat": -26.08,
+    "lon": -67.5,
+    "radius_km": 100,
+    "body": "mars",
+    "source": "https://meetingorganizer.copernicus.org/EPSC2022/EPSC2022-1152.html"
+  },
+  {
+    "name": "Lago Salda (Turquía)",
+    "lat": 37.55,
+    "lon": 29.6833,
+    "radius_km": 50,
+    "body": "mars",
+    "source": "https://www.livescience.com/planet-earth/geology/lake-salda-the-only-place-on-earth-similar-to-jezero-crater-on-mars"
+  }
+]
