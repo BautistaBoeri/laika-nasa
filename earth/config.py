@@ -59,10 +59,11 @@ if USAR_TERMICA:
 PESOS = {"pendiente_deg": 1.0, "relieve_m": 1.0, "desvio_m": 1.0, "albedo": 1.0,
          "termica": 1.0}
 
-# De dónde salió el mars/targets.json que hay en disco. Mientras Marte no lo suba a
-# main es una copia local sin seguimiento: actualizar esta línea si se vuelve a copiar.
-# puntuar.py la guarda en parametros_usados.json junto con el sha256 del archivo.
-TARGETS_ORIGEN = "commit 5db5995 de la rama marte-targets"
+# De dónde salió el mars/targets.json que hay en disco. puntuar.py guarda esta línea
+# en parametros_usados.json junto con el sha256 del archivo (calculado con fin de
+# línea LF, para que dé lo mismo en Windows y en Linux).
+TARGETS_ORIGEN = ("con seguimiento en git, traído de main (merge fab0bff); "
+                  "mismo contenido que el commit 5db5995 de marte-targets")
 
 # Cómo se llama cada variable nuestra en mars/targets.json
 NOMBRE_EN_MARTE = {"pendiente_deg": "slope", "relieve_m": "roughness",

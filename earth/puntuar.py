@@ -485,7 +485,8 @@ def main():
     parametros.update({"generado": generado, "region": args.region,
                        "targets": str(ruta_t.relative_to(RAIZ)),
                        "targets_origen": "ejemplo" if t_ejemplo else C.TARGETS_ORIGEN,
-                       "targets_sha256": hashlib.sha256(ruta_t.read_bytes()).hexdigest(),
+                       "targets_sha256": hashlib.sha256(
+                           ruta_t.read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
                        "conocidos": str(ruta_c.relative_to(RAIZ)),
                        "sigma": sigma, "medicion": meta})
     (AQUI / "parametros_usados.json").write_text(

@@ -99,7 +99,7 @@
   "SUAVIZADO_KM": 25,
   "SUAVIZADO_MIN_FRAC": 0.5,
   "SUBCELDAS": 12,
-  "TARGETS_ORIGEN": "commit 5db5995 de la rama marte-targets",
+  "TARGETS_ORIGEN": "con seguimiento en git, traído de main (merge fab0bff); mismo contenido que el commit 5db5995 de marte-targets",
   "TEMP_DESDE": "2022-01-01",
   "TEMP_HASTA": "2024-01-01",
   "TERMICA_AMPLITUD_MIN_C": 1.0,
@@ -110,10 +110,10 @@
     "desvio_m",
     "albedo"
   ],
-  "generado": "2026-11-14T16:11:04-03:00",
+  "generado": "2026-11-14T16:12:47-03:00",
   "region": "mundo",
   "targets": "mars\\targets.json",
-  "targets_origen": "commit 5db5995 de la rama marte-targets",
+  "targets_origen": "con seguimiento en git, traído de main (merge fab0bff); mismo contenido que el commit 5db5995 de marte-targets",
   "targets_sha256": "3bda0684419b411a5b1bfb83dfb6dcf528d6c287f17730421c16b19299a56db8",
   "conocidos": "earth\\ejemplo\\known_analogs.json",
   "sigma": {
