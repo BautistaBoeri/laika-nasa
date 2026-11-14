@@ -10,6 +10,7 @@ Lee mars/targets.json y content/known_analogs.json. Escribe:
 
     web/data/sites.json              los sitios (formato en docs/contratos.md)
     web/data/similarity_<id>.png     la capa continua, en Web Mercator
+    web/data/img/<sitio>.jpg         imagen Sentinel-2 de cada sitio (se saltea con --sin-imagenes)
     earth/validacion.json            qué puntaje sacan los análogos conocidos
     earth/parametros.json            umbrales, pesos, fechas y datos usados
 
@@ -207,6 +208,7 @@ def main() -> None:
                     help="medir solo esta región (prueba); no escribe en web/")
     ap.add_argument("--workers", type=int, default=8, help="pedidos simultáneos a Earth Engine")
     ap.add_argument("--solo-bajar", action="store_true", help="solo medir en Earth Engine y guardar en el caché")
+    ap.add_argument("--sin-imagenes", action="store_true", help="no bajar la imagen satelital de cada sitio")
     args = ap.parse_args()
 
     mars = json.loads((ROOT / "mars" / "targets.json").read_text())
@@ -239,6 +241,14 @@ def main() -> None:
         reports.append(report)
         render_layer(cells, cell_score, out_web / f"similarity_{target['id']}.png")
         print_report(entry, report)
+        if not args.sin_imagenes:
+            from thumbs import site_image
+
+            print("Imágenes de los sitios ...", flush=True)
+            for site in entry["sites"]:
+                image = site_image(site, out_web)
+                if image:
+                    site["image"] = image
 
     sites = {
         "generated": dt.datetime.now(dt.timezone(dt.timedelta(hours=-3))).isoformat(timespec="seconds"),

@@ -25,7 +25,7 @@ Todo se corre desde la raíz del repo.
 | Parte | Comando | Qué genera |
 | --- | --- | --- |
 | Marte | `.venv/bin/python mars/build_targets.py` | `mars/targets.json` |
-| Tierra | `.venv/bin/python earth/build_sites.py` | `web/data/sites.json`, `web/data/similarity_jezero.png`, `earth/validacion.json`, `earth/parametros.json` |
+| Tierra | `.venv/bin/python earth/build_sites.py` | `web/data/sites.json`, `web/data/similarity_jezero.png`, `web/data/img/*.jpg`, `earth/validacion.json`, `earth/parametros.json` |
 | Web | `python3 -m http.server 8000 --directory web` | la página en <http://localhost:8000> |
 | Prueba | `.venv/bin/python earth/test_similarity.py` | prueba de la función de similitud |
 
@@ -33,10 +33,12 @@ Todo se corre desde la raíz del repo.
 `data/`. Después tarda medio minuto y usa cerca de 1 GB de memoria.
 
 **Tierra.** La primera vez mide el planeta en Google Earth Engine: unos 15
-minutos y cerca de 8 horas de cómputo de la cuota mensual de 150. El resultado
+minutos y cerca de 9 horas de cómputo de la cuota mensual de 150. El resultado
 queda en `data/earth_cache/`, así que volver a correr tarda segundos y no gasta
 cuota mientras no cambien los parámetros de `earth/measure.py`. Si la máquina
 se suspende, la medición se frena; al volver a correr sigue donde quedó.
+También baja una imagen Sentinel-2 de cada sitio para la ficha; con
+`--sin-imagenes` se saltea.
 
 Para probar en una región chica sin tocar `web/`:
 
