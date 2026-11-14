@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Análogos de Marte en la Tierra</title>
+  <meta name="description" content="Búsqueda inversa de análogos de Marte: medimos un sitio marciano real y le preguntamos a toda la Tierra qué lugares se le parecen.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23e96a3a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <h1>Análogos de Marte en la Tierra</h1>
+    <p>No elegimos el lugar: partimos de Marte y le preguntamos a los datos.</p>
+  </div>
+
+  <div class="controls">
+    <label class="field">
+      <span>Análogos de</span>
+      <select id="target" aria-label="Sitio objetivo en Marte"></select>
+    </label>
+
+    <label class="switch">
+      <input type="checkbox" id="layer-toggle" checked>
+      <span class="switch-track" aria-hidden="true"></span>
+      <span>Capa de similitud</span>
+    </label>
+
+    <div class="segmented" role="group" aria-label="Mapa base">
+      <button type="button" data-base="dark" aria-pressed="true">Oscuro</button>
+      <button type="button" data-base="sat" aria-pressed="false">Satélite</button>
+    </div>
+  </div>
+
+  <nav class="links" aria-label="Secciones">
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#limites">Límites</a>
+  </nav>
+</header>
+
+<main class="stage">
+  <div class="map-wrap">
+    <div id="map" aria-label="Mapa del mundo con los sitios análogos"></div>
+
+    <div class="legend" id="legend" hidden>
+      <div class="legend-title" id="legend-title">Similitud</div>
+      <div class="legend-ramp" id="legend-ramp" aria-hidden="true"></div>
+      <div class="legend-ticks" id="legend-ticks" aria-hidden="true"></div>
+      <ul class="legend-keys">
+        <li><span class="key key-new" aria-hidden="true"></span>Sitio nuevo (el número es su puesto)</li>
+        <li><span class="key key-known" aria-hidden="true"></span>Análogo ya conocido</li>
+        <li><span class="key key-none" aria-hidden="true"></span>Sin color: no analizado (vegetación, agua o hielo)</li>
+      </ul>
+    </div>
+  </div>
+
+  <aside class="panel" id="panel" aria-live="polite">
+    <p class="status" id="status">Cargando los sitios…</p>
+  </aside>
+</main>
+
+<section class="prose" id="como-funciona">
+  <h2>Cómo funciona</h2>
+  <ol class="steps">
+    <li>
+      <h3>Medimos Marte</h3>
+      <p>Tomamos un sitio real, el cráter Jezero, donde está el rover Perseverance, y lo describimos con tres números: pendiente, relieve local y albedo (cuánta luz refleja el suelo).</p>
+    </li>
+    <li>
+      <h3>Medimos la Tierra igual</h3>
+      <p>Calculamos las mismas variables en toda la tierra firme sin vegetación, agua ni hielo, en celdas de 5 km. El modelo de elevación terrestre se degrada a 463 m por píxel, la resolución del marciano, antes de calcular: si no, la Tierra daría siempre más empinada.</p>
+    </li>
+    <li>
+      <h3>Puntuamos cada celda</h3>
+      <p>Cada variable recibe un puntaje de 0 a 100 % según qué tan cerca está del valor de Marte, medido contra cuánto varía esa variable en todo Marte. La similitud total es el promedio.</p>
+    </li>
+    <li>
+      <h3>Elegimos y validamos</h3>
+      <p>Nos quedamos con las celdas de mayor puntaje, separadas al menos 300 km. Los análogos ya conocidos no entran en la búsqueda: los medimos después, en un círculo de 25 km como el de Jezero, para ver si el método los encuentra.</p>
+    </li>
+  </ol>
+  <p class="sources">
+    Datos abiertos:
+    <a href="https://astrogeology.usgs.gov/search/map/mars_mgs_mola_dem_463m">elevación MOLA de Marte (USGS)</a>,
+    <a href="https://astrogeology.usgs.gov/search/map/mars_mgs_tes_global_bolometric_albedo_map_7410m">albedo TES de Marte (USGS)</a>,
+    <a href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_DEM_GLO30_2024_1">Copernicus DEM GLO-30</a> y
+    albedo, vegetación y cobertura de MODIS
+    (<a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MCD43A3">MCD43A3</a>,
+    <a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD13A2">MOD13A2</a>,
+    <a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MCD12Q1">MCD12Q1</a>),
+    procesados en Google Earth Engine.
+  </p>
+</section>
+
+<section class="prose" id="limites">
+  <h2>Límites</h2>
+  <ul class="limits">
+    <li>
+      <h3>Lo que la Tierra no reproduce</h3>
+      <p>Ningún lugar de la Tierra tiene la gravedad de Marte (38 % de la nuestra), su presión atmosférica (unos 6 milibares, menos del 1 %), la composición de su aire (95 % dióxido de carbono) ni la radiación que llega a su superficie, que no tiene campo magnético global que la proteja. Un análogo sirve para ensayar terreno y operaciones, no esas condiciones.
+      <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html">Datos: NASA Mars Fact Sheet</a>.</p>
+    </li>
+    <li>
+      <h3>Tres variables no son un planeta</h3>
+      <p>Esta versión compara la forma del terreno y su brillo. Todavía no mira temperatura, aridez, polvo ni minerales: un puntaje alto significa parecido en estas tres medidas, nada más.</p>
+    </li>
+    <li>
+      <h3>Regiones, no puntos</h3>
+      <p>Las celdas miden 5 km. Sirven para encontrar zonas donde buscar, no para elegir el lugar exacto de un ensayo.</p>
+    </li>
+    <li>
+      <h3>Los instrumentos no son idénticos</h3>
+      <p>El albedo de Marte (TES) y el de la Tierra (MODIS) no miden exactamente la misma banda de luz, y el modelo de elevación marciano está interpolado entre órbitas, sobre todo cerca del ecuador.</p>
+    </li>
+  </ul>
+</section>
+
+<footer class="foot">
+  <p>Proyecto para NASA Space Apps Challenge 2026 · Estudiantes de Ingeniería Informática, FIUBA.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="app.js"></script>
+</body>
+</html>

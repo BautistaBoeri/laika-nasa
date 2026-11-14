@@ -1,0 +1,252 @@
+/* Tema oscuro único: la página se proyecta y el mapa es oscuro. */
+:root {
+  color-scheme: dark;
+  --plane: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-2: #222220;
+  --ink: #f0efec;
+  --ink-2: #c3c2b7;
+  --muted: #898781;
+  --hairline: #2c2c2a;
+  --baseline: #383835;
+  --ring: rgba(255, 255, 255, 0.10);
+
+  /* Similitud: un solo tono, de oscuro (poco parecido) a claro (muy parecido).
+     Los mismos colores que la capa PNG: ver earth/layer.py y app.js. */
+  --sim: #e96a3a;
+  --sim-track: #4a1500;
+  --known: #3987e5;
+
+  --topbar: 64px;
+  --panel: 420px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar) + 16px); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+body { margin: 0; background: var(--plane); color: var(--ink); }
+a { color: var(--ink); text-underline-offset: 3px; }
+a:hover { color: #fff; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+button, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 4px; }
+
+/* ---------------------------------------------------------------- barra superior */
+
+.topbar {
+  position: sticky; top: 0; z-index: 1100;
+  min-height: var(--topbar);
+  display: flex; align-items: center; gap: 12px 28px; flex-wrap: wrap;
+  padding: 8px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--hairline);
+}
+.brand { margin-right: auto; min-width: 0; }
+.brand h1 { font-size: 1.25rem; font-weight: 650; letter-spacing: -0.01em; }
+.brand p { font-size: 0.875rem; color: var(--ink-2); }
+
+.controls { display: flex; align-items: center; gap: 12px 20px; flex-wrap: wrap; }
+.field { display: flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 0.9375rem; }
+.field select {
+  background: var(--surface-2); border: 1px solid var(--baseline); border-radius: 8px;
+  padding: 7px 10px; color: var(--ink); font-weight: 600; min-width: 11rem;
+}
+
+.switch { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9375rem; user-select: none; }
+.switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.switch-track {
+  width: 38px; height: 22px; border-radius: 11px; background: var(--baseline);
+  position: relative; transition: background 0.15s; flex: none;
+}
+.switch-track::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--ink); transition: transform 0.15s;
+}
+.switch input:checked + .switch-track { background: var(--sim); }
+.switch input:checked + .switch-track::after { transform: translateX(16px); }
+.switch input:focus-visible + .switch-track { outline: 2px solid #fff; outline-offset: 2px; }
+.switch input:disabled ~ span { color: var(--muted); }
+
+.segmented { display: flex; border: 1px solid var(--baseline); border-radius: 8px; overflow: hidden; }
+.segmented button {
+  background: transparent; border: 0; padding: 7px 12px; cursor: pointer;
+  color: var(--ink-2); font-size: 0.9375rem;
+}
+.segmented button + button { border-left: 1px solid var(--baseline); }
+.segmented button[aria-pressed="true"] { background: var(--surface-2); color: var(--ink); font-weight: 600; }
+
+.links { display: flex; gap: 18px; font-size: 0.9375rem; }
+.links a { color: var(--ink-2); text-decoration: none; }
+.links a:hover { color: var(--ink); text-decoration: underline; }
+
+/* ---------------------------------------------------------------- mapa y panel */
+
+.stage { display: flex; height: calc(100vh - var(--topbar)); min-height: 520px; }
+.map-wrap { position: relative; flex: 1; min-width: 0; }
+#map { position: absolute; inset: 0; background: #0b0d10; }
+
+.leaflet-container { font: inherit; background: #0b0d10; }
+/* el mapa de tierra y agua de GIBS viene en grises claros: invertido y atenuado queda
+   la tierra apenas más clara que el mar */
+.base-dark { filter: invert(1) brightness(0.26); }
+.leaflet-control-attribution {
+  background: rgba(13, 13, 13, 0.75) !important; color: var(--muted) !important; font-size: 11px;
+}
+.leaflet-control-attribution a { color: var(--ink-2) !important; }
+.leaflet-bar a { background: var(--surface); color: var(--ink); border-bottom-color: var(--hairline); }
+.leaflet-bar a:hover { background: var(--surface-2); color: #fff; }
+
+/* marcadores: el anillo del color de la superficie los separa del mapa y entre sí */
+.site-marker { background: none; border: 0; }
+.site-marker svg { display: block; overflow: visible; transition: transform 0.12s; transform-origin: center; }
+.site-marker:hover svg, .site-marker:focus-visible svg { transform: scale(1.15); }
+.site-marker.is-selected svg { transform: scale(1.3); }
+.site-marker .halo { fill: none; stroke: #fff; stroke-width: 2.5; opacity: 0; }
+.site-marker.is-selected .halo { opacity: 1; }
+.site-marker text { font: 700 12px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+
+.leaflet-tooltip.site-tip {
+  background: var(--surface); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); padding: 8px 10px; font-size: 0.875rem;
+}
+.leaflet-tooltip.site-tip::before { display: none; }
+.site-tip strong { display: block; font-size: 1.125rem; font-weight: 650; }
+.site-tip span { display: block; color: var(--ink-2); max-width: 20rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.legend {
+  position: absolute; left: 12px; bottom: 28px; z-index: 1000;
+  width: 290px; max-width: calc(100% - 24px);
+  background: rgba(26, 26, 25, 0.92); border: 1px solid var(--ring); border-radius: 10px;
+  padding: 12px 14px; font-size: 0.8125rem; color: var(--ink-2);
+}
+.legend-title { color: var(--ink); font-weight: 600; font-size: 0.875rem; margin-bottom: 8px; }
+.legend-ramp { height: 10px; border-radius: 3px; }
+.legend-ticks { position: relative; height: 18px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.legend-ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.legend-ticks span:first-child { transform: none; }
+.legend-ticks span:last-child { transform: translateX(-100%); }
+.legend.no-layer .legend-ramp, .legend.no-layer .legend-ticks, .legend.no-layer .key-none, .legend.no-layer li:last-child { display: none; }
+.legend-keys { list-style: none; padding: 0; margin-top: 8px; display: grid; gap: 5px; }
+.legend-keys li { display: flex; align-items: center; gap: 8px; }
+.key { width: 14px; height: 14px; flex: none; }
+.key-new { border-radius: 50%; background: #ffb9a0; }
+.key-known { background: var(--known); transform: rotate(45deg) scale(0.78); }
+.key-none { border: 1px solid var(--baseline); border-radius: 3px; }
+
+.panel {
+  width: var(--panel); flex: none; overflow-y: auto;
+  background: var(--surface); border-left: 1px solid var(--hairline);
+  padding: 18px 20px 28px;
+}
+.status { color: var(--ink-2); }
+.status.error { color: var(--ink); }
+
+.eyebrow { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+/* --- vista de lista */
+.target-card h2 { font-size: 1.375rem; font-weight: 650; margin-top: 2px; }
+.target-card .coords { color: var(--ink-2); font-size: 0.875rem; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; margin-top: 12px; }
+.tile { background: var(--surface-2); border-radius: 8px; padding: 10px 12px; }
+.tile .label { font-size: 0.8125rem; color: var(--ink-2); }
+.tile .value { font-size: 1.375rem; font-weight: 650; }
+
+.list-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 22px 0 6px; }
+.list-head h3 { font-size: 1rem; font-weight: 650; }
+.list-head span { font-size: 0.8125rem; color: var(--muted); }
+.note { font-size: 0.8125rem; color: var(--ink-2); margin-bottom: 8px; }
+
+.site-list { list-style: none; padding: 0; margin: 0; }
+.site-row {
+  width: 100%; display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px;
+  background: transparent; border: 0; border-top: 1px solid var(--hairline);
+  padding: 9px 4px; text-align: left; cursor: pointer;
+}
+.site-row:hover { background: var(--surface-2); }
+.site-row .mark { width: 24px; height: 24px; display: grid; place-items: center; }
+.site-row .mark svg { display: block; overflow: visible; }
+.site-row .mark text { font: 700 12px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+.site-row .name { min-width: 0; font-size: 0.9375rem; overflow-wrap: anywhere; }
+.site-row .name small { display: block; color: var(--muted); font-size: 0.8125rem; }
+.site-row .score { font-weight: 650; font-variant-numeric: tabular-nums; }
+
+/* --- vista de detalle */
+.back {
+  background: transparent; border: 1px solid var(--baseline); border-radius: 8px;
+  padding: 6px 12px; cursor: pointer; color: var(--ink-2); font-size: 0.875rem; margin-bottom: 16px;
+}
+.back:hover { color: var(--ink); background: var(--surface-2); }
+
+.kind { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--ink-2); font-weight: 600; }
+.kind .dot { width: 10px; height: 10px; border-radius: 50%; background: #ffb9a0; }
+.kind.known .dot { border-radius: 0; background: var(--known); transform: rotate(45deg); }
+
+.detail h2 { font-size: 1.5rem; font-weight: 650; line-height: 1.2; margin-top: 6px; overflow-wrap: anywhere; }
+.detail .coords { color: var(--ink-2); font-size: 0.9375rem; margin-top: 2px; }
+
+.hero { margin-top: 18px; }
+.hero .label { font-size: 0.9375rem; color: var(--ink-2); }
+.hero .value { font-size: 3.75rem; font-weight: 650; line-height: 1.05; letter-spacing: -0.02em; }
+.hero .rank { font-size: 0.875rem; color: var(--ink-2); margin-top: 2px; }
+
+.photo { width: 100%; border-radius: 8px; margin-top: 16px; display: block; aspect-ratio: 16 / 10; object-fit: cover; background: var(--surface-2); }
+
+.bars { margin-top: 20px; display: grid; gap: 16px; }
+.bar-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.bar-head .label { font-weight: 600; }
+.bar-head .pct { font-weight: 650; font-size: 1.125rem; font-variant-numeric: tabular-nums; }
+/* la pista es un paso oscuro del mismo tono que el relleno */
+.bar-track { height: 12px; background: var(--sim-track); border-radius: 0 4px 4px 0; margin-top: 5px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--sim); border-radius: 0 4px 4px 0; min-width: 2px; transition: width 0.35s ease-out; }
+.bar-values { display: flex; justify-content: space-between; gap: 8px; margin-top: 5px; font-size: 0.875rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.bar-values b { color: var(--ink); font-weight: 600; }
+
+.texts { margin-top: 22px; display: grid; gap: 14px; }
+.texts h3 { font-size: 0.9375rem; font-weight: 650; }
+.texts p { color: var(--ink-2); font-size: 0.9375rem; }
+
+.source { margin-top: 18px; font-size: 0.875rem; }
+.caveat {
+  margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--hairline);
+  font-size: 0.8125rem; color: var(--muted);
+}
+.caveat a { color: var(--ink-2); }
+
+/* ---------------------------------------------------------------- secciones de texto */
+
+.prose { max-width: 1120px; margin: 0 auto; padding: 56px 24px 8px; }
+.prose h2 { font-size: 1.75rem; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 20px; }
+.prose h3 { font-size: 1.0625rem; font-weight: 650; margin-bottom: 6px; }
+.prose p { color: var(--ink-2); max-width: 62ch; }
+.steps, .limits { list-style: none; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.steps { counter-reset: step; }
+.steps li, .limits li { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 18px; }
+.steps li::before {
+  counter-increment: step; content: counter(step);
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--sim); color: #0b0b0b; font-weight: 700; margin-bottom: 12px;
+}
+.sources { margin-top: 20px; font-size: 0.875rem; max-width: 90ch !important; }
+.foot { max-width: 1120px; margin: 0 auto; padding: 40px 24px 56px; color: var(--muted); font-size: 0.875rem; }
+
+/* ---------------------------------------------------------------- pantallas chicas */
+
+@media (max-width: 900px) {
+  :root { --topbar: 0px; }
+  .topbar { position: static; }
+  .links { display: none; }
+  .stage { flex-direction: column; height: auto; }
+  .map-wrap { height: 62vh; min-height: 360px; flex: none; }
+  .panel { width: 100%; border-left: 0; border-top: 1px solid var(--hairline); overflow: visible; }
+  .legend { width: 240px; bottom: 24px; }
+  .legend-keys li:last-child { display: none; }
+  .field select { min-width: 9rem; }
+}
