@@ -98,7 +98,10 @@ ETIQUETAS = {
 # --- Selección de sitios ---
 N_SITIOS = 15
 SEPARACION_KM = 300       # distancia mínima entre sitios elegidos
-RADIO_CONOCIDOS_KM = 300  # zona alrededor de un análogo conocido que se saca de la búsqueda
+# Zona alrededor de un análogo conocido que se saca de la búsqueda de sitios nuevos.
+# Se usa el radius_km de cada análogo en content/known_analogs.json; este valor es
+# solo el que se aplica cuando un análogo no lo trae.
+RADIO_CONOCIDOS_KM = 300
 RADIO_VALIDACION_KM = 25  # radio para puntuar un análogo conocido
 
 # Desempate: el puntaje de un sitio es el promedio de las celdas en un círculo de

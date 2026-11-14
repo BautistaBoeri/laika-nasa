@@ -379,7 +379,8 @@ def main():
     cerca = []
     for a in conocidos:
         d = distancia_km(a["lat"], a["lon"], lats, lons)
-        libres &= d >= C.RADIO_CONOCIDOS_KM
+        # Contrato: radius_km es el radio a enmascarar alrededor de cada análogo.
+        libres &= d >= float(a.get("radius_km") or C.RADIO_CONOCIDOS_KM)
         cerca.append(d < C.RADIO_VALIDACION_KM)
 
     # Desempate: cada lugar se describe con el círculo de SUAVIZADO_KM a su alrededor.
