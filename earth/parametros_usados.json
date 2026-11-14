@@ -20,8 +20,16 @@
       "Relieve local",
       "m"
     ],
+    "desvio_m": [
+      "Relieve local",
+      "m"
+    ],
     "albedo": [
       "Albedo",
+      ""
+    ],
+    "termica": [
+      "Inercia térmica (percentil)",
       ""
     ]
   },
@@ -36,13 +44,17 @@
   "NOMBRE_EN_MARTE": {
     "pendiente_deg": "slope",
     "relieve_m": "roughness",
-    "albedo": "albedo"
+    "desvio_m": "roughness",
+    "albedo": "albedo",
+    "termica": "thermal"
   },
   "N_SITIOS": 15,
   "PESOS": {
     "pendiente_deg": 1.0,
     "relieve_m": 1.0,
-    "albedo": 1.0
+    "desvio_m": 1.0,
+    "albedo": 1.0,
+    "termica": 1.0
   },
   "PNG_ANCHO_MAX": 4096,
   "PNG_LIMITES": [
@@ -79,26 +91,34 @@
       84.0
     ]
   },
-  "RELIEVE_A_DESVIO": 4.24,
+  "RELIEVE_A_DESVIO": 1.0,
   "SEPARACION_KM": 300,
+  "SIGMA_PROPIA": {
+    "termica": 0.15
+  },
   "SUAVIZADO_KM": 25,
   "SUAVIZADO_MIN_FRAC": 0.5,
   "SUBCELDAS": 12,
+  "TARGETS_ORIGEN": "commit 5db5995 de la rama marte-targets",
   "TEMP_DESDE": "2022-01-01",
   "TEMP_HASTA": "2024-01-01",
+  "TERMICA_AMPLITUD_MIN_C": 1.0,
   "TILE_GRADOS": 10,
+  "USAR_TERMICA": false,
   "VARIABLES": [
     "pendiente_deg",
-    "relieve_m",
+    "desvio_m",
     "albedo"
   ],
-  "generado": "2026-11-14T15:46:10-03:00",
+  "generado": "2026-11-14T16:11:04-03:00",
   "region": "mundo",
   "targets": "mars\\targets.json",
+  "targets_origen": "commit 5db5995 de la rama marte-targets",
+  "targets_sha256": "3bda0684419b411a5b1bfb83dfb6dcf528d6c287f17730421c16b19299a56db8",
   "conocidos": "earth\\ejemplo\\known_analogs.json",
   "sigma": {
     "pendiente_deg": 2.5531,
-    "relieve_m": 63.705,
+    "desvio_m": 63.705,
     "albedo": 0.0574
   },
   "medicion": {
@@ -135,6 +155,33 @@
     ],
     "pedidos": 612,
     "segundos": 2765.1,
-    "generado": "2026-11-14T18:07:24+00:00"
+    "generado": "2026-11-14T18:07:24+00:00",
+    "extra": {
+      "region": "mundo",
+      "bbox": [
+        -180.0,
+        -80.0,
+        180.0,
+        84.0
+      ],
+      "celda_grados": 0.05,
+      "forma": [
+        3280,
+        7200
+      ],
+      "bandas": [
+        "desvio_m",
+        "temp_dia_C",
+        "temp_noche_C"
+      ],
+      "dem": "COPERNICUS/DEM/GLO30_2024_1",
+      "temp_fechas": [
+        "2022-01-01",
+        "2024-01-01"
+      ],
+      "pedidos": 612,
+      "segundos": 1397.6,
+      "generado": "2026-11-14T19:10:25+00:00"
+    }
   }
 }

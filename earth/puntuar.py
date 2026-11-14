@@ -20,6 +20,7 @@ Uso:
 """
 
 import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -55,7 +56,8 @@ def leer_targets(ruta):
     """
     j = json.loads(ruta.read_text(encoding="utf-8"))
     try:
-        sigma = {v: float(j["mars_global"][C.NOMBRE_EN_MARTE[v]]["std"])
+        sigma = {v: float(C.SIGMA_PROPIA.get(
+                     v, j["mars_global"][C.NOMBRE_EN_MARTE[v]]["std"]))
                  for v in C.VARIABLES}
         targets = []
         for t in j["targets"]:
@@ -84,7 +86,56 @@ def cargar_datos(region):
                          f"python earth/medir.py --region {region}")
     meta = json.loads((carpeta / "meta.json").read_text(encoding="utf-8"))
     datos = {b: np.load(carpeta / f"{b}.npy", mmap_mode="r") for b in meta["bandas"]}
+
+    # Segunda pasada (medir_extra.py): desvio_m y temperaturas, en la misma grilla.
+    extra = AQUI / "datos" / f"{region}_extra"
+    if (extra / "meta.json").exists():
+        meta_x = json.loads((extra / "meta.json").read_text(encoding="utf-8"))
+        if meta_x["forma"] != meta["forma"] or meta_x["bbox"] != meta["bbox"]:
+            raise SystemExit(f"{extra} no tiene la misma grilla que {carpeta}")
+        for b in meta_x["bandas"]:
+            datos[b] = np.load(extra / f"{b}.npy", mmap_mode="r")
+        meta["extra"] = meta_x
+
+    faltan = [v for v in C.VARIABLES if v not in datos and v != "termica"]
+    if C.USAR_TERMICA:
+        faltan += [b for b in ("temp_dia_C", "temp_noche_C") if b not in datos]
+    if faltan:
+        raise SystemExit(f"Faltan datos de {', '.join(faltan)} para la región {region}. "
+                         f"Corré antes: python earth/medir_extra.py --region {region}")
     return meta, datos
+
+
+def percentil_termico(datos, meta):
+    """
+    Inercia térmica aparente = (1 - albedo) / (LST día - LST noche), convertida a
+    percentil (0 a 1) dentro de toda la tierra firme con dato, ponderado por área.
+    Marte entrega "thermal" igual: el percentil de su inercia térmica dentro de Marte.
+    Entra toda la tierra firme (con vegetación o hielo también), no solo lo que pasa
+    la máscara: la referencia es el planeta entero, como en Marte.
+    """
+    albedo = np.asarray(datos["albedo"], dtype=np.float64)
+    amplitud = (np.asarray(datos["temp_dia_C"], dtype=np.float64)
+                - np.asarray(datos["temp_noche_C"], dtype=np.float64))
+    lo, hi = C.RANGOS_VALIDOS["albedo"]
+    agua = np.asarray(datos["frac_agua"])
+    ok = (np.isfinite(albedo) & (albedo >= lo) & (albedo <= hi)
+          & np.isfinite(amplitud) & (amplitud >= C.TERMICA_AMPLITUD_MIN_C))
+    if np.isfinite(agua).any():
+        ok &= agua < C.AGUA_MAX
+    filas, cols = np.nonzero(ok)
+    ati = (1.0 - albedo[filas, cols]) / amplitud[filas, cols]
+    lat = meta["bbox"][3] - (filas + 0.5) * meta["celda_grados"]
+    area = np.cos(np.radians(lat))
+    orden = np.argsort(ati, kind="stable")
+    acumulada = np.cumsum(area[orden])
+    pct = np.empty(ati.size)
+    pct[orden] = acumulada / acumulada[-1]
+    grilla = np.full(albedo.shape, np.nan, np.float32)
+    grilla[filas, cols] = pct
+    print(f"Térmica: percentil calculado sobre {ati.size} celdas de tierra firme "
+          f"(mediana de la inercia aparente {np.median(ati):.4f} 1/K)")
+    return grilla
 
 
 # ------------------------------------------------------------------ Cálculos
@@ -276,6 +327,8 @@ def main():
     args = ap.parse_args()
 
     meta, datos = cargar_datos(args.region)
+    if C.USAR_TERMICA:
+        datos["termica"] = percentil_termico(datos, meta)
     bbox, c = meta["bbox"], meta["celda_grados"]
     alto, ancho = meta["forma"]
 
@@ -431,6 +484,8 @@ def main():
     parametros = {k: getattr(C, k) for k in dir(C) if k.isupper()}
     parametros.update({"generado": generado, "region": args.region,
                        "targets": str(ruta_t.relative_to(RAIZ)),
+                       "targets_origen": "ejemplo" if t_ejemplo else C.TARGETS_ORIGEN,
+                       "targets_sha256": hashlib.sha256(ruta_t.read_bytes()).hexdigest(),
                        "conocidos": str(ruta_c.relative_to(RAIZ)),
                        "sigma": sigma, "medicion": meta})
     (AQUI / "parametros_usados.json").write_text(
