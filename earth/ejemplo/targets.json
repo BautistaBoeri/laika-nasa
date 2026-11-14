@@ -1,0 +1,21 @@
+{
+  "_nota": "VALORES INVENTADOS para probar el pipeline. Solo se usa si no existe mars/targets.json.",
+  "targets": [
+    {
+      "id": "jezero",
+      "name": "Cráter Jezero",
+      "lat": 18.38,
+      "lon": 77.58,
+      "values": {
+        "slope": {"mean": 2.0, "std": 1.0},
+        "roughness": {"mean": 100.0, "std": 50.0},
+        "albedo": {"mean": 0.16, "std": 0.01}
+      }
+    }
+  ],
+  "mars_global": {
+    "slope": {"mean": 2.0, "std": 3.0},
+    "roughness": {"mean": 100.0, "std": 150.0},
+    "albedo": {"mean": 0.2, "std": 0.05}
+  }
+}
