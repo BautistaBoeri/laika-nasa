@@ -5,6 +5,7 @@ Uso (desde la raíz del repo):
 
     .venv/bin/python earth/build_sites.py                            # mundo entero
     .venv/bin/python earth/build_sites.py --region -69 -27 -65 -22   # prueba en una región
+    .venv/bin/python earth/build_sites.py --por-zona                 # elegir zonas de 25 km, no celdas
 
 Lee mars/targets.json y content/known_analogs.json. Escribe:
 
@@ -51,6 +52,7 @@ NDVI_MAX = 0.15  # una celda es candidata si su NDVI medio es menor
 LAND_MIN = 0.90  # y si al menos esta fracción es tierra firme (ni agua, ni hielo, ni ciudad)
 N_SITES = 15
 MIN_SEPARATION_KM = 300.0
+ZONE_MIN_COVERAGE = 0.5  # con --por-zona: fracción mínima del círculo que tiene que ser medible
 
 
 # ---------------------------------------------------------------- celdas
@@ -114,17 +116,35 @@ def site_entry(lat: float, lon: float, known: bool, values: dict, scores: dict, 
     }
 
 
-def analyse_target(target: dict, sigma: dict, cells: dict, analogs: list) -> tuple[dict, dict, np.ndarray]:
+def analyse_target(target: dict, sigma: dict, cells: dict, analogs: list, by_zone: bool = False
+                   ) -> tuple[dict, dict, np.ndarray]:
     """Puntúa todas las celdas contra un sitio de Marte. Devuelve la entrada para
-    sites.json, el informe de validación y el puntaje total de cada celda."""
+    sites.json, el informe de validación y el puntaje total de cada celda.
+
+    by_zone decide qué es un sitio nuevo. Sin él, una celda de 5 km (lo que pide
+    el diseño). Con él, la zona de radius_km alrededor de la celda, medida como
+    el sitio marciano: el puntaje es el promedio de sus celdas.
+    """
     ids = [v["id"] for v in VARIABLES]
     scores = {vid: similarity(cells[vid], target["values"][vid]["mean"], sigma[vid]) for vid in ids}
     total = total_score(scores, WEIGHTS)
     cand = cells["candidate"]
 
-    # distribución del puntaje entre las celdas candidatas, ponderada por área
-    order = np.argsort(total[cand])
-    sorted_scores, cum_w = total[cand][order], np.cumsum(cells["w"][cand][order])
+    if by_zone:
+        from zones import zone_means
+
+        fields = {f"score_{vid}": scores[vid] for vid in ids} | {f"value_{vid}": cells[vid] for vid in ids}
+        means, coverage = zone_means(cells, fields, target["radius_km"])
+        site_scores = {vid: means[f"score_{vid}"] for vid in ids}
+        site_values = {vid: means[f"value_{vid}"] for vid in ids}
+        eligible = cand & (coverage >= ZONE_MIN_COVERAGE)
+    else:
+        site_scores, site_values, eligible = scores, {vid: cells[vid] for vid in ids}, cand
+    site_total = total_score(site_scores, WEIGHTS)
+
+    # distribución del puntaje entre los sitios posibles, ponderada por área
+    order = np.argsort(site_total[eligible])
+    sorted_scores, cum_w = site_total[eligible][order], np.cumsum(cells["w"][eligible][order])
 
     def pct(x: float) -> float:
         return percentile_of(x, sorted_scores, cum_w)
@@ -163,20 +183,20 @@ def analyse_target(target: dict, sigma: dict, cells: dict, analogs: list) -> tup
             "region": {
                 "cells": int(region.size),
                 "candidate_fraction": round(float(cand[region].mean()), 3),
-                "mean_score": round(float(np.average(total[region], weights=cells["w"][region])), 4),
-                "median_score": round(float(np.median(total[region])), 4),
-                "median_percentile": round(pct(float(np.median(total[region]))), 2),
-                "best_score": round(float(total[region].max()), 4),
+                "mean_score": round(float(np.average(site_total[region], weights=cells["w"][region])), 4),
+                "median_score": round(float(np.median(site_total[region])), 4),
+                "median_percentile": round(pct(float(np.median(site_total[region]))), 2),
+                "best_score": round(float(site_total[region].max()), 4),
             },
         })
         validation.append(row)
 
-    # --- sitios nuevos: las mejores celdas candidatas fuera de los análogos conocidos
-    pool = np.nonzero(cand & ~excluded)[0]
-    chosen = pool[pick_sites(cells["lat"][pool], cells["lon"][pool], total[pool], N_SITES, MIN_SEPARATION_KM)]
+    # --- sitios nuevos: los de mayor puntaje fuera de los análogos conocidos
+    pool = np.nonzero(eligible & ~excluded)[0]
+    chosen = pool[pick_sites(cells["lat"][pool], cells["lon"][pool], site_total[pool], N_SITES, MIN_SEPARATION_KM)]
     new_sites = [
-        site_entry(cells["lat"][i], cells["lon"][i], False, {vid: cells[vid][i] for vid in ids},
-                   {vid: scores[vid][i] for vid in ids}, pct)
+        site_entry(cells["lat"][i], cells["lon"][i], False, {vid: site_values[vid][i] for vid in ids},
+                   {vid: site_scores[vid][i] for vid in ids}, pct)
         for i in chosen
     ]
 
@@ -187,14 +207,15 @@ def analyse_target(target: dict, sigma: dict, cells: dict, analogs: list) -> tup
         "layer": f"data/similarity_{target['id']}.png",
         "sites": new_sites + known_sites,
     }
-    w_all = cells["w"][cand]
+    w_all = cells["w"][eligible]
     report = {
         "target": target["id"],
-        "candidate_cells": int(cand.sum()),
+        "site_scoring": f"zona de {target['radius_km']} km" if by_zone else "celda",
+        "candidate_cells": int(eligible.sum()),
         "candidate_area_km2": round(float(w_all.sum()) * m.CELL_KM**2),
         "score_quantiles": {f"p{q}": round(float(sorted_scores[min(np.searchsorted(cum_w, cum_w[-1] * q / 100), sorted_scores.size - 1)]), 4)
                             for q in (10, 25, 50, 75, 90, 95, 99)},
-        "area_fraction_above": {str(t): round(float(w_all[total[cand] >= t].sum() / w_all.sum()), 4) for t in (0.8, 0.9, 0.95, 0.99)},
+        "area_fraction_above": {str(t): round(float(w_all[site_total[eligible] >= t].sum() / w_all.sum()), 4) for t in (0.8, 0.9, 0.95, 0.99)},
         "known_analogs": validation,
     }
     return out, report, np.where(cand, total, np.nan)
@@ -210,6 +231,8 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=8, help="pedidos simultáneos a Earth Engine")
     ap.add_argument("--solo-bajar", action="store_true", help="solo medir en Earth Engine y guardar en el caché")
     ap.add_argument("--sin-imagenes", action="store_true", help="no bajar la imagen satelital de cada sitio")
+    ap.add_argument("--por-zona", action="store_true",
+                    help="elegir zonas del radio del sitio marciano (25 km) en vez de celdas sueltas")
     args = ap.parse_args()
 
     mars = json.loads((ROOT / "mars" / "targets.json").read_text())
@@ -237,7 +260,7 @@ def main() -> None:
 
     targets_out, reports = [], []
     for target in mars["targets"]:
-        entry, report, cell_score = analyse_target(target, sigma, cells, analogs)
+        entry, report, cell_score = analyse_target(target, sigma, cells, analogs, args.por_zona)
         targets_out.append(entry)
         reports.append(report)
         render_layer(cells, cell_score, out_web / f"similarity_{target['id']}.png")
@@ -261,6 +284,7 @@ def main() -> None:
     (out_meta / "validacion.json").write_text(json.dumps(reports, indent=2, ensure_ascii=False) + "\n")
     params = {
         "ndvi_max": NDVI_MAX, "land_min": LAND_MIN, "n_sites": N_SITES, "min_separation_km": MIN_SEPARATION_KM,
+        "site_scoring": "zona" if args.por_zona else "celda", "zone_min_coverage": ZONE_MIN_COVERAGE,
         "weights": WEIGHTS or "iguales", "sigma": sigma, "sigma_source": "desvío global de Marte (mars/targets.json)",
         "cell_km": round(m.CELL_KM, 3), "region": region, "measurement": m.parameters(),
         "screening": {"deg": m.SCREEN_DEG, "ndvi": m.SCREEN_NDVI, "min_pixels": m.SCREEN_MIN},
@@ -271,8 +295,8 @@ def main() -> None:
 
 
 def print_report(entry: dict, report: dict) -> None:
-    print(f"\n=== {entry['name']} ===")
-    print(f"Celdas candidatas: {report['candidate_cells']} ({report['candidate_area_km2'] / 1e6:.1f} millones de km²)")
+    print(f"\n=== {entry['name']} === (un sitio nuevo es una {report['site_scoring']})")
+    print(f"Sitios posibles: {report['candidate_cells']} ({report['candidate_area_km2'] / 1e6:.1f} millones de km²)")
     print("Puntaje por percentil de área:", report["score_quantiles"])
     print("Fracción del área candidata por encima de cada puntaje:", report["area_fraction_above"])
     print("\nSitios nuevos:")

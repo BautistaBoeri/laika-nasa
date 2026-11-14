@@ -1,4 +1,4 @@
-"""Prueba mínima de la similitud y de la elección de sitios.
+"""Prueba mínima de la similitud, de la elección de sitios y del promedio por zona.
 
     .venv/bin/python earth/test_similarity.py
 """
@@ -55,6 +55,24 @@ def test_percentil():
     assert percentile_of(0.4, s, cw) == 100.0
     assert percentile_of(0.25, s, cw) == 50.0
     assert percentile_of(0.05, s, cw) == 0.0
+
+
+def test_promedio_por_zona():
+    import measure as m
+    from zones import zone_means
+
+    # un bloque de 9 x 9 celdas en una franja cerca del ecuador
+    band = m.bands()[45]
+    r, c = (a.ravel() for a in np.meshgrid(np.arange(10, 19), np.arange(100, 109), indexing="ij"))
+    cells = {"band": np.full(r.size, band.k), "row": r, "col": c, "w": np.ones(r.size), "lat": band.lats()[r]}
+    centre = int(np.nonzero((r == 14) & (c == 104))[0][0])
+    spike = np.zeros(r.size)
+    spike[centre] = 1.0
+    means, coverage = zone_means(cells, {"constante": np.full(r.size, 7.0), "pico": spike}, 25.0)
+    assert np.allclose(means["constante"], 7.0)  # el promedio de una constante es la constante
+    assert math.isclose(coverage[centre], 1.0)  # el círculo del centro está completo: 69 celdas
+    assert math.isclose(means["pico"][centre], 1 / 69, rel_tol=1e-5)
+    assert coverage[0] < 0.5  # una esquina del bloque tiene menos de la mitad del círculo
 
 
 if __name__ == "__main__":

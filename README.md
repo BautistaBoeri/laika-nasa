@@ -46,6 +46,17 @@ Para probar en una región chica sin tocar `web/`:
 .venv/bin/python earth/build_sites.py --region -69 -27 -65 -22   # oeste sur este norte
 ```
 
+Por defecto un sitio nuevo es una celda de 5 km, como pide el diseño. Con casi
+800 mil celdas candidatas, varias coinciden casi exacto con Jezero y los 15
+primeros empatan en 100 %. Con `--por-zona` un sitio es la zona de 25 km
+alrededor de la celda, medida como el sitio marciano (el promedio de sus
+celdas): no hay empates y el puntaje queda en la misma vara que el de los
+análogos conocidos.
+
+```bash
+.venv/bin/python earth/build_sites.py --por-zona
+```
+
 **Web.** Es estática: HTML, CSS y JavaScript sin compilar, con Leaflet desde un
 CDN y mapa base de NASA GIBS. Lee `web/data/sites.json` y, si existe,
 `web/data/textos.json`. Hay que abrirla desde un servidor, no con doble clic.
