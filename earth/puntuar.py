@@ -525,6 +525,9 @@ def main():
                        "targets_sha256": hashlib.sha256(
                            ruta_t.read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
                        "conocidos": str(ruta_c.relative_to(RAIZ)),
+                       "conocidos_cantidad": len(conocidos),
+                       "conocidos_sha256": hashlib.sha256(
+                           ruta_c.read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
                        "sigma": sigma, "medicion": meta})
     analisis = AQUI / "analisis_termica.json"     # pruebas hechas con la térmica
     if analisis.exists():

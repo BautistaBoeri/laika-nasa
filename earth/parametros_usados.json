@@ -112,12 +112,14 @@
     "desvio_m",
     "albedo"
   ],
-  "generado": "2026-11-14T16:26:18-03:00",
+  "generado": "2026-11-14T16:34:43-03:00",
   "region": "mundo",
   "targets": "mars\\targets.json",
   "targets_origen": "con seguimiento en git, traído de main (merge fab0bff); mismo contenido que el commit 5db5995 de marte-targets",
   "targets_sha256": "3bda0684419b411a5b1bfb83dfb6dcf528d6c287f17730421c16b19299a56db8",
-  "conocidos": "earth\\ejemplo\\known_analogs.json",
+  "conocidos": "content\\known_analogs.json",
+  "conocidos_cantidad": 10,
+  "conocidos_sha256": "435e2bc120739c9d4603a5f5c5524699d17afc8a34a98c7cb63ca162c017b38b",
   "sigma": {
     "pendiente_deg": 2.5531,
     "desvio_m": 63.705,
