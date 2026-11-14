@@ -20,9 +20,9 @@ Y_LIMIT = math.log(math.tan(math.pi / 4 + math.radians(LAT_LIMIT) / 2))  # y de 
 HEIGHT = round(WIDTH * Y_LIMIT / math.pi)
 SUPER = 2  # cada píxel promedia SUPER x SUPER muestras, para no saltearse celdas
 
-# Escala de color: un solo tono, de oscuro (poco parecido) a claro (muy parecido).
+# Escala de color: un solo tono (el del rojo NASA), de oscuro (poco parecido) a claro (muy parecido).
 # web/app.js usa estos mismos valores para la leyenda y los puntos: cambiarlos juntos.
-RAMP = ["#3b0e00", "#5d1c00", "#822a00", "#a83900", "#cb4e19", "#e96a3a", "#ff8c63", "#ffb9a0", "#ffe0d6"]
+RAMP = ["#490500", "#6e0b00", "#941301", "#bd1c01", "#e23217", "#ff553b", "#ff8d78", "#ffb9ab", "#ffe0da"]
 SCALE_MIN, SCALE_MAX = 0.4, 1.0
 
 

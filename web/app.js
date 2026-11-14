@@ -3,15 +3,15 @@
 
 'use strict';
 
-// Escala de color de la similitud: un solo tono, de oscuro a claro.
+// Escala de color de la similitud: un solo tono (el del rojo NASA), de oscuro a claro.
 // Tiene que coincidir con RAMP, SCALE_MIN y SCALE_MAX de earth/layer.py,
 // porque la capa PNG ya viene pintada con esos colores.
-const RAMP = ['#3b0e00', '#5d1c00', '#822a00', '#a83900', '#cb4e19', '#e96a3a', '#ff8c63', '#ffb9a0', '#ffe0d6'];
+const RAMP = ['#490500', '#6e0b00', '#941301', '#bd1c01', '#e23217', '#ff553b', '#ff8d78', '#ffb9ab', '#ffe0da'];
 const SCALE_MIN = 0.4;
 const SCALE_MAX = 1.0;
 
 const KNOWN_COLOR = '#3987e5';
-const SURFACE = '#0d0d0d';
+const SURFACE = '#040a18';
 const LAYER_BOUNDS = [[-85, -180], [85, 180]]; // la capa viene en Web Mercator con estos límites
 const LAYER_OPACITY = 0.85;
 

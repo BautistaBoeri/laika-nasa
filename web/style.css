@@ -1,20 +1,23 @@
-/* Tema oscuro único: la página se proyecta y el mapa es oscuro. */
+/* Tema azul marino inspirado en los colores de la NASA, con su rojo #FC3D21 como acento.
+   Es un único tema oscuro: la página se proyecta y el mapa es oscuro. */
 :root {
   color-scheme: dark;
-  --plane: #0d0d0d;
-  --surface: #1a1a19;
-  --surface-2: #222220;
-  --ink: #f0efec;
-  --ink-2: #c3c2b7;
-  --muted: #898781;
-  --hairline: #2c2c2a;
-  --baseline: #383835;
-  --ring: rgba(255, 255, 255, 0.10);
+  --nasa-red: #fc3d21;
+  --plane: #040a18;
+  --surface: #0a1630;
+  --surface-2: #13254a;
+  --ink: #f4f7fd;
+  --ink-2: #b9c7e4;
+  --muted: #8a9cc4;
+  --hairline: #1c2f5c;
+  --baseline: #34508c;
+  --ring: rgba(255, 255, 255, 0.12);
+  --map: #172040; /* el mismo azul que el mar del mapa oscuro */
 
-  /* Similitud: un solo tono, de oscuro (poco parecido) a claro (muy parecido).
-     Los mismos colores que la capa PNG: ver earth/layer.py y app.js. */
-  --sim: #e96a3a;
-  --sim-track: #4a1500;
+  /* Similitud: un solo tono, el del rojo NASA, de oscuro (poco parecido) a claro
+     (muy parecido). Los mismos colores que la capa PNG: ver earth/layer.py y app.js. */
+  --sim: var(--nasa-red);
+  --sim-track: #5c0900;
   --known: #3987e5;
 
   --topbar: 64px;
@@ -46,6 +49,7 @@ button, select { font: inherit; color: inherit; }
   min-height: var(--topbar);
   display: flex; align-items: center; gap: 12px 28px; flex-wrap: wrap;
   padding: 8px 20px;
+  /* el mismo azul oscuro que el panel lateral, para que no compita con el mapa */
   background: var(--surface);
   border-bottom: 1px solid var(--hairline);
 }
@@ -91,18 +95,22 @@ button, select { font: inherit; color: inherit; }
 
 .stage { display: flex; height: calc(100vh - var(--topbar)); min-height: 520px; }
 .map-wrap { position: relative; flex: 1; min-width: 0; }
-#map { position: absolute; inset: 0; background: #0b0d10; }
+#map { position: absolute; inset: 0; background: var(--map); }
 
-.leaflet-container { font: inherit; background: #0b0d10; }
-/* el mapa de tierra y agua de GIBS viene en grises claros: invertido y atenuado queda
-   la tierra apenas más clara que el mar */
-.base-dark { filter: invert(1) brightness(0.26); }
+.leaflet-container { font: inherit; background: var(--map); }
+/* el mapa de tierra y agua de GIBS viene en grises claros: invertido, teñido de azul y
+   atenuado queda la tierra en azul marino, apenas más clara que el mar */
+.base-dark { filter: invert(1) brightness(0.6) sepia(1) hue-rotate(190deg) saturate(4) brightness(0.35); }
+/* con zoom fraccionario Chrome deja una junta de un píxel entre mosaicos; un contorno
+   transparente lo obliga a pintarlos sin recortar el borde y la junta desaparece */
+.leaflet-tile { outline: 1px solid transparent; }
 .leaflet-control-attribution {
-  background: rgba(13, 13, 13, 0.75) !important; color: var(--muted) !important; font-size: 11px;
+  background: rgba(4, 10, 24, 0.78) !important; color: var(--muted) !important; font-size: 11px;
 }
 .leaflet-control-attribution a { color: var(--ink-2) !important; }
 .leaflet-bar a { background: var(--surface); color: var(--ink); border-bottom-color: var(--hairline); }
 .leaflet-bar a:hover { background: var(--surface-2); color: #fff; }
+.leaflet-bar a.leaflet-disabled { background: var(--surface); color: var(--baseline); }
 
 /* marcadores: el anillo del color de la superficie los separa del mapa y entre sí */
 .site-marker { background: none; border: 0; }
@@ -124,7 +132,7 @@ button, select { font: inherit; color: inherit; }
 .legend {
   position: absolute; left: 12px; bottom: 28px; z-index: 1000;
   width: 290px; max-width: calc(100% - 24px);
-  background: rgba(26, 26, 25, 0.92); border: 1px solid var(--ring); border-radius: 10px;
+  background: rgba(10, 22, 48, 0.93); border: 1px solid var(--ring); border-radius: 10px;
   padding: 12px 14px; font-size: 0.8125rem; color: var(--ink-2);
 }
 .legend-title { color: var(--ink); font-weight: 600; font-size: 0.875rem; margin-bottom: 8px; }
@@ -137,7 +145,7 @@ button, select { font: inherit; color: inherit; }
 .legend-keys { list-style: none; padding: 0; margin-top: 8px; display: grid; gap: 5px; }
 .legend-keys li { display: flex; align-items: center; gap: 8px; }
 .key { width: 14px; height: 14px; flex: none; }
-.key-new { border-radius: 50%; background: #ffb9a0; }
+.key-new { border-radius: 50%; background: #ffb9ab; }
 .key-known { background: var(--known); transform: rotate(45deg) scale(0.78); }
 .key-none { border: 1px solid var(--baseline); border-radius: 3px; }
 
@@ -186,7 +194,7 @@ button, select { font: inherit; color: inherit; }
 .back:hover { color: var(--ink); background: var(--surface-2); }
 
 .kind { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--ink-2); font-weight: 600; }
-.kind .dot { width: 10px; height: 10px; border-radius: 50%; background: #ffb9a0; }
+.kind .dot { width: 10px; height: 10px; border-radius: 50%; background: #ffb9ab; }
 .kind.known .dot { border-radius: 0; background: var(--known); transform: rotate(45deg); }
 
 .detail h2 { font-size: 1.5rem; font-weight: 650; line-height: 1.2; margin-top: 6px; overflow-wrap: anywhere; }
