@@ -45,6 +45,11 @@ def elegir_archivo(real, ejemplo):
     return ejemplo, True
 
 
+def todas():
+    """Variables que puntúan más las informativas (se muestran, pero con peso 0)."""
+    return C.VARIABLES + [v for v in C.INFORMATIVAS if v not in C.VARIABLES]
+
+
 def leer_targets(ruta):
     """
     Formato que entrega el rol Marte:
@@ -58,11 +63,11 @@ def leer_targets(ruta):
     try:
         sigma = {v: float(C.SIGMA_PROPIA.get(
                      v, j["mars_global"][C.NOMBRE_EN_MARTE[v]]["std"]))
-                 for v in C.VARIABLES}
+                 for v in todas()}
         targets = []
         for t in j["targets"]:
             valores = {v: float(t["values"][C.NOMBRE_EN_MARTE[v]]["mean"])
-                       for v in C.VARIABLES}
+                       for v in todas()}
             targets.append({**t, "values": valores})
     except (KeyError, TypeError) as e:
         raise SystemExit(
@@ -97,8 +102,8 @@ def cargar_datos(region):
             datos[b] = np.load(extra / f"{b}.npy", mmap_mode="r")
         meta["extra"] = meta_x
 
-    faltan = [v for v in C.VARIABLES if v not in datos and v != "termica"]
-    if C.USAR_TERMICA:
+    faltan = [v for v in todas() if v not in datos and v != "termica"]
+    if "termica" in todas():
         faltan += [b for b in ("temp_dia_C", "temp_noche_C") if b not in datos]
     if faltan:
         raise SystemExit(f"Faltan datos de {', '.join(faltan)} para la región {region}. "
@@ -106,23 +111,22 @@ def cargar_datos(region):
     return meta, datos
 
 
-def percentil_termico(datos, meta):
+def percentil_termico(datos, meta, mascara):
     """
     Inercia térmica aparente = (1 - albedo) / (LST día - LST noche), convertida a
-    percentil (0 a 1) dentro de toda la tierra firme con dato, ponderado por área.
-    Marte entrega "thermal" igual: el percentil de su inercia térmica dentro de Marte.
-    Entra toda la tierra firme (con vegetación o hielo también), no solo lo que pasa
-    la máscara: la referencia es el planeta entero, como en Marte.
+    percentil (0 a 1, ponderado por área) dentro del SUELO DESNUDO: las celdas que
+    pasan la máscara. Marte entrega "thermal" igual: el percentil de su inercia
+    térmica dentro de Marte, donde todo es suelo desnudo.
+    Se probó calcularlo sobre toda la tierra firme y no sirve: la vegetación y la
+    humedad ocupan toda la parte alta y los desiertos quedan entre 0,02 y 0,21
+    (ver earth/analisis_termica.json).
+    Devuelve una grilla con NaN donde no hay dato.
     """
     albedo = np.asarray(datos["albedo"], dtype=np.float64)
     amplitud = (np.asarray(datos["temp_dia_C"], dtype=np.float64)
                 - np.asarray(datos["temp_noche_C"], dtype=np.float64))
-    lo, hi = C.RANGOS_VALIDOS["albedo"]
-    agua = np.asarray(datos["frac_agua"])
-    ok = (np.isfinite(albedo) & (albedo >= lo) & (albedo <= hi)
-          & np.isfinite(amplitud) & (amplitud >= C.TERMICA_AMPLITUD_MIN_C))
-    if np.isfinite(agua).any():
-        ok &= agua < C.AGUA_MAX
+    with np.errstate(invalid="ignore"):
+        ok = mascara & np.isfinite(amplitud) & (amplitud >= C.TERMICA_AMPLITUD_MIN_C)
     filas, cols = np.nonzero(ok)
     ati = (1.0 - albedo[filas, cols]) / amplitud[filas, cols]
     lat = meta["bbox"][3] - (filas + 0.5) * meta["celda_grados"]
@@ -133,8 +137,8 @@ def percentil_termico(datos, meta):
     pct[orden] = acumulada / acumulada[-1]
     grilla = np.full(albedo.shape, np.nan, np.float32)
     grilla[filas, cols] = pct
-    print(f"Térmica: percentil calculado sobre {ati.size} celdas de tierra firme "
-          f"(mediana de la inercia aparente {np.median(ati):.4f} 1/K)")
+    print(f"Térmica: percentil calculado sobre {ati.size} celdas de suelo desnudo "
+          f"({int(mascara.sum()) - ati.size} sin temperatura)")
     return grilla
 
 
@@ -150,7 +154,8 @@ def distancia_km(lat, lon, lats, lons):
 def armar_mascara(datos):
     m = np.ones(datos[C.VARIABLES[0]].shape, bool)
     for v in C.VARIABLES:
-        m &= np.isfinite(datos[v])
+        if v in datos:          # las derivadas (térmica) se calculan después
+            m &= np.isfinite(datos[v])
     # MODIS deja valores de relleno (p. ej. -32.767) donde no hay medición.
     for banda, (lo, hi) in C.RANGOS_VALIDOS.items():
         valores = np.asarray(datos[banda])
@@ -224,6 +229,13 @@ class Circulo:
     def media_con_ceros(self, vector):
         """Promedio sobre todo el círculo; lo enmascarado cuenta como 0 (puntajes)."""
         return self._suma(vector) / self.n
+
+    def media_finitas(self, vector):
+        """Promedio de las celdas del círculo que tienen dato (NaN si ninguna tiene)."""
+        ok = np.isfinite(vector)
+        n = self._suma(ok.astype(np.float64))
+        with np.errstate(invalid="ignore", divide="ignore"):
+            return np.where(n > 0, self._suma(np.where(ok, vector, 0.0)) / n, np.nan)
 
     def media_validas(self, vector):
         """Promedio solo sobre las celdas válidas del círculo (valores medidos)."""
@@ -327,8 +339,6 @@ def main():
     args = ap.parse_args()
 
     meta, datos = cargar_datos(args.region)
-    if C.USAR_TERMICA:
-        datos["termica"] = percentil_termico(datos, meta)
     bbox, c = meta["bbox"], meta["celda_grados"]
     alto, ancho = meta["forma"]
 
@@ -341,6 +351,10 @@ def main():
 
     # Se trabaja solo con las celdas que pasan la máscara.
     mascara = armar_mascara(datos)
+    if "termica" in todas():
+        datos["termica"] = percentil_termico(datos, meta, mascara)
+        if "termica" in C.VARIABLES:      # si puntúa, hace falta el dato en la celda
+            mascara &= np.isfinite(datos["termica"])
     idx = np.flatnonzero(mascara)
     if idx.size == 0:
         raise SystemExit("Ninguna celda pasa la máscara. Revisá los umbrales en config.py")
@@ -352,6 +366,10 @@ def main():
     # Marte mide "roughness" como desvío estándar; relieve_m es máximo - mínimo.
     if "relieve_m" in valores:
         valores["relieve_m"] = valores["relieve_m"] / C.RELIEVE_A_DESVIO
+    # Informativas: se muestran en cada sitio, pero no entran en score ni en ranking.
+    informativas = [v for v in C.INFORMATIVAS if v not in C.VARIABLES]
+    info = {v: np.asarray(datos[v])[filas, cols].astype(np.float64) for v in informativas}
+    info_sitio = info
     elevacion = np.asarray(datos["elevacion_m"])[filas, cols]
     print(f"Región {args.region}: {idx.size} celdas válidas de {alto * ancho} "
           f"({idx.size / (alto * ancho) * 100:.1f}%)")
@@ -371,6 +389,7 @@ def main():
     if C.SUAVIZADO_KM > 0:
         circulo = Circulo(filas, cols, lats, (alto, ancho), c, C.SUAVIZADO_KM)
         valores_sitio = {v: circulo.media_validas(valores[v]) for v in C.VARIABLES}
+        info_sitio = {v: circulo.media_finitas(info[v]) for v in informativas}
         frac_valida = circulo.frac_valida
         libres &= frac_valida >= C.SUAVIZADO_MIN_FRAC
         print(f"Puntaje promediado en {C.SUAVIZADO_KM} km; sitios nuevos solo donde al "
@@ -395,10 +414,20 @@ def main():
             total = ponderar(parciales)
         orden, orden_val = np.sort(total), np.sort(total_val)
 
+        # Parecido de las informativas (misma fórmula, promedio de las celdas con dato).
+        info_score = {}
+        for v in informativas:
+            p = np.exp(-0.5 * ((info[v] - t["values"][v]) / sigma[v]) ** 2)
+            info_score[v] = circulo.media_finitas(p) if circulo else p
+
         def ficha(i, rank=None, solo_validas=False, **extra):
             # Campos del contrato primero; rank, percentile, elevation_m y name son extras.
             tot, par, ordn = ((total_val, parciales_val, orden_val) if solo_validas
                               else (total, parciales, orden))
+            extra_info = {
+                C.NOMBRE_EN_MARTE[v]: {"score": redondear(info_score[v][i]),
+                                       "earth": redondear(info_sitio[v][i])}
+                for v in informativas if np.isfinite(info_sitio[v][i])}
             return {
                 "id": id_sitio(lats[i], lons[i]),
                 "lat": redondear(lats[i]), "lon": redondear(lons[i]),
@@ -407,7 +436,7 @@ def main():
                 "variables": {
                     C.NOMBRE_EN_MARTE[v]: {"score": redondear(par[v][i]),
                                            "earth": redondear(valores_sitio[v][i])}
-                    for v in C.VARIABLES},
+                    for v in C.VARIABLES} | extra_info,
                 "rank": rank,
                 "percentile": redondear(np.searchsorted(ordn, tot[i]) / ordn.size * 100, 2),
                 "elevation_m": redondear(elevacion[i], 0),
@@ -418,13 +447,16 @@ def main():
         sitios = [ficha(i, r) for r, i in
                   enumerate(elegir_sitios(total, lats, lons, libres), 1)]
 
+        puntuan = {C.NOMBRE_EN_MARTE[v] for v in C.VARIABLES}
         print(f"\n== {t.get('name', t['id'])} ==")
         print("Sitios nuevos:")
         for s in sitios:
             v = s["variables"]
             print(f"  {s['rank']:2d}. {s['lat']:8.3f}, {s['lon']:9.3f}   "
                   f"puntaje {s['score']:.3f}   "
-                  + "  ".join(f"{k} {v[k]['score']:.2f}" for k in v)
+                  + "  ".join(f"{k} {v[k]['score']:.2f}" for k in v if k in puntuan)
+                  + "".join(f"  [{k} {v[k]['earth']:.2f}, no puntúa]" for k in v
+                            if k not in puntuan)
                   + f"   válido {s['valid_frac'] * 100:.0f}%")
 
         # El contrato pide score de 0 a 1 en todos los sitios: un conocido que no se
@@ -459,7 +491,7 @@ def main():
         salida.append({
             "id": t["id"], "name": t.get("name", t["id"]),
             "lat": t.get("lat"), "lon": t.get("lon"),
-            "values": {C.NOMBRE_EN_MARTE[v]: t["values"][v] for v in C.VARIABLES},
+            "values": {C.NOMBRE_EN_MARTE[v]: t["values"][v] for v in todas()},
             "layer": f"data/{archivo}",
             "sites": sitios,
             "known_unscored": sin_puntaje,
@@ -468,14 +500,19 @@ def main():
     generado = datetime.now().astimezone().isoformat(timespec="seconds")
     (web / "sites.json").write_text(json.dumps({
         "generated": generado,
+        # "informative": true = la variable se muestra pero no entra en el score.
         "variables": [{"id": C.NOMBRE_EN_MARTE[v], "label": C.ETIQUETAS[v][0],
-                       "unit": C.ETIQUETAS[v][1]} for v in C.VARIABLES],
+                       "unit": C.ETIQUETAS[v][1]} for v in C.VARIABLES]
+                     + [{"id": C.NOMBRE_EN_MARTE[v], "label": C.ETIQUETAS[v][0],
+                         "unit": C.ETIQUETAS[v][1], "informative": True}
+                        for v in informativas],
         "targets": salida,
         # Lo que sigue no está en el contrato; la página puede ignorarlo.
         "region": args.region,
         "provisional": bool(t_ejemplo or c_ejemplo),
-        "weights": {C.NOMBRE_EN_MARTE[v]: C.PESOS[v] for v in C.VARIABLES},
-        "sigma": {C.NOMBRE_EN_MARTE[v]: sigma[v] for v in C.VARIABLES},
+        "weights": {C.NOMBRE_EN_MARTE[v]: (C.PESOS[v] if v in C.VARIABLES else 0.0)
+                    for v in todas()},
+        "sigma": {C.NOMBRE_EN_MARTE[v]: sigma[v] for v in todas()},
         "layer_bounds": limites,
         "smoothing_km": C.SUAVIZADO_KM,
         "roughness_from_range_factor": C.RELIEVE_A_DESVIO,
@@ -489,6 +526,9 @@ def main():
                            ruta_t.read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
                        "conocidos": str(ruta_c.relative_to(RAIZ)),
                        "sigma": sigma, "medicion": meta})
+    analisis = AQUI / "analisis_termica.json"     # pruebas hechas con la térmica
+    if analisis.exists():
+        parametros["analisis_termica"] = json.loads(analisis.read_text(encoding="utf-8"))
     (AQUI / "parametros_usados.json").write_text(
         json.dumps(parametros, indent=2, ensure_ascii=False), encoding="utf-8")
 

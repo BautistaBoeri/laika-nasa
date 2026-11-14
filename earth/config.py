@@ -47,14 +47,18 @@ HIELO_MAX = 0.10      # fracción máxima de hielo permanente dentro de la celda
 # (máximo - mínimo) dividido por RELIEVE_A_DESVIO.
 VARIABLES = ["pendiente_deg", "desvio_m", "albedo"]
 
-# Térmica (segunda tanda). Inercia térmica aparente = (1 - albedo) / (LST día - LST
-# noche), pasada a percentil (0 a 1, ponderado por área) dentro de toda la tierra
-# firme con dato, y comparada con "thermal" de Marte, que es el percentil de la
-# inercia térmica dentro de Marte. Necesita earth/datos/<region>_extra/ (medir_extra.py).
-USAR_TERMICA = False
+# Variables informativas: se calculan y se guardan en cada sitio de sites.json junto
+# con el valor de Marte, pero con peso 0: no cambian score ni ranking.
+#
+# "termica" = inercia térmica aparente, (1 - albedo) / (LST día - LST noche), pasada
+# a percentil (0 a 1, ponderado por área) dentro del suelo desnudo (las celdas que
+# pasan la máscara), para comparar con "thermal" de Marte, que es el percentil de la
+# inercia térmica dentro de Marte. Necesita earth/datos/<region>_extra/.
+# Decisión del 14/11: NO entra al puntaje. La amplitud día-noche en la Tierra depende
+# también de la altura, la humedad y las nubes, no solo del suelo. Las pruebas están
+# en earth/analisis_termica.json. Para que puntúe: pasarla de INFORMATIVAS a VARIABLES.
+INFORMATIVAS = ["termica"]
 TERMICA_AMPLITUD_MIN_C = 1.0   # con menos diferencia día-noche el cociente no es confiable
-if USAR_TERMICA:
-    VARIABLES = VARIABLES + ["termica"]
 
 PESOS = {"pendiente_deg": 1.0, "relieve_m": 1.0, "desvio_m": 1.0, "albedo": 1.0,
          "termica": 1.0}
@@ -88,7 +92,7 @@ ETIQUETAS = {
     "relieve_m": ("Relieve local", "m"),
     "desvio_m": ("Relieve local", "m"),
     "albedo": ("Albedo", ""),
-    "termica": ("Inercia térmica (percentil)", ""),
+    "termica": ("Inercia térmica, percentil (informativa, no puntúa)", ""),
 }
 
 # --- Selección de sitios ---
