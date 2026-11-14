@@ -42,24 +42,57 @@ EXCLUIR_HIELO = True
 HIELO_MAX = 0.10      # fracción máxima de hielo permanente dentro de la celda
 
 # --- Similitud ---
-VARIABLES = ["pendiente_deg", "relieve_m", "albedo"]
-PESOS = {"pendiente_deg": 1.0, "relieve_m": 1.0, "albedo": 1.0}
+# desvio_m (medir_extra.py) es el desvío estándar de la elevación en la celda, la
+# misma definición de "roughness" que usa Marte. La alternativa vieja es relieve_m
+# (máximo - mínimo) dividido por RELIEVE_A_DESVIO.
+VARIABLES = ["pendiente_deg", "desvio_m", "albedo"]
+
+# Variables informativas: se calculan y se guardan en cada sitio de sites.json junto
+# con el valor de Marte, pero con peso 0: no cambian score ni ranking.
+#
+# "termica" = inercia térmica aparente, (1 - albedo) / (LST día - LST noche), pasada
+# a percentil (0 a 1, ponderado por área) dentro del suelo desnudo (las celdas que
+# pasan la máscara), para comparar con "thermal" de Marte, que es el percentil de la
+# inercia térmica dentro de Marte. Necesita earth/datos/<region>_extra/.
+# Decisión del 14/11: NO entra al puntaje. La amplitud día-noche en la Tierra depende
+# también de la altura, la humedad y las nubes, no solo del suelo. Las pruebas están
+# en earth/analisis_termica.json. Para que puntúe: pasarla de INFORMATIVAS a VARIABLES.
+INFORMATIVAS = ["termica"]
+TERMICA_AMPLITUD_MIN_C = 1.0   # con menos diferencia día-noche el cociente no es confiable
+
+PESOS = {"pendiente_deg": 1.0, "relieve_m": 1.0, "desvio_m": 1.0, "albedo": 1.0,
+         "termica": 1.0}
+
+# De dónde salió el mars/targets.json que hay en disco. puntuar.py guarda esta línea
+# en parametros_usados.json junto con el sha256 del archivo (calculado con fin de
+# línea LF, para que dé lo mismo en Windows y en Linux).
+TARGETS_ORIGEN = ("con seguimiento en git, traído de main (merge fab0bff); "
+                  "mismo contenido que el commit 5db5995 de marte-targets")
 
 # Cómo se llama cada variable nuestra en mars/targets.json
-NOMBRE_EN_MARTE = {"pendiente_deg": "slope", "relieve_m": "roughness", "albedo": "albedo"}
+NOMBRE_EN_MARTE = {"pendiente_deg": "slope", "relieve_m": "roughness",
+                   "desvio_m": "roughness", "albedo": "albedo", "termica": "thermal"}
+
+# Tolerancia (sigma) de la similitud. Por defecto es el desvío global de Marte que
+# trae targets.json; acá van las variables que usan una propia. Para un percentil
+# el desvío global es 0,29 (distribución uniforme) y casi no discrimina.
+SIGMA_PROPIA = {"termica": 0.15}
 
 # mars/targets.json define "roughness" como el DESVÍO ESTÁNDAR de la elevación en
 # la celda; nuestro relieve_m es máximo - mínimo. puntuar.py divide relieve_m por
 # este factor para estimar el desvío. OJO: el factor está medido SOLO en NOA
 # (16.695 celdas: mediana 4,24; 90% entre 3,5 y 5,4; correlación 0,983).
-# Poner 1.0 cuando relieve_m ya sea un desvío estándar.
-RELIEVE_A_DESVIO = 4.24
+# Solo se aplica si "relieve_m" está en VARIABLES. Desde que se usa desvio_m vale
+# 1.0; para volver a la estimación vieja: VARIABLES con "relieve_m" y factor 4.24.
+RELIEVE_A_DESVIO = 1.0
 
 # Nombre y unidad que muestra la página (lista "variables" de web/data/sites.json)
 ETIQUETAS = {
     "pendiente_deg": ("Pendiente", "°"),
     "relieve_m": ("Relieve local", "m"),
+    "desvio_m": ("Relieve local", "m"),
     "albedo": ("Albedo", ""),
+    "termica": ("Inercia térmica, percentil (informativa, no puntúa)", ""),
 }
 
 # --- Selección de sitios ---
