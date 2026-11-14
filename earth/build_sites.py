@@ -26,6 +26,7 @@ import argparse
 import datetime as dt
 import json
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
@@ -245,8 +246,9 @@ def main() -> None:
             from thumbs import site_image
 
             print("Imágenes de los sitios ...", flush=True)
-            for site in entry["sites"]:
-                image = site_image(site, out_web)
+            with ThreadPoolExecutor(8) as pool:
+                images = list(pool.map(lambda site: site_image(site, out_web), entry["sites"]))
+            for site, image in zip(entry["sites"], images):
                 if image:
                     site["image"] = image
 

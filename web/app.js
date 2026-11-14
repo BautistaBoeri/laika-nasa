@@ -7,7 +7,7 @@
 // Tiene que coincidir con RAMP, SCALE_MIN y SCALE_MAX de earth/layer.py,
 // porque la capa PNG ya viene pintada con esos colores.
 const RAMP = ['#3b0e00', '#5d1c00', '#822a00', '#a83900', '#cb4e19', '#e96a3a', '#ff8c63', '#ffb9a0', '#ffe0d6'];
-const SCALE_MIN = 0.5;
+const SCALE_MIN = 0.4;
 const SCALE_MAX = 1.0;
 
 const KNOWN_COLOR = '#3987e5';
@@ -194,7 +194,7 @@ function drawLegend(target) {
   $('legend-ramp').style.background = `linear-gradient(to right, ${RAMP.join(', ')})`;
   const ticks = $('legend-ticks');
   ticks.replaceChildren();
-  const steps = 5;
+  const steps = 6;
   for (let i = 0; i <= steps; i++) {
     const value = SCALE_MIN + (SCALE_MAX - SCALE_MIN) * (i / steps);
     const text = (i === 0 && SCALE_MIN > 0 ? '≤ ' : '') + nf(value * 100, { maximumFractionDigits: 0 }) + (i === steps ? ' %' : '');
@@ -339,7 +339,7 @@ function renderList() {
     known.forEach((site) => list.append(siteRow(site)));
     nodes.push(
       el('div', { class: 'list-head' }, el('h3', { text: 'Análogos ya conocidos' }), el('span', { text: 'similitud' })),
-      el('p', { class: 'note', text: 'No entran en la búsqueda. Los medimos después para ver si el método los encuentra.' }),
+      el('p', { class: 'note', text: 'No entran en la búsqueda: los medimos después para ver si el método los encuentra. Su puntaje es el promedio de las celdas que los rodean.' }),
       list);
   }
   if (!fresh.length && !known.length) nodes.push(el('p', { class: 'status', text: 'Este sitio todavía no tiene resultados.' }));
@@ -359,6 +359,7 @@ function renderDetail(site) {
   const hero = el('div', { class: 'hero' },
     el('div', { class: 'label', text: `Similitud con ${target.name}` }),
     el('div', { class: 'value', text: pct(site.score) }));
+  if (site.known) hero.append(el('div', { class: 'rank', text: 'Promedio de las celdas alrededor del punto.' }));
   if (typeof site.percentile === 'number') hero.append(el('div', { class: 'rank', text: percentileText(site.percentile) }));
   nodes.push(hero);
 

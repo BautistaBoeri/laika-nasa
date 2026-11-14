@@ -248,6 +248,6 @@ button, select { font: inherit; color: inherit; }
   .panel { width: 100%; border-left: 0; border-top: 1px solid var(--hairline); overflow: visible; }
   .legend { width: 240px; bottom: 24px; }
   .legend-keys li:last-child { display: none; }
-  .legend-ticks span:nth-last-child(2) { display: none; }
+  .legend-ticks span:nth-child(even) { display: none; }
   .field select { min-width: 9rem; }
 }

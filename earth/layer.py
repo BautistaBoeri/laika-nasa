@@ -23,7 +23,7 @@ SUPER = 2  # cada píxel promedia SUPER x SUPER muestras, para no saltearse celd
 # Escala de color: un solo tono, de oscuro (poco parecido) a claro (muy parecido).
 # web/app.js usa estos mismos valores para la leyenda y los puntos: cambiarlos juntos.
 RAMP = ["#3b0e00", "#5d1c00", "#822a00", "#a83900", "#cb4e19", "#e96a3a", "#ff8c63", "#ffb9a0", "#ffe0d6"]
-SCALE_MIN, SCALE_MAX = 0.5, 1.0
+SCALE_MIN, SCALE_MAX = 0.4, 1.0
 
 
 def palette() -> list[int]:
