@@ -433,9 +433,17 @@ async function start() {
   state.data.targets.forEach((t) => selector.append(el('option', { value: t.id, text: t.name })));
   selector.addEventListener('change', () => setTarget(selector.value));
 
+  setTarget(state.data.targets[0].id);
+  applyHash();
+  window.addEventListener('hashchange', applyHash);
+}
+
+/** Abre el sitio de un enlace del tipo #jezero/-24.1_-66.9. Los enlaces a secciones no hacen nada acá. */
+function applyHash() {
   const [targetId, siteId] = decodeURIComponent(location.hash.slice(1)).split('/');
-  setTarget(siteId ? targetId : state.data.targets[0].id);
-  if (siteId && state.sites.some((s) => s.id === siteId)) select(siteId);
+  if (!siteId || !state.data.targets.some((t) => t.id === targetId)) return;
+  if (state.target.id !== targetId) setTarget(targetId);
+  if (state.sites.some((s) => s.id === siteId)) select(siteId);
 }
 
 start();
