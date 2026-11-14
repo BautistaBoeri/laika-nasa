@@ -1,0 +1,39 @@
+{
+  "targets": [
+    {
+      "id": "jezero",
+      "name": "Cráter Jezero",
+      "lat": 18.44,
+      "lon": 77.45,
+      "radius_km": 25,
+      "values": {
+        "slope": {
+          "mean": 2.612,
+          "std": 2.146
+        },
+        "roughness": {
+          "mean": 56.68,
+          "std": 52.88
+        },
+        "albedo": {
+          "mean": 0.1773,
+          "std": 0.0081
+        }
+      }
+    }
+  ],
+  "mars_global": {
+    "slope": {
+      "mean": 1.764,
+      "std": 2.524
+    },
+    "roughness": {
+      "mean": 39.89,
+      "std": 63.87
+    },
+    "albedo": {
+      "mean": 0.2038,
+      "std": 0.0575
+    }
+  }
+}
