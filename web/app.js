@@ -5,16 +5,14 @@
 // Todos los textos de la interfaz, en un solo lugar (traducir acá).
 const T = {
   locale: 'es-AR',
-  tagline: 'Análogos de Marte en la Tierra, encontrados por datos',
   marsSite: 'Sitio de Marte',
   mapLabel: 'Mapa de lugares de la Tierra parecidos al sitio de Marte',
   layer: 'Capa de similitud',
   layerShort: 'Capa',
   layerMissing: 'La capa de similitud de este sitio todavía no está disponible',
+  satellite: 'Vista satelital',
+  satelliteShort: 'Satélite',
   siteEyebrow: 'El sitio de Marte',
-  how: 'Cómo funciona',
-  limits: 'Límites',
-  peek: 'Cómo funciona y límites',
   hint: 'Tocá un punto para ver por qué se parece',
   hintSub: '{n} lugares de la Tierra, ordenados por similitud con {target}',
   legendTitle: 'Similitud con {target}',
@@ -64,6 +62,12 @@ STEPS.forEach((s, i) => { s.color = css.getPropertyValue(`--sim-${i + 1}`).trim(
 const KNOWN_COLOR = css.getPropertyValue('--known').trim();
 const LAYER_BOUNDS = [[-85, -180], [85, 180]]; // la capa PNG viene en Web Mercator con estos límites
 const WORLD = [[-58, -170], [78, 180]];
+// Vista satelital: Blue Marble de NASA servida por GIBS (sin clave; teselas hasta zoom 8). Necesita internet.
+const SAT_URL = 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_NextGeneration/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg';
+// Nombres de países y mares (data/etiquetas-mapa.json). Cada uno trae el zoom desde el que
+// Natural Earth sugiere mostrarlo; se adelanta LABEL_ZOOM_OFFSET y se descartan los que se pisan.
+const LABEL_ZOOM_OFFSET = 1;
+const LABEL_GAP = 6; // px libres alrededor de cada nombre
 const mobile = window.matchMedia('(max-width: 759px)');
 
 const $ = (id) => document.getElementById(id);
@@ -81,8 +85,9 @@ const value = (v, x) => {
   return !v.unit ? s : v.unit === '°' ? s + '°' : `${s} ${v.unit}`;
 };
 
-const state = { data: null, textos: {}, target: null, selected: null, layerOn: false };
+const state = { data: null, textos: {}, target: null, selected: null, layerOn: false, satellite: false };
 let map, locator, locatorDot, layerOverlay, landGeo, landStyle, markers = new Map();
+let landLayer, borderLayer, satLayer, labels = [];
 
 // ---------- Textos estáticos ----------
 document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = T[el.dataset.t]; });
@@ -99,15 +104,23 @@ async function getJSON(url, optional) {
 async function init() {
   initMap();
   try {
-    const [data, textos, land] = await Promise.all([
+    const [data, textos, land, countries, names] = await Promise.all([
       getJSON('data/sites.json'),
       getJSON('data/textos.json', true).catch(() => null),
-      getJSON('data/land-50m.json', true).catch(() => null)
+      getJSON('data/land-50m.json', true).catch(() => null),
+      getJSON('data/countries-50m.json', true).catch(() => null),
+      getJSON('data/etiquetas-mapa.json', true).catch(() => null)
     ]);
     if (!data?.targets?.length) throw new Error('sites.json sin sitios objetivo');
     state.data = data;
     state.textos = textos || {};
     if (land) drawLand(land);
+    if (countries) drawBorders(countries);
+    if (names) drawLabels(names);
+    const h = new URLSearchParams(location.hash.slice(1));
+    state.satellite = h.get('mapa') === 'satelite';
+    state.layerOn = h.get('capa') === 'similitud';
+    renderBase();
     $('sample-note').textContent = data.sample ? T.sample : data.provisional ? T.provisional : '';
     $('sample-note').hidden = !(data.sample || data.provisional);
     buildChips();
@@ -132,9 +145,18 @@ function initMap() {
   fitLimits();
   map.on('resize', fitLimits);
   map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
-  map.attributionControl.addAttribution('Continentes: <a href="https://www.naturalearthdata.com">Natural Earth</a>');
+  map.attributionControl.addAttribution('Continentes, países y nombres: <a href="https://www.naturalearthdata.com">Natural Earth</a>');
   map.createPane('land').style.zIndex = 250;
+  map.createPane('borders').style.zIndex = 260;
   map.createPane('similarity').style.zIndex = 300;
+  // los nombres van arriba de la capa de similitud, para que se lean, y debajo de los puntos
+  const lp = map.createPane('labels');
+  lp.style.zIndex = 350;
+  lp.style.pointerEvents = 'none';
+  satLayer = L.tileLayer(SAT_URL, {
+    maxNativeZoom: 8, maxZoom: 8, noWrap: true, bounds: [[-85, -180], [85, 180]],
+    attribution: 'Imagen satelital: <a href="https://www.earthdata.nasa.gov/gibs">NASA GIBS</a> · Blue Marble'
+  });
   map.fitBounds(WORLD);
   map.on('click', () => select(null));
 }
@@ -178,7 +200,90 @@ function drawLand(topo) {
   });
   landStyle = { fillColor: css.getPropertyValue('--land').trim(), fillOpacity: 1, color: css.getPropertyValue('--line').trim(), weight: 0.6 };
   landGeo = geo;
-  L.geoJSON(geo, { pane: 'land', interactive: false, style: landStyle, renderer: L.canvas({ pane: 'land' }) }).addTo(map);
+  landLayer = L.geoJSON(geo, { pane: 'land', interactive: false, style: landStyle, renderer: L.canvas({ pane: 'land' }) }).addTo(map);
+}
+
+// Fronteras entre países: solo los tramos compartidos por dos países (la costa ya la dibuja drawLand).
+const borderStyle = () => ({ color: getComputedStyle(document.body).getPropertyValue('--border').trim(), weight: 1, fill: false });
+function drawBorders(topo) {
+  const mesh = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b);
+  borderLayer = L.geoJSON(mesh, { pane: 'borders', interactive: false, style: borderStyle, renderer: L.canvas({ pane: 'borders' }) }).addTo(map);
+}
+
+// Nombres de países y mares
+function drawLabels(names) {
+  const group = L.layerGroup().addTo(map);
+  labels = names.etiquetas
+    .slice()
+    .sort((a, b) => a.z - b.z || (a.mar ? 1 : 0) - (b.mar ? 1 : 0)) // a igual zoom, primero los países
+    .map((e) => {
+      const cls = `map-label${e.mar ? ' sea' : ''}${e.oceano ? ' ocean' : ''}`;
+      const m = L.marker([e.lat, e.lon], {
+        pane: 'labels', interactive: false, keyboard: false,
+        icon: L.divIcon({ className: 'map-label-icon', iconSize: null, html: `<span class="${cls}">${esc(e.n)}</span>` })
+      }).addTo(group);
+      return { ...e, el: m.getElement().firstChild, w: 0, h: 0 };
+    });
+  measureLabels();
+  layoutLabels();
+  map.on('moveend', layoutLabels); // también corre al terminar un zoom
+  // con la tipografía web cargada cambian los anchos
+  document.fonts?.ready.then(() => { measureLabels(); layoutLabels(); });
+}
+
+function measureLabels() {
+  labels.forEach((l) => { l.el.style.visibility = 'hidden'; l.el.style.display = ''; });
+  labels.forEach((l) => { l.w = l.el.offsetWidth; l.h = l.el.offsetHeight; });
+}
+
+// De más importante a menos: se muestra cada nombre si ya le toca por zoom, entra entero a lo ancho
+// en la pantalla y no pisa a uno ya puesto ni a un punto del sitio de Marte elegido.
+function layoutLabels() {
+  if (!labels.length) return;
+  const z = map.getZoom();
+  const view = map.getPixelBounds();
+  const west = Math.max(map.project([0, -180], z).x, view.min.x), east = Math.min(map.project([0, 180], z).x, view.max.x);
+  const placed = (state.target ? target().sites : []).map((s) => {
+    const p = map.project([s.lat, s.lon], z);
+    return { x0: p.x - 10, x1: p.x + 10, y0: p.y - 10, y1: p.y + 10 };
+  });
+  for (const l of labels) {
+    let show = z >= l.z - LABEL_ZOOM_OFFSET;
+    if (show) {
+      const p = map.project([l.lat, l.lon], z);
+      const b = { x0: p.x - l.w / 2 - LABEL_GAP, x1: p.x + l.w / 2 + LABEL_GAP, y0: p.y - l.h / 2 - LABEL_GAP, y1: p.y + l.h / 2 + LABEL_GAP };
+      show = b.x0 >= west && b.x1 <= east && !placed.some((q) => b.x0 < q.x1 && b.x1 > q.x0 && b.y0 < q.y1 && b.y1 > q.y0);
+      if (show) placed.push(b);
+    }
+    l.el.style.display = show ? '' : 'none';
+    l.el.style.visibility = '';
+  }
+}
+
+// Mapa base: oscuro (contorno propio) o satelital (teselas de NASA, con fronteras y nombres encima)
+function renderBase() {
+  const on = state.satellite;
+  $('sat-toggle').setAttribute('aria-pressed', String(on));
+  document.body.classList.toggle('satellite', on);
+  if (on) satLayer.addTo(map); else satLayer.remove();
+  landLayer?.setStyle(on ? { fillOpacity: 0, opacity: 0 } : { fillOpacity: 1, opacity: 1 });
+  borderLayer?.setStyle(borderStyle());
+  layerOverlay?.setOpacity(layerOpacity());
+}
+$('sat-toggle').addEventListener('click', () => {
+  state.satellite = !state.satellite;
+  renderBase();
+  writeHash();
+});
+
+// La URL guarda el estado: #sitio=gale&punto=-21.3_118.8&mapa=satelite&capa=similitud
+function writeHash() {
+  if (!state.target) return;
+  const p = [`sitio=${state.target}`];
+  if (state.selected) p.push(`punto=${state.selected}`);
+  if (state.satellite) p.push('mapa=satelite');
+  if (state.layerOn) p.push('capa=similitud');
+  history.replaceState(null, '', '#' + p.join('&'));
 }
 
 // ---------- Datos derivados ----------
@@ -202,7 +307,7 @@ function setTarget(id, first) {
   const apply = () => {
     state.target = id;
     state.selected = null;
-    if (!first) history.replaceState(null, '', `#sitio=${id}`);
+    if (!first) writeHash();
     renderTarget();
     renderMarkers();
     renderLayer();
@@ -293,6 +398,7 @@ function renderMarkers() {
     el.removeAttribute('title');
     markers.set(s.id, mk);
   });
+  layoutLabels(); // los nombres esquivan los puntos del sitio elegido
 }
 
 // ---------- Capa de similitud ----------
@@ -300,10 +406,31 @@ function renderLayer() {
   const t = target();
   const on = state.layerOn && !!t.layer;
   $('layer-toggle').setAttribute('aria-pressed', String(on));
-  if (layerOverlay) { layerOverlay.remove(); layerOverlay = null; }
-  if (on) layerOverlay = L.imageOverlay(t.layer, LAYER_BOUNDS, { pane: 'similarity', opacity: 0.85 }).addTo(map);
+  document.body.classList.toggle('similarity-on', on);
+  // La capa aparece y desaparece de a poco (la duración es --t-layer, en styles.css).
+  // Al cambiar de sitio de Marte, la vieja se apaga mientras se prende la nueva.
+  const old = layerOverlay;
+  layerOverlay = null;
+  if (old) {
+    old.setOpacity(0);
+    setTimeout(() => old.remove(), LAYER_FADE_MS);
+  }
+  if (on) {
+    const ov = L.imageOverlay(t.layer, LAYER_BOUNDS, { pane: 'similarity', opacity: 0, className: 'sim-layer' }).addTo(map);
+    // Se espera a que la imagen cargue. Leer su tamaño obliga al navegador a registrar la
+    // opacidad 0 antes de cambiarla; si no, salta directo al final sin transición.
+    ov.once('load', () => {
+      if (layerOverlay !== ov) return;
+      ov.getElement().getBoundingClientRect();
+      ov.setOpacity(layerOpacity());
+    });
+    layerOverlay = ov;
+  }
 }
-$('layer-toggle').addEventListener('click', () => { state.layerOn = !state.layerOn; renderLayer(); });
+const LAYER_FADE_MS = parseFloat(css.getPropertyValue('--t-layer')) || 200; // --t-layer en styles.css
+// Sobre la foto satelital la capa va opaca: los desiertos ya son de colores parecidos a la escala.
+const layerOpacity = () => (state.satellite ? 1 : 0.85);
+$('layer-toggle').addEventListener('click', () => { state.layerOn = !state.layerOn; renderLayer(); writeHash(); });
 
 // ---------- Selección y panel ----------
 function select(id) {
@@ -320,7 +447,7 @@ function select(id) {
     el.setAttribute('aria-pressed', 'true');
     markers.get(id).closeTooltip();
   }
-  history.replaceState(null, '', `#sitio=${t.id}${id ? `&punto=${id}` : ''}`);
+  writeHash();
   renderPanel();
   fitLimits();
   if (id) {

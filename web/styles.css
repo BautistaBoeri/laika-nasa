@@ -26,6 +26,12 @@
 
   --known: #7CCBFF;
 
+  /* mapa base: fronteras y nombres de países y mares (en .satellite cambian para leerse sobre la foto) */
+  --border: #7D93C4;
+  --label: #DCE4F2;
+  --label-sea: #7F9BC9;
+  --label-halo: #0A1F4A;
+
   /* similitud, con los colores de Marte: rojo oscuro (no se parece) → blanco (muy parecido).
      Un solo tono con pasos parejos de luminosidad, así el orden se lee también con daltonismo. */
   --sim-1: #BD3B29;  /* < 0.40 */
@@ -47,6 +53,7 @@
 
   --t-fast: 150ms;
   --t-panel: 220ms cubic-bezier(.2,.7,.2,1);
+  --t-layer: 200ms; /* capa de similitud y oscurecido de la foto satelital, juntos */
 
   --header-h: 69px;
   color-scheme: dark;
@@ -96,10 +103,6 @@ button { font: inherit; color: inherit; }
 }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; flex-shrink: 0; }
 .brand-name { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
-.brand-tag {
-  font-size: 14px; color: var(--text-3); white-space: nowrap;
-  padding-left: 10px; border-left: 1px solid var(--line);
-}
 .targets { display: flex; align-items: center; gap: var(--sp-2); margin-left: auto; }
 .targets-label {
   font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
@@ -169,6 +172,39 @@ button { font: inherit; color: inherit; }
   text-align: center; font-size: 16px; color: var(--text-2);
 }
 
+body.satellite {
+  --border: rgba(255, 255, 255, 0.7);
+  --label: #FFFFFF;
+  --label-sea: #CFE0FF;
+  --label-halo: rgba(0, 0, 0, 0.85);
+}
+
+/* La capa de similitud entra y sale de a poco, a la misma velocidad con que se oscurece la foto
+   satelital (--t-layer; app.js lee este valor para saber cuándo sacar la capa vieja).
+   Durante el zoom, la regla de Leaflet para .leaflet-zoom-animated tiene más prioridad y no se pisa. */
+.sim-layer { transition: opacity var(--t-layer) ease-in-out; }
+
+/* Satelital + capa de similitud: para que la escala rojo → blanco no se confunda con los desiertos
+   (ocres) ni con la nieve y las salinas (blancas), la foto se oscurece un poco (sigue a color) y la
+   capa lleva un borde oscuro que la despega del fondo. */
+.leaflet-tile-pane { transition: filter var(--t-layer) ease-in-out; }
+body.satellite.similarity-on .leaflet-tile-pane { filter: brightness(0.6) saturate(0.75); }
+body.satellite.similarity-on .leaflet-similarity-pane {
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 2px rgba(0, 0, 0, 0.7));
+}
+
+/* Nombres de países y mares */
+.map-label-icon { pointer-events: none; }
+.map-label {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  width: max-content; max-width: 8.5em; text-align: center; white-space: normal;
+  font: 600 11px/1.15 var(--font-sans); color: var(--label);
+  text-shadow: 0 0 3px var(--label-halo), 0 0 2px var(--label-halo), 0 0 1px var(--label-halo);
+  user-select: none;
+}
+.map-label.sea { font-weight: 500; font-style: italic; color: var(--label-sea); }
+.map-label.ocean { font-size: 13px; letter-spacing: 0.04em; max-width: 12em; }
+
 /* Puntos */
 .pt { background: none; border: 0; }
 .pt-hit {
@@ -223,11 +259,16 @@ button { font: inherit; color: inherit; }
 .screen.open .hint { opacity: 0; pointer-events: none; }
 
 /* Tarjeta de Marte y leyenda */
+/* Tarjeta del sitio de Marte abajo a la izquierda y leyenda abajo a la derecha.
+   El espacio del medio deja pasar los clics al mapa. */
 .dock {
-  position: absolute; left: 24px; bottom: 24px; z-index: 800;
-  display: flex; gap: var(--sp-3); align-items: flex-end;
+  position: absolute; left: 24px; right: 24px; bottom: 24px; z-index: 800;
+  display: flex; gap: var(--sp-3); align-items: flex-end; justify-content: space-between;
+  pointer-events: none;
   transition: opacity 200ms;
 }
+.dock > * { pointer-events: auto; transition: opacity 200ms; }
+.screen.open .dock .legend { opacity: 0; pointer-events: none; } /* el panel de detalle ocupa ese lado */
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l); }
 .target-card { display: flex; gap: var(--sp-4); align-items: flex-start; width: 360px; padding: 16px; }
 .globe { width: 72px; height: 72px; flex-shrink: 0; }
@@ -243,15 +284,6 @@ button { font: inherit; color: inherit; }
 .legend-step span:last-child { font: 500 12px var(--font-mono); color: var(--text-3); white-space: nowrap; }
 .legend-known { display: flex; align-items: center; gap: 10px; padding-top: 2px; font-size: 13px; color: var(--text-2); }
 
-.peek {
-  position: absolute; bottom: 20px; right: 24px; z-index: 800;
-  display: flex; align-items: center; gap: 8px;
-  font-size: 14px; text-decoration: none;
-  padding: 10px 14px; border-radius: 999px;
-  border: 1px solid var(--line); background: var(--surface);
-  transition: opacity 200ms;
-}
-.screen.open .peek { opacity: 0; pointer-events: none; }
 
 /* ---------- Panel de detalle ---------- */
 .panel {
@@ -399,11 +431,9 @@ button { font: inherit; color: inherit; }
   margin: 0; padding-top: var(--sp-5); border-top: 1px solid var(--page-line);
   font-size: 14px; color: var(--text-3);
 }
+.footer-team { margin: 0; font-size: 14px; color: var(--text-2); }
 
 /* ---------- Pantallas medianas ---------- */
-@media (max-width: 1500px) {
-  .brand-tag { display: none; }
-}
 @media (max-width: 1040px) {
   .targets-label, .top-nav { display: none; }
 }
@@ -413,7 +443,7 @@ button { font: inherit; color: inherit; }
   :root { --header-h: 109px; }
   .top-row { height: auto; flex-wrap: wrap; gap: 0 var(--sp-3); padding: 8px 12px 10px; }
   .brand { height: 40px; }
-  .brand-tag, .top-nav, .targets-label { display: none; }
+  .top-nav, .targets-label { display: none; }
   .top-tools { margin-left: auto; }
   .switch-long { display: none; }
   .switch-short { display: inline; }
@@ -434,7 +464,6 @@ button { font: inherit; color: inherit; }
   .legend-steps { width: 100%; }
   .legend-step { flex: 1; width: auto; }
   .screen.open .dock { opacity: 0; pointer-events: none; }
-  .peek { display: none; }
 
   .panel {
     top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 74%;
