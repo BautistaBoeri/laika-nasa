@@ -6,7 +6,7 @@
   "section": {
    "title": "Cráter Jezero: un lago que se secó hace miles de millones de años",
    "paragraphs": [
-    "Jezero es un cráter de impacto de 45 km de diámetro en el borde oeste de Isidis Planitia. Hace unos 3.500 millones de años guardó un lago, y un río que entraba por el oeste dejó un delta en forma de abanico, con arcillas y carbonatos que se forman en presencia de agua.",
+    "Jezero es un cráter de impacto de 45 km de diámetro en el borde oeste de Isidis Planitia. Hace unos 3.700 millones de años guardó un lago, y un río que entraba por el oeste dejó un delta en forma de abanico, con arcillas y carbonatos que se forman en presencia de agua.",
     "Por eso la NASA lo eligió para el rover Perseverance, que aterrizó ahí el 18 de febrero de 2021: los sedimentos de un lago son de los mejores lugares para buscar rastros de vida antigua. El rover junta muestras de roca que una misión futura podría traer a la Tierra.",
     "Su nombre viene de un pueblo de Bosnia y Herzegovina, y en varias lenguas eslavas «jezero» significa «lago»."
    ],
@@ -25,7 +25,7 @@
     },
     {
      "label": "El lago",
-     "value": "≈ 3.500",
+     "value": "≈ 3.700",
      "text": "millones de años atrás, cuando Marte tenía agua líquida en la superficie."
     },
     {
@@ -37,6 +37,20 @@
      "label": "Ubicación",
      "value": "18,4° N",
      "text": "77,5° E, en el borde oeste de la cuenca de Isidis Planitia."
+    }
+   ],
+   "sources": [
+    {
+     "label": "NASA Photojournal PIA23239",
+     "url": "https://science.nasa.gov/photojournal/jezero-crater-mars-2020s-landing-site/"
+    },
+    {
+     "label": "NASA/JPL: historia del lago de Jezero",
+     "url": "https://www.jpl.nasa.gov/news/nasas-perseverance-rover-deciphers-ancient-history-of-martian-lake"
+    },
+    {
+     "label": "Mangold y otros, Science 2021",
+     "url": "https://doi.org/10.1126/science.abl4051"
     }
    ]
   }
@@ -54,10 +68,10 @@
    ],
    "image": {
     "src": "img/gale-pia15292.jpg",
-    "width": 2560,
-    "height": 1440,
+    "width": 1680,
+    "height": 805,
     "alt": "Vista oblicua del cráter Gale: un cráter redondo con una montaña ancha en el centro; una elipse marca la zona de aterrizaje al pie de la montaña.",
-    "caption": "El cráter Gale con el monte Sharp en el centro, en una vista armada con datos de tres orbitadores. La elipse marca la zona prevista de aterrizaje de Curiosity y la línea azul, una ruta posible de subida. Imagen: NASA/JPL-Caltech/ESA/DLR/FU Berlin/MSSS (PIA15292)."
+    "caption": "El cráter Gale con el monte Sharp en el centro, en una vista armada con datos de tres orbitadores. La elipse marca la zona prevista de aterrizaje de Curiosity y la línea azul, una ruta posible de subida. Imagen recortada: NASA/JPL-Caltech/ESA/DLR/FU Berlin/MSSS (PIA15292)."
    },
    "facts": [
     {
@@ -80,13 +94,23 @@
      "value": "4,6° S",
      "text": "137,4° E, casi sobre el ecuador de Marte."
     }
+   ],
+   "sources": [
+    {
+     "label": "NASA Photojournal PIA15292",
+     "url": "https://science.nasa.gov/photojournal/mount-sharp-inside-gale-crater-mars"
+    },
+    {
+     "label": "Wikipedia: Gale (crater)",
+     "url": "https://en.wikipedia.org/wiki/Gale_(crater)"
+    }
    ]
   }
  },
  "arcadia": {
   "region": "Hemisferio norte",
-  "blurb": "Llanura volcánica con hielo cerca de la superficie. Candidata para misiones tripuladas.",
-  "mission": "Candidato a misión tripulada",
+  "blurb": "Llanura del hemisferio norte con hielo de agua bajo la superficie.",
+  "mission": "En estudio para futuros aterrizajes humanos",
   "section": {
    "title": "Arcadia Planitia: una llanura con hielo bajo la superficie",
    "paragraphs": [
@@ -121,6 +145,16 @@
      "label": "Ubicación",
      "value": "47,0° N",
      "text": "176,0° O: el punto de la llanura que usamos para comparar."
+    }
+   ],
+   "sources": [
+    {
+     "label": "NASA/JPL PIA26321",
+     "url": "https://www.jpl.nasa.gov/images/pia26321-mars-mysteries-unveiling-the-icy-craters/"
+    },
+    {
+     "label": "Bramson y otros 2015",
+     "url": "https://arxiv.org/abs/1509.03210"
     }
    ]
   }
