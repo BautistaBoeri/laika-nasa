@@ -31,6 +31,7 @@ ALBEDO_CADA_DIAS = 8      # el producto es diario pero cada imagen ya resume 16 
 NDVI_DESDE, NDVI_HASTA = "2022-01-01", "2024-01-01"
 COBERTURA_ANIO = 2022    # año del mapa de cobertura (MCD12Q1)
 TEMP_DESDE, TEMP_HASTA = "2022-01-01", "2024-01-01"   # segunda tanda
+ARIDEZ_DESDE, ARIDEZ_HASTA = "1991-01-01", "2021-01-01"   # normal climática de 30 años
 
 NODATA = -9999.0
 
@@ -45,7 +46,22 @@ HIELO_MAX = 0.10      # fracción máxima de hielo permanente dentro de la celda
 # desvio_m (medir_extra.py) es el desvío estándar de la elevación en la celda, la
 # misma definición de "roughness" que usa Marte. La alternativa vieja es relieve_m
 # (máximo - mínimo) dividido por RELIEVE_A_DESVIO.
-VARIABLES = ["pendiente_deg", "desvio_m", "albedo"]
+#
+# Desde el 15/11 se suman tres (medir_extra.py baja "aridez"; las otras dos se
+# calculan en puntuar.py). Para volver al ranking de tres variables alcanza con
+# dejar solo las tres primeras.
+#   pendiente_var, desvio_var   desvío de pendiente_deg y desvio_m entre las celdas
+#                               del círculo de SUAVIZADO_KM. Marte: el "std" del sitio.
+#   aridez                      lluvia / evapotranspiración potencial (TerraClimate)
+VARIABLES = ["pendiente_deg", "desvio_m", "albedo",
+             "pendiente_var", "desvio_var", "aridez"]
+
+# Variables que son el desvío de otra dentro del círculo: {variable: de cuál}.
+DISPERSION = {"pendiente_var": "pendiente_deg", "desvio_var": "desvio_m"}
+
+# Variables que Marte no mide en targets.json: valor fijo para todos los sitios.
+# Aridez 0 = no llueve nada.
+VALOR_EN_MARTE = {"aridez": 0.0}
 
 # Variables informativas: se calculan y se guardan en cada sitio de sites.json junto
 # con el valor de Marte, pero con peso 0: no cambian score ni ranking.
@@ -61,7 +77,7 @@ INFORMATIVAS = ["termica"]
 TERMICA_AMPLITUD_MIN_C = 1.0   # con menos diferencia día-noche el cociente no es confiable
 
 PESOS = {"pendiente_deg": 1.0, "relieve_m": 1.0, "desvio_m": 1.0, "albedo": 1.0,
-         "termica": 1.0}
+         "termica": 1.0, "pendiente_var": 1.0, "desvio_var": 1.0, "aridez": 1.0}
 
 # De dónde salió el mars/targets.json que hay en disco. puntuar.py guarda esta línea
 # en parametros_usados.json junto con el sha256 del archivo (calculado con fin de
@@ -71,12 +87,17 @@ TARGETS_ORIGEN = ("con seguimiento en git, traído de main (merge fab0bff); "
 
 # Cómo se llama cada variable nuestra en mars/targets.json
 NOMBRE_EN_MARTE = {"pendiente_deg": "slope", "relieve_m": "roughness",
-                   "desvio_m": "roughness", "albedo": "albedo", "termica": "thermal"}
+                   "desvio_m": "roughness", "albedo": "albedo", "termica": "thermal",
+                   "pendiente_var": "slope_std", "desvio_var": "roughness_std",
+                   "aridez": "aridity"}
 
 # Tolerancia (sigma) de la similitud. Por defecto es el desvío global de Marte que
-# trae targets.json; acá van las variables que usan una propia. Para un percentil
-# el desvío global es 0,29 (distribución uniforme) y casi no discrimina.
-SIGMA_PROPIA = {"termica": 0.15}
+# trae targets.json (para una de DISPERSION, el de su variable de origen); acá van
+# las variables que usan una propia. Para un percentil el desvío global es 0,29
+# (distribución uniforme) y casi no discrimina.
+# Aridez: 0,05 es el límite de "hiperárido" (UNEP); ahí el puntaje vale 0,61, lo
+# mismo que estar a 1 desvío del sitio marciano en las otras variables.
+SIGMA_PROPIA = {"termica": 0.15, "aridez": 0.05}
 
 # mars/targets.json define "roughness" como el DESVÍO ESTÁNDAR de la elevación en
 # la celda; nuestro relieve_m es máximo - mínimo. puntuar.py divide relieve_m por
@@ -93,6 +114,9 @@ ETIQUETAS = {
     "desvio_m": ("Relieve local", "m"),
     "albedo": ("Albedo", ""),
     "termica": ("Inercia térmica, percentil (informativa, no puntúa)", ""),
+    "pendiente_var": ("Variación de la pendiente", "°"),
+    "desvio_var": ("Variación del relieve local", "m"),
+    "aridez": ("Aridez (lluvia / evaporación potencial)", ""),
 }
 
 # --- Selección de sitios ---

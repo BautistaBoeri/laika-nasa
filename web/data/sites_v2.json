@@ -1,0 +1,2424 @@
+{
+  "generated": "2026-11-15T12:56:17-03:00",
+  "variables": [
+    {
+      "id": "slope",
+      "label": "Pendiente",
+      "unit": "°"
+    },
+    {
+      "id": "roughness",
+      "label": "Relieve local",
+      "unit": "m"
+    },
+    {
+      "id": "albedo",
+      "label": "Albedo",
+      "unit": ""
+    },
+    {
+      "id": "slope_std",
+      "label": "Variación de la pendiente",
+      "unit": "°"
+    },
+    {
+      "id": "roughness_std",
+      "label": "Variación del relieve local",
+      "unit": "m"
+    },
+    {
+      "id": "aridity",
+      "label": "Aridez (lluvia / evaporación potencial)",
+      "unit": ""
+    },
+    {
+      "id": "thermal",
+      "label": "Inercia térmica, percentil (informativa, no puntúa)",
+      "unit": "",
+      "informative": true
+    }
+  ],
+  "targets": [
+    {
+      "id": "jezero",
+      "name": "Cráter Jezero",
+      "lat": 18.4447,
+      "lon": 77.4508,
+      "values": {
+        "slope": 2.6632,
+        "roughness": 57.7288,
+        "albedo": 0.1773,
+        "slope_std": 2.2382,
+        "roughness_std": 51.9114,
+        "aridity": 0.0,
+        "thermal": 0.8726
+      },
+      "layer": "data/similarity_jezero_v2.png",
+      "sites": [
+        {
+          "id": "25.8_34.0",
+          "lat": 25.825,
+          "lon": 33.975,
+          "known": false,
+          "score": 0.9521,
+          "variables": {
+            "slope": {
+              "score": 0.9038,
+              "earth": 2.5331
+            },
+            "roughness": {
+              "score": 0.8955,
+              "earth": 42.8932
+            },
+            "albedo": {
+              "score": 0.9671,
+              "earth": 0.1698
+            },
+            "slope_std": {
+              "score": 0.9819,
+              "earth": 1.7498
+            },
+            "roughness_std": {
+              "score": 0.9662,
+              "earth": 35.2167
+            },
+            "aridity": {
+              "score": 0.9982,
+              "earth": 0.0028
+            },
+            "thermal": {
+              "score": 0.9534,
+              "earth": 0.8683
+            }
+          },
+          "rank": 1,
+          "percentile": 100.0,
+          "elevation_m": 509.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "26.1_9.0",
+          "lat": 26.125,
+          "lon": 8.975,
+          "known": false,
+          "score": 0.9407,
+          "variables": {
+            "slope": {
+              "score": 0.8543,
+              "earth": 3.252
+            },
+            "roughness": {
+              "score": 0.8641,
+              "earth": 46.6959
+            },
+            "albedo": {
+              "score": 0.9784,
+              "earth": 0.1843
+            },
+            "slope_std": {
+              "score": 0.9975,
+              "earth": 2.0572
+            },
+            "roughness_std": {
+              "score": 0.9697,
+              "earth": 36.0977
+            },
+            "aridity": {
+              "score": 0.9803,
+              "earth": 0.0099
+            },
+            "thermal": {
+              "score": 0.84,
+              "earth": 0.9606
+            }
+          },
+          "rank": 2,
+          "percentile": 100.0,
+          "elevation_m": 906.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "19.7_18.8",
+          "lat": 19.675,
+          "lon": 18.825,
+          "known": false,
+          "score": 0.9378,
+          "variables": {
+            "slope": {
+              "score": 0.8632,
+              "earth": 2.7059
+            },
+            "roughness": {
+              "score": 0.8573,
+              "earth": 54.6202
+            },
+            "albedo": {
+              "score": 0.9601,
+              "earth": 0.1883
+            },
+            "slope_std": {
+              "score": 0.9748,
+              "earth": 1.6612
+            },
+            "roughness_std": {
+              "score": 0.9954,
+              "earth": 45.8229
+            },
+            "aridity": {
+              "score": 0.9758,
+              "earth": 0.0096
+            },
+            "thermal": {
+              "score": 0.8906,
+              "earth": 0.87
+            }
+          },
+          "rank": 3,
+          "percentile": 99.99,
+          "elevation_m": 836.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-19.7_-69.6",
+          "lat": -19.675,
+          "lon": -69.575,
+          "known": false,
+          "score": 0.9346,
+          "variables": {
+            "slope": {
+              "score": 0.831,
+              "earth": 2.7622
+            },
+            "roughness": {
+              "score": 0.8965,
+              "earth": 59.0416
+            },
+            "albedo": {
+              "score": 0.9438,
+              "earth": 0.1757
+            },
+            "slope_std": {
+              "score": 0.9944,
+              "earth": 1.967
+            },
+            "roughness_std": {
+              "score": 0.9732,
+              "earth": 37.0542
+            },
+            "aridity": {
+              "score": 0.9687,
+              "earth": 0.0109
+            },
+            "thermal": {
+              "score": 0.0009,
+              "earth": 0.0909
+            }
+          },
+          "rank": 4,
+          "percentile": 99.97,
+          "elevation_m": 1654.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "26.7_5.9",
+          "lat": 26.725,
+          "lon": 5.925,
+          "known": false,
+          "score": 0.9247,
+          "variables": {
+            "slope": {
+              "score": 0.7434,
+              "earth": 3.8565
+            },
+            "roughness": {
+              "score": 0.9047,
+              "earth": 60.5624
+            },
+            "albedo": {
+              "score": 0.9645,
+              "earth": 0.1852
+            },
+            "slope_std": {
+              "score": 0.9879,
+              "earth": 1.8401
+            },
+            "roughness_std": {
+              "score": 0.952,
+              "earth": 31.9336
+            },
+            "aridity": {
+              "score": 0.9957,
+              "earth": 0.0044
+            },
+            "thermal": {
+              "score": 0.8813,
+              "earth": 0.8794
+            }
+          },
+          "rank": 5,
+          "percentile": 99.91,
+          "elevation_m": 905.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "22.0_35.8",
+          "lat": 22.025,
+          "lon": 35.775,
+          "known": false,
+          "score": 0.9236,
+          "variables": {
+            "slope": {
+              "score": 0.8444,
+              "earth": 3.2214
+            },
+            "roughness": {
+              "score": 0.902,
+              "earth": 56.5828
+            },
+            "albedo": {
+              "score": 0.8333,
+              "earth": 0.1795
+            },
+            "slope_std": {
+              "score": 0.9999,
+              "earth": 2.2757
+            },
+            "roughness_std": {
+              "score": 0.9988,
+              "earth": 48.7854
+            },
+            "aridity": {
+              "score": 0.9634,
+              "earth": 0.0134
+            },
+            "thermal": {
+              "score": 0.8272,
+              "earth": 0.8728
+            }
+          },
+          "rank": 6,
+          "percentile": 99.9,
+          "elevation_m": 522.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "23.1_18.7",
+          "lat": 23.125,
+          "lon": 18.675,
+          "known": false,
+          "score": 0.9208,
+          "variables": {
+            "slope": {
+              "score": 0.8883,
+              "earth": 2.5783
+            },
+            "roughness": {
+              "score": 0.9252,
+              "earth": 43.1062
+            },
+            "albedo": {
+              "score": 0.9013,
+              "earth": 0.1814
+            },
+            "slope_std": {
+              "score": 0.9301,
+              "earth": 1.2665
+            },
+            "roughness_std": {
+              "score": 0.8894,
+              "earth": 21.0681
+            },
+            "aridity": {
+              "score": 0.9906,
+              "earth": 0.0063
+            },
+            "thermal": {
+              "score": 0.761,
+              "earth": 0.7724
+            }
+          },
+          "rank": 7,
+          "percentile": 99.87,
+          "elevation_m": 866.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "29.2_61.6",
+          "lat": 29.225,
+          "lon": 61.625,
+          "known": false,
+          "score": 0.9185,
+          "variables": {
+            "slope": {
+              "score": 0.8167,
+              "earth": 2.4944
+            },
+            "roughness": {
+              "score": 0.8794,
+              "earth": 48.0883
+            },
+            "albedo": {
+              "score": 0.9688,
+              "earth": 0.1787
+            },
+            "slope_std": {
+              "score": 0.9929,
+              "earth": 1.9325
+            },
+            "roughness_std": {
+              "score": 0.9616,
+              "earth": 34.0746
+            },
+            "aridity": {
+              "score": 0.8918,
+              "earth": 0.0238
+            },
+            "thermal": {
+              "score": 0.525,
+              "earth": 0.6947
+            }
+          },
+          "rank": 8,
+          "percentile": 99.84,
+          "elevation_m": 963.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "25.4_38.8",
+          "lat": 25.375,
+          "lon": 38.775,
+          "known": false,
+          "score": 0.9153,
+          "variables": {
+            "slope": {
+              "score": 0.8367,
+              "earth": 2.8219
+            },
+            "roughness": {
+              "score": 0.8639,
+              "earth": 50.9152
+            },
+            "albedo": {
+              "score": 0.9028,
+              "earth": 0.1669
+            },
+            "slope_std": {
+              "score": 0.9883,
+              "earth": 1.8464
+            },
+            "roughness_std": {
+              "score": 0.9697,
+              "earth": 36.1201
+            },
+            "aridity": {
+              "score": 0.9301,
+              "earth": 0.0189
+            },
+            "thermal": {
+              "score": 0.7085,
+              "earth": 0.7896
+            }
+          },
+          "rank": 9,
+          "percentile": 99.81,
+          "elevation_m": 385.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "27.8_36.8",
+          "lat": 27.825,
+          "lon": 36.825,
+          "known": false,
+          "score": 0.9127,
+          "variables": {
+            "slope": {
+              "score": 0.9107,
+              "earth": 3.2037
+            },
+            "roughness": {
+              "score": 0.9301,
+              "earth": 49.7066
+            },
+            "albedo": {
+              "score": 0.9103,
+              "earth": 0.1823
+            },
+            "slope_std": {
+              "score": 0.9457,
+              "earth": 1.3848
+            },
+            "roughness_std": {
+              "score": 0.936,
+              "earth": 28.7328
+            },
+            "aridity": {
+              "score": 0.8438,
+              "earth": 0.0288
+            },
+            "thermal": {
+              "score": 0.9556,
+              "earth": 0.9038
+            }
+          },
+          "rank": 10,
+          "percentile": 99.78,
+          "elevation_m": 1243.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "42.4_89.6",
+          "lat": 42.425,
+          "lon": 89.625,
+          "known": false,
+          "score": 0.9101,
+          "variables": {
+            "slope": {
+              "score": 0.8967,
+              "earth": 1.8804
+            },
+            "roughness": {
+              "score": 0.9039,
+              "earth": 41.9633
+            },
+            "albedo": {
+              "score": 0.9202,
+              "earth": 0.1734
+            },
+            "slope_std": {
+              "score": 0.8846,
+              "earth": 0.9737
+            },
+            "roughness_std": {
+              "score": 0.9142,
+              "earth": 24.9349
+            },
+            "aridity": {
+              "score": 0.9409,
+              "earth": 0.0161
+            },
+            "thermal": {
+              "score": 0.4185,
+              "earth": 0.6279
+            }
+          },
+          "rank": 11,
+          "percentile": 99.75,
+          "elevation_m": 349.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "24.8_2.7",
+          "lat": 24.775,
+          "lon": 2.675,
+          "known": false,
+          "score": 0.9078,
+          "variables": {
+            "slope": {
+              "score": 0.823,
+              "earth": 2.5614
+            },
+            "roughness": {
+              "score": 0.8459,
+              "earth": 46.317
+            },
+            "albedo": {
+              "score": 0.8012,
+              "earth": 0.2113
+            },
+            "slope_std": {
+              "score": 0.9981,
+              "earth": 2.08
+            },
+            "roughness_std": {
+              "score": 0.9804,
+              "earth": 39.2395
+            },
+            "aridity": {
+              "score": 0.9983,
+              "earth": 0.0029
+            },
+            "thermal": {
+              "score": 0.7814,
+              "earth": 0.8231
+            }
+          },
+          "rank": 12,
+          "percentile": 99.71,
+          "elevation_m": 480.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-26.8_-70.0",
+          "lat": -26.825,
+          "lon": -69.975,
+          "known": false,
+          "score": 0.9069,
+          "variables": {
+            "slope": {
+              "score": 0.7296,
+              "earth": 4.4112
+            },
+            "roughness": {
+              "score": 0.8178,
+              "earth": 89.8196
+            },
+            "albedo": {
+              "score": 0.9388,
+              "earth": 0.1793
+            },
+            "slope_std": {
+              "score": 0.986,
+              "earth": 1.8098
+            },
+            "roughness_std": {
+              "score": 0.9737,
+              "earth": 37.2147
+            },
+            "aridity": {
+              "score": 0.9956,
+              "earth": 0.0046
+            },
+            "thermal": {
+              "score": 0.0628,
+              "earth": 0.2672
+            }
+          },
+          "rank": 13,
+          "percentile": 99.69,
+          "elevation_m": 1922.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "23.6_7.6",
+          "lat": 23.625,
+          "lon": 7.625,
+          "known": false,
+          "score": 0.902,
+          "variables": {
+            "slope": {
+              "score": 0.8705,
+              "earth": 2.666
+            },
+            "roughness": {
+              "score": 0.8813,
+              "earth": 45.9987
+            },
+            "albedo": {
+              "score": 0.7786,
+              "earth": 0.2167
+            },
+            "slope_std": {
+              "score": 0.9647,
+              "earth": 1.5537
+            },
+            "roughness_std": {
+              "score": 0.9523,
+              "earth": 32.0037
+            },
+            "aridity": {
+              "score": 0.9643,
+              "earth": 0.0134
+            },
+            "thermal": {
+              "score": 0.6147,
+              "earth": 0.7313
+            }
+          },
+          "rank": 14,
+          "percentile": 99.6,
+          "elevation_m": 1375.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "21.5_16.1",
+          "lat": 21.525,
+          "lon": 16.075,
+          "known": false,
+          "score": 0.8956,
+          "variables": {
+            "slope": {
+              "score": 0.8647,
+              "earth": 3.294
+            },
+            "roughness": {
+              "score": 0.9432,
+              "earth": 51.1011
+            },
+            "albedo": {
+              "score": 0.8575,
+              "earth": 0.205
+            },
+            "slope_std": {
+              "score": 0.9477,
+              "earth": 1.4012
+            },
+            "roughness_std": {
+              "score": 0.8899,
+              "earth": 21.1368
+            },
+            "aridity": {
+              "score": 0.8709,
+              "earth": 0.0261
+            },
+            "thermal": {
+              "score": 0.901,
+              "earth": 0.9353
+            }
+          },
+          "rank": 15,
+          "percentile": 99.46,
+          "elevation_m": 996.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-23.9_-70.1",
+          "lat": -23.925,
+          "lon": -70.075,
+          "known": true,
+          "score": 0.8856,
+          "variables": {
+            "slope": {
+              "score": 0.8374,
+              "earth": 3.7059
+            },
+            "roughness": {
+              "score": 0.8716,
+              "earth": 76.874
+            },
+            "albedo": {
+              "score": 0.7122,
+              "earth": 0.2219
+            },
+            "slope_std": {
+              "score": 0.9493,
+              "earth": 1.4146
+            },
+            "roughness_std": {
+              "score": 0.9432,
+              "earth": 30.1289
+            },
+            "aridity": {
+              "score": 1.0,
+              "earth": 0.0
+            },
+            "thermal": {
+              "score": 0.0,
+              "earth": 0.0474
+            }
+          },
+          "rank": null,
+          "percentile": 98.84,
+          "elevation_m": 1271.0,
+          "valid_frac": 1.0,
+          "name": "Desierto de Atacama (Yungay)"
+        },
+        {
+          "id": "75.4_-90.4",
+          "lat": 75.425,
+          "lon": -90.425,
+          "known": true,
+          "score": 0.5855,
+          "variables": {
+            "slope": {
+              "score": 0.9285,
+              "earth": 2.1557
+            },
+            "roughness": {
+              "score": 0.8519,
+              "earth": 25.8396
+            },
+            "albedo": {
+              "score": 0.0,
+              "earth": 0.6593
+            },
+            "slope_std": {
+              "score": 0.8682,
+              "earth": 0.8808
+            },
+            "roughness_std": {
+              "score": 0.8642,
+              "earth": 17.4992
+            },
+            "aridity": {
+              "score": 0.0,
+              "earth": 2.2217
+            },
+            "thermal": {
+              "score": 0.7178,
+              "earth": 0.9948
+            }
+          },
+          "rank": null,
+          "percentile": 17.05,
+          "elevation_m": 300.0,
+          "valid_frac": 0.26,
+          "name": "Cráter Haughton",
+          "note": "Latitud mayor a 60°: el relieve está subestimado por el ancho de la celda"
+        },
+        {
+          "id": "36.6_-116.8",
+          "lat": 36.625,
+          "lon": -116.775,
+          "known": true,
+          "score": 0.767,
+          "variables": {
+            "slope": {
+              "score": 0.6019,
+              "earth": 4.4643
+            },
+            "roughness": {
+              "score": 0.6478,
+              "earth": 98.6805
+            },
+            "albedo": {
+              "score": 0.8701,
+              "earth": 0.1956
+            },
+            "slope_std": {
+              "score": 0.8729,
+              "earth": 3.5694
+            },
+            "roughness_std": {
+              "score": 0.9125,
+              "earth": 79.1689
+            },
+            "aridity": {
+              "score": 0.6966,
+              "earth": 0.0419
+            },
+            "thermal": {
+              "score": 0.6458,
+              "earth": 0.732
+            }
+          },
+          "rank": null,
+          "percentile": 86.27,
+          "elevation_m": 936.0,
+          "valid_frac": 0.81,
+          "name": "Death Valley"
+        }
+      ],
+      "known_unscored": [
+        {
+          "name": "Río Tinto",
+          "lat": 37.72,
+          "lon": -6.55,
+          "note": "enmascarado"
+        }
+      ]
+    },
+    {
+      "id": "gale",
+      "name": "Cráter Gale",
+      "lat": -4.5895,
+      "lon": 137.4417,
+      "values": {
+        "slope": 5.9598,
+        "roughness": 155.0097,
+        "albedo": 0.2339,
+        "slope_std": 4.947,
+        "roughness_std": 133.1115,
+        "aridity": 0.0,
+        "thermal": 0.838
+      },
+      "layer": "data/similarity_gale_v2.png",
+      "sites": [
+        {
+          "id": "-16.9_-71.4",
+          "lat": -16.925,
+          "lon": -71.425,
+          "known": false,
+          "score": 0.8006,
+          "variables": {
+            "slope": {
+              "score": 0.5603,
+              "earth": 7.5461
+            },
+            "roughness": {
+              "score": 0.6314,
+              "earth": 147.0328
+            },
+            "albedo": {
+              "score": 0.9273,
+              "earth": 0.2186
+            },
+            "slope_std": {
+              "score": 0.9483,
+              "earth": 4.1148
+            },
+            "roughness_std": {
+              "score": 0.7849,
+              "earth": 88.7768
+            },
+            "aridity": {
+              "score": 0.9515,
+              "earth": 0.0124
+            },
+            "thermal": {
+              "score": 0.0373,
+              "earth": 0.1236
+            }
+          },
+          "rank": 1,
+          "percentile": 100.0,
+          "elevation_m": 1396.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "27.7_35.8",
+          "lat": 27.675,
+          "lon": 35.825,
+          "known": false,
+          "score": 0.7482,
+          "variables": {
+            "slope": {
+              "score": 0.4854,
+              "earth": 6.6997
+            },
+            "roughness": {
+              "score": 0.4675,
+              "earth": 124.2274
+            },
+            "albedo": {
+              "score": 0.6564,
+              "earth": 0.1895
+            },
+            "slope_std": {
+              "score": 0.9945,
+              "earth": 4.6783
+            },
+            "roughness_std": {
+              "score": 0.9014,
+              "earth": 104.0807
+            },
+            "aridity": {
+              "score": 0.9841,
+              "earth": 0.0078
+            },
+            "thermal": {
+              "score": 0.7684,
+              "earth": 0.8842
+            }
+          },
+          "rank": 2,
+          "percentile": 99.99,
+          "elevation_m": 560.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "21.2_18.8",
+          "lat": 21.225,
+          "lon": 18.825,
+          "known": false,
+          "score": 0.7335,
+          "variables": {
+            "slope": {
+              "score": 0.5442,
+              "earth": 6.6772
+            },
+            "roughness": {
+              "score": 0.5086,
+              "earth": 122.1526
+            },
+            "albedo": {
+              "score": 0.7414,
+              "earth": 0.2176
+            },
+            "slope_std": {
+              "score": 0.9495,
+              "earth": 4.1255
+            },
+            "roughness_std": {
+              "score": 0.7355,
+              "earth": 83.1797
+            },
+            "aridity": {
+              "score": 0.9218,
+              "earth": 0.0176
+            },
+            "thermal": {
+              "score": 0.7566,
+              "earth": 0.9014
+            }
+          },
+          "rank": 3,
+          "percentile": 99.97,
+          "elevation_m": 1224.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-19.3_-70.0",
+          "lat": -19.275,
+          "lon": -70.025,
+          "known": false,
+          "score": 0.7256,
+          "variables": {
+            "slope": {
+              "score": 0.4947,
+              "earth": 5.3677
+            },
+            "roughness": {
+              "score": 0.4511,
+              "earth": 117.1838
+            },
+            "albedo": {
+              "score": 0.6891,
+              "earth": 0.1883
+            },
+            "slope_std": {
+              "score": 0.9186,
+              "earth": 3.8951
+            },
+            "roughness_std": {
+              "score": 0.8006,
+              "earth": 90.6228
+            },
+            "aridity": {
+              "score": 0.9996,
+              "earth": 0.001
+            },
+            "thermal": {
+              "score": 0.0398,
+              "earth": 0.0966
+            }
+          },
+          "rank": 4,
+          "percentile": 99.95,
+          "elevation_m": 1171.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "39.2_92.9",
+          "lat": 39.175,
+          "lon": 92.875,
+          "known": false,
+          "score": 0.7171,
+          "variables": {
+            "slope": {
+              "score": 0.4814,
+              "earth": 6.6658
+            },
+            "roughness": {
+              "score": 0.5721,
+              "earth": 127.4377
+            },
+            "albedo": {
+              "score": 0.8995,
+              "earth": 0.234
+            },
+            "slope_std": {
+              "score": 0.9877,
+              "earth": 4.5455
+            },
+            "roughness_std": {
+              "score": 0.6657,
+              "earth": 75.6363
+            },
+            "aridity": {
+              "score": 0.6964,
+              "earth": 0.0437
+            },
+            "thermal": {
+              "score": 0.3147,
+              "earth": 0.4005
+            }
+          },
+          "rank": 5,
+          "percentile": 99.93,
+          "elevation_m": 3536.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "32.3_62.6",
+          "lat": 32.325,
+          "lon": 62.575,
+          "known": false,
+          "score": 0.7115,
+          "variables": {
+            "slope": {
+              "score": 0.4364,
+              "earth": 5.2374
+            },
+            "roughness": {
+              "score": 0.3512,
+              "earth": 99.8981
+            },
+            "albedo": {
+              "score": 0.9147,
+              "earth": 0.2324
+            },
+            "slope_std": {
+              "score": 0.992,
+              "earth": 4.6242
+            },
+            "roughness_std": {
+              "score": 0.863,
+              "earth": 98.5261
+            },
+            "aridity": {
+              "score": 0.712,
+              "earth": 0.0412
+            },
+            "thermal": {
+              "score": 0.7382,
+              "earth": 0.7926
+            }
+          },
+          "rank": 6,
+          "percentile": 99.91,
+          "elevation_m": 877.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-15.2_-74.7",
+          "lat": -15.225,
+          "lon": -74.725,
+          "known": false,
+          "score": 0.7023,
+          "variables": {
+            "slope": {
+              "score": 0.413,
+              "earth": 8.0064
+            },
+            "roughness": {
+              "score": 0.4613,
+              "earth": 167.9156
+            },
+            "albedo": {
+              "score": 0.717,
+              "earth": 0.1957
+            },
+            "slope_std": {
+              "score": 0.9272,
+              "earth": 4.8764
+            },
+            "roughness_std": {
+              "score": 0.873,
+              "earth": 110.9351
+            },
+            "aridity": {
+              "score": 0.8224,
+              "earth": 0.0205
+            },
+            "thermal": {
+              "score": 0.1724,
+              "earth": 0.2939
+            }
+          },
+          "rank": 7,
+          "percentile": 99.88,
+          "elevation_m": 1443.0,
+          "valid_frac": 0.93,
+          "name": null
+        },
+        {
+          "id": "24.5_5.6",
+          "lat": 24.525,
+          "lon": 5.575,
+          "known": false,
+          "score": 0.6996,
+          "variables": {
+            "slope": {
+              "score": 0.4767,
+              "earth": 5.8414
+            },
+            "roughness": {
+              "score": 0.4902,
+              "earth": 114.1461
+            },
+            "albedo": {
+              "score": 0.6331,
+              "earth": 0.2824
+            },
+            "slope_std": {
+              "score": 0.912,
+              "earth": 3.851
+            },
+            "roughness_std": {
+              "score": 0.7366,
+              "earth": 83.3019
+            },
+            "aridity": {
+              "score": 0.9491,
+              "earth": 0.0154
+            },
+            "thermal": {
+              "score": 0.5701,
+              "earth": 0.6788
+            }
+          },
+          "rank": 8,
+          "percentile": 99.86,
+          "elevation_m": 1493.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-27.0_-70.4",
+          "lat": -27.025,
+          "lon": -70.375,
+          "known": false,
+          "score": 0.6893,
+          "variables": {
+            "slope": {
+              "score": 0.8246,
+              "earth": 5.9587
+            },
+            "roughness": {
+              "score": 0.7016,
+              "earth": 110.916
+            },
+            "albedo": {
+              "score": 0.8112,
+              "earth": 0.2037
+            },
+            "slope_std": {
+              "score": 0.4662,
+              "earth": 1.7929
+            },
+            "roughness_std": {
+              "score": 0.3351,
+              "earth": 38.9036
+            },
+            "aridity": {
+              "score": 0.9973,
+              "earth": 0.0037
+            },
+            "thermal": {
+              "score": 0.1613,
+              "earth": 0.2852
+            }
+          },
+          "rank": 9,
+          "percentile": 99.8,
+          "elevation_m": 1100.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "31.5_57.0",
+          "lat": 31.475,
+          "lon": 57.025,
+          "known": false,
+          "score": 0.6856,
+          "variables": {
+            "slope": {
+              "score": 0.4791,
+              "earth": 5.3333
+            },
+            "roughness": {
+              "score": 0.4603,
+              "earth": 106.5068
+            },
+            "albedo": {
+              "score": 0.8565,
+              "earth": 0.2357
+            },
+            "slope_std": {
+              "score": 0.9436,
+              "earth": 4.0773
+            },
+            "roughness_std": {
+              "score": 0.7846,
+              "earth": 88.7341
+            },
+            "aridity": {
+              "score": 0.5898,
+              "earth": 0.0514
+            },
+            "thermal": {
+              "score": 0.5261,
+              "earth": 0.6475
+            }
+          },
+          "rank": 10,
+          "percentile": 99.77,
+          "elevation_m": 1139.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "37.1_79.0",
+          "lat": 37.075,
+          "lon": 79.025,
+          "known": false,
+          "score": 0.683,
+          "variables": {
+            "slope": {
+              "score": 0.4396,
+              "earth": 5.9005
+            },
+            "roughness": {
+              "score": 0.5354,
+              "earth": 98.1318
+            },
+            "albedo": {
+              "score": 0.8585,
+              "earth": 0.2456
+            },
+            "slope_std": {
+              "score": 0.9565,
+              "earth": 4.6309
+            },
+            "roughness_std": {
+              "score": 0.4636,
+              "earth": 56.0308
+            },
+            "aridity": {
+              "score": 0.8441,
+              "earth": 0.0257
+            },
+            "thermal": {
+              "score": 0.2247,
+              "earth": 0.3944
+            }
+          },
+          "rank": 11,
+          "percentile": 99.75,
+          "elevation_m": 2016.0,
+          "valid_frac": 0.96,
+          "name": null
+        },
+        {
+          "id": "25.9_8.9",
+          "lat": 25.875,
+          "lon": 8.875,
+          "known": false,
+          "score": 0.677,
+          "variables": {
+            "slope": {
+              "score": 0.5261,
+              "earth": 5.5876
+            },
+            "roughness": {
+              "score": 0.5882,
+              "earth": 93.1868
+            },
+            "albedo": {
+              "score": 0.7053,
+              "earth": 0.1894
+            },
+            "slope_std": {
+              "score": 0.7895,
+              "earth": 3.1916
+            },
+            "roughness_std": {
+              "score": 0.469,
+              "earth": 54.719
+            },
+            "aridity": {
+              "score": 0.9837,
+              "earth": 0.0088
+            },
+            "thermal": {
+              "score": 0.768,
+              "earth": 0.9089
+            }
+          },
+          "rank": 12,
+          "percentile": 99.7,
+          "elevation_m": 836.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "33.6_80.5",
+          "lat": 33.625,
+          "lon": 80.475,
+          "known": false,
+          "score": 0.6696,
+          "variables": {
+            "slope": {
+              "score": 0.4476,
+              "earth": 7.9183
+            },
+            "roughness": {
+              "score": 0.537,
+              "earth": 149.2695
+            },
+            "albedo": {
+              "score": 0.8564,
+              "earth": 0.2333
+            },
+            "slope_std": {
+              "score": 0.9592,
+              "earth": 4.7529
+            },
+            "roughness_std": {
+              "score": 0.713,
+              "earth": 83.8066
+            },
+            "aridity": {
+              "score": 0.5046,
+              "earth": 0.0581
+            },
+            "thermal": {
+              "score": 0.2537,
+              "earth": 0.3433
+            }
+          },
+          "rank": 13,
+          "percentile": 99.63,
+          "elevation_m": 4710.0,
+          "valid_frac": 0.96,
+          "name": null
+        },
+        {
+          "id": "-21.4_-68.1",
+          "lat": -21.425,
+          "lon": -68.075,
+          "known": false,
+          "score": 0.6684,
+          "variables": {
+            "slope": {
+              "score": 0.5365,
+              "earth": 7.5562
+            },
+            "roughness": {
+              "score": 0.5003,
+              "earth": 179.7054
+            },
+            "albedo": {
+              "score": 0.5321,
+              "earth": 0.1785
+            },
+            "slope_std": {
+              "score": 0.9699,
+              "earth": 4.3153
+            },
+            "roughness_std": {
+              "score": 0.9447,
+              "earth": 111.6203
+            },
+            "aridity": {
+              "score": 0.5268,
+              "earth": 0.0584
+            },
+            "thermal": {
+              "score": 0.0211,
+              "earth": 0.1056
+            }
+          },
+          "rank": 14,
+          "percentile": 99.61,
+          "elevation_m": 4822.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-25.4_-67.3",
+          "lat": -25.425,
+          "lon": -67.325,
+          "known": false,
+          "score": 0.6678,
+          "variables": {
+            "slope": {
+              "score": 0.6719,
+              "earth": 6.1815
+            },
+            "roughness": {
+              "score": 0.6351,
+              "earth": 138.2848
+            },
+            "albedo": {
+              "score": 0.5671,
+              "earth": 0.1817
+            },
+            "slope_std": {
+              "score": 0.8033,
+              "earth": 3.2574
+            },
+            "roughness_std": {
+              "score": 0.7201,
+              "earth": 81.4854
+            },
+            "aridity": {
+              "score": 0.6094,
+              "earth": 0.0505
+            },
+            "thermal": {
+              "score": 0.0428,
+              "earth": 0.0945
+            }
+          },
+          "rank": 15,
+          "percentile": 99.61,
+          "elevation_m": 4278.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-24.2_-70.1",
+          "lat": -24.225,
+          "lon": -70.075,
+          "known": true,
+          "score": 0.7026,
+          "variables": {
+            "slope": {
+              "score": 0.672,
+              "earth": 4.6975
+            },
+            "roughness": {
+              "score": 0.5745,
+              "earth": 103.7513
+            },
+            "albedo": {
+              "score": 0.8156,
+              "earth": 0.2248
+            },
+            "slope_std": {
+              "score": 0.6162,
+              "earth": 2.4345
+            },
+            "roughness_std": {
+              "score": 0.5376,
+              "earth": 62.1327
+            },
+            "aridity": {
+              "score": 0.9998,
+              "earth": 0.0007
+            },
+            "thermal": {
+              "score": 0.0023,
+              "earth": 0.0367
+            }
+          },
+          "rank": null,
+          "percentile": 99.69,
+          "elevation_m": 1555.0,
+          "valid_frac": 1.0,
+          "name": "Desierto de Atacama (Yungay)"
+        },
+        {
+          "id": "75.5_-89.3",
+          "lat": 75.475,
+          "lon": -89.275,
+          "known": true,
+          "score": 0.364,
+          "variables": {
+            "slope": {
+              "score": 0.6408,
+              "earth": 6.1627
+            },
+            "roughness": {
+              "score": 0.4949,
+              "earth": 75.6046
+            },
+            "albedo": {
+              "score": 0.0,
+              "earth": 0.5912
+            },
+            "slope_std": {
+              "score": 0.7079,
+              "earth": 2.825
+            },
+            "roughness_std": {
+              "score": 0.3405,
+              "earth": 39.6043
+            },
+            "aridity": {
+              "score": 0.0,
+              "earth": 1.8915
+            },
+            "thermal": {
+              "score": 0.5711,
+              "earth": 0.9968
+            }
+          },
+          "rank": null,
+          "percentile": 73.02,
+          "elevation_m": 231.0,
+          "valid_frac": 0.15,
+          "name": "Cráter Haughton",
+          "note": "Latitud mayor a 60°: el relieve está subestimado por el ancho de la celda"
+        },
+        {
+          "id": "36.6_-117.1",
+          "lat": 36.625,
+          "lon": -117.075,
+          "known": true,
+          "score": 0.6994,
+          "variables": {
+            "slope": {
+              "score": 0.425,
+              "earth": 6.019
+            },
+            "roughness": {
+              "score": 0.4693,
+              "earth": 135.7366
+            },
+            "albedo": {
+              "score": 0.6806,
+              "earth": 0.1926
+            },
+            "slope_std": {
+              "score": 0.9838,
+              "earth": 4.4852
+            },
+            "roughness_std": {
+              "score": 0.8689,
+              "earth": 99.3334
+            },
+            "aridity": {
+              "score": 0.7689,
+              "earth": 0.0357
+            },
+            "thermal": {
+              "score": 0.6926,
+              "earth": 0.8548
+            }
+          },
+          "rank": null,
+          "percentile": 99.66,
+          "elevation_m": -14.0,
+          "valid_frac": 0.86,
+          "name": "Death Valley"
+        }
+      ],
+      "known_unscored": [
+        {
+          "name": "Río Tinto",
+          "lat": 37.72,
+          "lon": -6.55,
+          "note": "enmascarado"
+        }
+      ]
+    },
+    {
+      "id": "arcadia",
+      "name": "Arcadia Planitia",
+      "lat": 47.0,
+      "lon": -176.0,
+      "values": {
+        "slope": 0.2549,
+        "roughness": 4.3603,
+        "albedo": 0.2409,
+        "slope_std": 0.0968,
+        "roughness_std": 2.0182,
+        "aridity": 0.0,
+        "thermal": 0.6242
+      },
+      "layer": "data/similarity_arcadia_v2.png",
+      "sites": [
+        {
+          "id": "25.0_-4.3",
+          "lat": 24.975,
+          "lon": -4.275,
+          "known": false,
+          "score": 0.992,
+          "variables": {
+            "slope": {
+              "score": 0.9974,
+              "earth": 0.3962
+            },
+            "roughness": {
+              "score": 0.9974,
+              "earth": 7.6911
+            },
+            "albedo": {
+              "score": 0.9587,
+              "earth": 0.2321
+            },
+            "slope_std": {
+              "score": 1.0,
+              "earth": 0.1163
+            },
+            "roughness_std": {
+              "score": 0.9998,
+              "earth": 3.1737
+            },
+            "aridity": {
+              "score": 0.9984,
+              "earth": 0.0028
+            },
+            "thermal": {
+              "score": 0.6619,
+              "earth": 0.4966
+            }
+          },
+          "rank": 1,
+          "percentile": 100.0,
+          "elevation_m": 205.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "24.9_33.4",
+          "lat": 24.875,
+          "lon": 33.425,
+          "known": false,
+          "score": 0.989,
+          "variables": {
+            "slope": {
+              "score": 0.9743,
+              "earth": 0.8046
+            },
+            "roughness": {
+              "score": 0.9924,
+              "earth": 11.4165
+            },
+            "albedo": {
+              "score": 0.9687,
+              "earth": 0.2346
+            },
+            "slope_std": {
+              "score": 0.9992,
+              "earth": 0.1983
+            },
+            "roughness_std": {
+              "score": 0.9997,
+              "earth": 3.5617
+            },
+            "aridity": {
+              "score": 0.9997,
+              "earth": 0.0012
+            },
+            "thermal": {
+              "score": 0.8032,
+              "earth": 0.677
+            }
+          },
+          "rank": 2,
+          "percentile": 99.99,
+          "elevation_m": 245.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "40.2_92.2",
+          "lat": 40.175,
+          "lon": 92.225,
+          "known": false,
+          "score": 0.9889,
+          "variables": {
+            "slope": {
+              "score": 0.9891,
+              "earth": 0.5404
+            },
+            "roughness": {
+              "score": 0.9883,
+              "earth": 11.1756
+            },
+            "albedo": {
+              "score": 0.9773,
+              "earth": 0.2412
+            },
+            "slope_std": {
+              "score": 0.9982,
+              "earth": 0.2519
+            },
+            "roughness_std": {
+              "score": 0.9967,
+              "earth": 7.2092
+            },
+            "aridity": {
+              "score": 0.9837,
+              "earth": 0.009
+            },
+            "thermal": {
+              "score": 0.2072,
+              "earth": 0.294
+            }
+          },
+          "rank": 3,
+          "percentile": 99.99,
+          "elevation_m": 972.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "26.1_12.2",
+          "lat": 26.075,
+          "lon": 12.225,
+          "known": false,
+          "score": 0.9884,
+          "variables": {
+            "slope": {
+              "score": 0.9946,
+              "earth": 0.4724
+            },
+            "roughness": {
+              "score": 0.9962,
+              "earth": 9.1976
+            },
+            "albedo": {
+              "score": 0.944,
+              "earth": 0.2325
+            },
+            "slope_std": {
+              "score": 0.9997,
+              "earth": 0.1543
+            },
+            "roughness_std": {
+              "score": 0.9999,
+              "earth": 2.6927
+            },
+            "aridity": {
+              "score": 0.9957,
+              "earth": 0.0045
+            },
+            "thermal": {
+              "score": 0.7096,
+              "earth": 0.7418
+            }
+          },
+          "rank": 4,
+          "percentile": 99.99,
+          "elevation_m": 747.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "23.4_-7.7",
+          "lat": 23.425,
+          "lon": -7.725,
+          "known": false,
+          "score": 0.9876,
+          "variables": {
+            "slope": {
+              "score": 0.9985,
+              "earth": 0.3187
+            },
+            "roughness": {
+              "score": 0.998,
+              "earth": 6.8525
+            },
+            "albedo": {
+              "score": 0.9303,
+              "earth": 0.2484
+            },
+            "slope_std": {
+              "score": 0.9999,
+              "earth": 0.1236
+            },
+            "roughness_std": {
+              "score": 0.9998,
+              "earth": 3.1751
+            },
+            "aridity": {
+              "score": 0.9988,
+              "earth": 0.0024
+            },
+            "thermal": {
+              "score": 0.7597,
+              "earth": 0.5342
+            }
+          },
+          "rank": 5,
+          "percentile": 99.99,
+          "elevation_m": 296.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "25.4_2.1",
+          "lat": 25.375,
+          "lon": 2.125,
+          "known": false,
+          "score": 0.9869,
+          "variables": {
+            "slope": {
+              "score": 0.9949,
+              "earth": 0.4448
+            },
+            "roughness": {
+              "score": 0.9964,
+              "earth": 8.4655
+            },
+            "albedo": {
+              "score": 0.9312,
+              "earth": 0.2476
+            },
+            "slope_std": {
+              "score": 0.9995,
+              "earth": 0.1753
+            },
+            "roughness_std": {
+              "score": 0.9997,
+              "earth": 3.5865
+            },
+            "aridity": {
+              "score": 0.9998,
+              "earth": 0.0009
+            },
+            "thermal": {
+              "score": 0.5378,
+              "earth": 0.4692
+            }
+          },
+          "rank": 6,
+          "percentile": 99.98,
+          "elevation_m": 297.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "22.0_-3.6",
+          "lat": 22.025,
+          "lon": -3.575,
+          "known": false,
+          "score": 0.9824,
+          "variables": {
+            "slope": {
+              "score": 0.9966,
+              "earth": 0.3962
+            },
+            "roughness": {
+              "score": 0.9974,
+              "earth": 7.5779
+            },
+            "albedo": {
+              "score": 0.9153,
+              "earth": 0.263
+            },
+            "slope_std": {
+              "score": 0.9997,
+              "earth": 0.1587
+            },
+            "roughness_std": {
+              "score": 0.9998,
+              "earth": 3.3216
+            },
+            "aridity": {
+              "score": 0.9856,
+              "earth": 0.0085
+            },
+            "thermal": {
+              "score": 0.1287,
+              "earth": 0.2545
+            }
+          },
+          "rank": 7,
+          "percentile": 99.92,
+          "elevation_m": 272.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "26.8_-9.2",
+          "lat": 26.825,
+          "lon": -9.175,
+          "known": false,
+          "score": 0.9818,
+          "variables": {
+            "slope": {
+              "score": 0.9989,
+              "earth": 0.2798
+            },
+            "roughness": {
+              "score": 0.9988,
+              "earth": 5.5334
+            },
+            "albedo": {
+              "score": 0.9211,
+              "earth": 0.2482
+            },
+            "slope_std": {
+              "score": 1.0,
+              "earth": 0.1167
+            },
+            "roughness_std": {
+              "score": 0.9999,
+              "earth": 2.9263
+            },
+            "aridity": {
+              "score": 0.9724,
+              "earth": 0.0118
+            },
+            "thermal": {
+              "score": 0.8586,
+              "earth": 0.6644
+            }
+          },
+          "rank": 8,
+          "percentile": 99.91,
+          "elevation_m": 440.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "30.7_63.0",
+          "lat": 30.725,
+          "lon": 62.975,
+          "known": false,
+          "score": 0.9811,
+          "variables": {
+            "slope": {
+              "score": 0.998,
+              "earth": 0.2645
+            },
+            "roughness": {
+              "score": 0.9988,
+              "earth": 4.6255
+            },
+            "albedo": {
+              "score": 0.9912,
+              "earth": 0.2359
+            },
+            "slope_std": {
+              "score": 0.9997,
+              "earth": 0.1627
+            },
+            "roughness_std": {
+              "score": 0.9999,
+              "earth": 3.1025
+            },
+            "aridity": {
+              "score": 0.8993,
+              "earth": 0.023
+            },
+            "thermal": {
+              "score": 0.687,
+              "earth": 0.4987
+            }
+          },
+          "rank": 9,
+          "percentile": 99.89,
+          "elevation_m": 744.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "26.1_17.3",
+          "lat": 26.125,
+          "lon": 17.325,
+          "known": false,
+          "score": 0.9804,
+          "variables": {
+            "slope": {
+              "score": 0.9896,
+              "earth": 0.5283
+            },
+            "roughness": {
+              "score": 0.9928,
+              "earth": 9.8503
+            },
+            "albedo": {
+              "score": 0.904,
+              "earth": 0.2462
+            },
+            "slope_std": {
+              "score": 0.9981,
+              "earth": 0.2557
+            },
+            "roughness_std": {
+              "score": 0.9986,
+              "earth": 5.4241
+            },
+            "aridity": {
+              "score": 0.9993,
+              "earth": 0.0017
+            },
+            "thermal": {
+              "score": 0.5753,
+              "earth": 0.7806
+            }
+          },
+          "rank": 10,
+          "percentile": 99.88,
+          "elevation_m": 622.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "28.6_37.6",
+          "lat": 28.575,
+          "lon": 37.625,
+          "known": false,
+          "score": 0.9757,
+          "variables": {
+            "slope": {
+              "score": 0.9612,
+              "earth": 0.9371
+            },
+            "roughness": {
+              "score": 0.9843,
+              "earth": 15.0882
+            },
+            "albedo": {
+              "score": 0.963,
+              "earth": 0.2366
+            },
+            "slope_std": {
+              "score": 0.9985,
+              "earth": 0.2366
+            },
+            "roughness_std": {
+              "score": 0.9997,
+              "earth": 3.6866
+            },
+            "aridity": {
+              "score": 0.9477,
+              "earth": 0.0164
+            },
+            "thermal": {
+              "score": 0.6409,
+              "earth": 0.4926
+            }
+          },
+          "rank": 11,
+          "percentile": 99.8,
+          "elevation_m": 884.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "38.1_84.0",
+          "lat": 38.075,
+          "lon": 84.025,
+          "known": false,
+          "score": 0.9715,
+          "variables": {
+            "slope": {
+              "score": 0.9958,
+              "earth": 0.3851
+            },
+            "roughness": {
+              "score": 0.9998,
+              "earth": 4.5843
+            },
+            "albedo": {
+              "score": 0.9125,
+              "earth": 0.2649
+            },
+            "slope_std": {
+              "score": 0.9992,
+              "earth": 0.1961
+            },
+            "roughness_std": {
+              "score": 1.0,
+              "earth": 1.4043
+            },
+            "aridity": {
+              "score": 0.922,
+              "earth": 0.0201
+            },
+            "thermal": {
+              "score": 0.0004,
+              "earth": 0.0267
+            }
+          },
+          "rank": 12,
+          "percentile": 99.72,
+          "elevation_m": 1238.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "41.8_101.4",
+          "lat": 41.775,
+          "lon": 101.425,
+          "known": false,
+          "score": 0.9709,
+          "variables": {
+            "slope": {
+              "score": 0.9986,
+              "earth": 0.1561
+            },
+            "roughness": {
+              "score": 0.9993,
+              "earth": 2.5388
+            },
+            "albedo": {
+              "score": 0.9459,
+              "earth": 0.254
+            },
+            "slope_std": {
+              "score": 1.0,
+              "earth": 0.0895
+            },
+            "roughness_std": {
+              "score": 1.0,
+              "earth": 1.6464
+            },
+            "aridity": {
+              "score": 0.8815,
+              "earth": 0.0251
+            },
+            "thermal": {
+              "score": 0.0024,
+              "earth": 0.0592
+            }
+          },
+          "rank": 13,
+          "percentile": 99.7,
+          "elevation_m": 925.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "27.8_63.5",
+          "lat": 27.775,
+          "lon": 63.525,
+          "known": false,
+          "score": 0.9705,
+          "variables": {
+            "slope": {
+              "score": 0.9963,
+              "earth": 0.3417
+            },
+            "roughness": {
+              "score": 0.9962,
+              "earth": 7.1339
+            },
+            "albedo": {
+              "score": 0.966,
+              "earth": 0.2427
+            },
+            "slope_std": {
+              "score": 0.9991,
+              "earth": 0.2036
+            },
+            "roughness_std": {
+              "score": 0.999,
+              "earth": 4.893
+            },
+            "aridity": {
+              "score": 0.8664,
+              "earth": 0.0268
+            },
+            "thermal": {
+              "score": 0.4583,
+              "earth": 0.4011
+            }
+          },
+          "rank": 14,
+          "percentile": 99.69,
+          "elevation_m": 545.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "22.0_-15.4",
+          "lat": 22.025,
+          "lon": -15.375,
+          "known": false,
+          "score": 0.97,
+          "variables": {
+            "slope": {
+              "score": 0.9805,
+              "earth": 0.5091
+            },
+            "roughness": {
+              "score": 0.9887,
+              "earth": 9.4503
+            },
+            "albedo": {
+              "score": 0.9157,
+              "earth": 0.254
+            },
+            "slope_std": {
+              "score": 0.9898,
+              "earth": 0.4626
+            },
+            "roughness_std": {
+              "score": 0.995,
+              "earth": 8.4259
+            },
+            "aridity": {
+              "score": 0.9506,
+              "earth": 0.0159
+            },
+            "thermal": {
+              "score": 0.5463,
+              "earth": 0.7903
+            }
+          },
+          "rank": 15,
+          "percentile": 99.68,
+          "elevation_m": 221.0,
+          "valid_frac": 1.0,
+          "name": null
+        },
+        {
+          "id": "-24.0_-69.9",
+          "lat": -23.975,
+          "lon": -69.875,
+          "known": true,
+          "score": 0.8392,
+          "variables": {
+            "slope": {
+              "score": 0.6902,
+              "earth": 2.4004
+            },
+            "roughness": {
+              "score": 0.7393,
+              "earth": 50.8007
+            },
+            "albedo": {
+              "score": 0.8857,
+              "earth": 0.2498
+            },
+            "slope_std": {
+              "score": 0.8369,
+              "earth": 1.6204
+            },
+            "roughness_std": {
+              "score": 0.8832,
+              "earth": 33.771
+            },
+            "aridity": {
+              "score": 1.0,
+              "earth": 0.0002
+            },
+            "thermal": {
+              "score": 0.0002,
+              "earth": 0.0042
+            }
+          },
+          "rank": null,
+          "percentile": 70.89,
+          "elevation_m": 990.0,
+          "valid_frac": 1.0,
+          "name": "Desierto de Atacama (Yungay)"
+        },
+        {
+          "id": "75.2_-90.3",
+          "lat": 75.225,
+          "lon": -90.275,
+          "known": true,
+          "score": 0.6252,
+          "variables": {
+            "slope": {
+              "score": 0.8173,
+              "earth": 1.8213
+            },
+            "roughness": {
+              "score": 0.9574,
+              "earth": 21.2012
+            },
+            "albedo": {
+              "score": 0.0,
+              "earth": 0.6666
+            },
+            "slope_std": {
+              "score": 0.982,
+              "earth": 0.5836
+            },
+            "roughness_std": {
+              "score": 0.9942,
+              "earth": 8.8639
+            },
+            "aridity": {
+              "score": 0.0,
+              "earth": 2.2418
+            },
+            "thermal": {
+              "score": 0.0474,
+              "earth": 0.9946
+            }
+          },
+          "rank": null,
+          "percentile": 13.52,
+          "elevation_m": 330.0,
+          "valid_frac": 0.33,
+          "name": "Cráter Haughton",
+          "note": "Latitud mayor a 60°: el relieve está subestimado por el ancho de la celda"
+        },
+        {
+          "id": "36.6_-116.8",
+          "lat": 36.625,
+          "lon": -116.775,
+          "known": true,
+          "score": 0.5388,
+          "variables": {
+            "slope": {
+              "score": 0.4617,
+              "earth": 4.4643
+            },
+            "roughness": {
+              "score": 0.4909,
+              "earth": 98.6805
+            },
+            "albedo": {
+              "score": 0.7065,
+              "earth": 0.1956
+            },
+            "slope_std": {
+              "score": 0.3965,
+              "earth": 3.5694
+            },
+            "roughness_std": {
+              "score": 0.4803,
+              "earth": 79.1689
+            },
+            "aridity": {
+              "score": 0.6966,
+              "earth": 0.0419
+            },
+            "thermal": {
+              "score": 0.2039,
+              "earth": 0.732
+            }
+          },
+          "rank": null,
+          "percentile": 9.36,
+          "elevation_m": 936.0,
+          "valid_frac": 0.81,
+          "name": "Death Valley"
+        }
+      ],
+      "known_unscored": [
+        {
+          "name": "Río Tinto",
+          "lat": 37.72,
+          "lon": -6.55,
+          "note": "enmascarado"
+        }
+      ]
+    }
+  ],
+  "region": "mundo",
+  "provisional": true,
+  "weights": {
+    "slope": 1.0,
+    "roughness": 1.0,
+    "albedo": 1.0,
+    "slope_std": 1.0,
+    "roughness_std": 1.0,
+    "aridity": 1.0,
+    "thermal": 0.0
+  },
+  "sigma": {
+    "slope": 2.5531,
+    "roughness": 63.705,
+    "albedo": 0.0574,
+    "slope_std": 2.5531,
+    "roughness_std": 63.705,
+    "aridity": 0.05,
+    "thermal": 0.15
+  },
+  "layer_bounds": [
+    [
+      -85.0,
+      -180.0
+    ],
+    [
+      85.0,
+      180.0
+    ]
+  ],
+  "smoothing_km": 25,
+  "roughness_from_range_factor": 1.0
+}

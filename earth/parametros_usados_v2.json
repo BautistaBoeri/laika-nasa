@@ -1,0 +1,559 @@
+{
+  "AGUA_MAX": 0.1,
+  "ALBEDO_ANIOS": [
+    2021,
+    2022,
+    2023
+  ],
+  "ALBEDO_CADA_DIAS": 8,
+  "ARIDEZ_DESDE": "1991-01-01",
+  "ARIDEZ_HASTA": "2021-01-01",
+  "CELDA_GRADOS": 0.05,
+  "COBERTURA_ANIO": 2022,
+  "DEM_BANDA": "DEM",
+  "DEM_COLECCION": "COPERNICUS/DEM/GLO30_2024_1",
+  "DEM_RESPALDO": "COPERNICUS/DEM/GLO30",
+  "DISPERSION": {
+    "pendiente_var": "pendiente_deg",
+    "desvio_var": "desvio_m"
+  },
+  "ETIQUETAS": {
+    "pendiente_deg": [
+      "Pendiente",
+      "°"
+    ],
+    "relieve_m": [
+      "Relieve local",
+      "m"
+    ],
+    "desvio_m": [
+      "Relieve local",
+      "m"
+    ],
+    "albedo": [
+      "Albedo",
+      ""
+    ],
+    "termica": [
+      "Inercia térmica, percentil (informativa, no puntúa)",
+      ""
+    ],
+    "pendiente_var": [
+      "Variación de la pendiente",
+      "°"
+    ],
+    "desvio_var": [
+      "Variación del relieve local",
+      "m"
+    ],
+    "aridez": [
+      "Aridez (lluvia / evaporación potencial)",
+      ""
+    ]
+  },
+  "EXCLUIR_HIELO": true,
+  "HIELO_MAX": 0.1,
+  "HILOS": 6,
+  "INFORMATIVAS": [
+    "termica"
+  ],
+  "LAT_MAX_BUSQUEDA": 60,
+  "NDVI_DESDE": "2022-01-01",
+  "NDVI_HASTA": "2024-01-01",
+  "NDVI_MAX": 0.15,
+  "NODATA": -9999.0,
+  "NOMBRE_EN_MARTE": {
+    "pendiente_deg": "slope",
+    "relieve_m": "roughness",
+    "desvio_m": "roughness",
+    "albedo": "albedo",
+    "termica": "thermal",
+    "pendiente_var": "slope_std",
+    "desvio_var": "roughness_std",
+    "aridez": "aridity"
+  },
+  "N_SITIOS": 15,
+  "PESOS": {
+    "pendiente_deg": 1.0,
+    "relieve_m": 1.0,
+    "desvio_m": 1.0,
+    "albedo": 1.0,
+    "termica": 1.0,
+    "pendiente_var": 1.0,
+    "desvio_var": 1.0,
+    "aridez": 1.0
+  },
+  "PNG_ANCHO_MAX": 4096,
+  "PNG_LIMITES": [
+    -180.0,
+    -85.0,
+    180.0,
+    85.0
+  ],
+  "PNG_UMBRAL": 0.3,
+  "PROYECTO": "laika-nasa",
+  "RADIO_CONOCIDOS_KM": 300,
+  "RADIO_VALIDACION_KM": 25,
+  "RANGOS_VALIDOS": {
+    "albedo": [
+      0.0,
+      1.0
+    ],
+    "ndvi": [
+      -0.2,
+      1.0
+    ]
+  },
+  "REGIONES": {
+    "noa": [
+      -70.0,
+      -28.0,
+      -64.0,
+      -21.0
+    ],
+    "mundo": [
+      -180.0,
+      -80.0,
+      180.0,
+      84.0
+    ]
+  },
+  "RELIEVE_A_DESVIO": 1.0,
+  "SEPARACION_KM": 300,
+  "SIGMA_PROPIA": {
+    "termica": 0.15,
+    "aridez": 0.05
+  },
+  "SUAVIZADO_KM": 25,
+  "SUAVIZADO_MIN_FRAC": 0.5,
+  "SUBCELDAS": 12,
+  "TARGETS_ORIGEN": "con seguimiento en git, traído de main (merge fab0bff); mismo contenido que el commit 5db5995 de marte-targets",
+  "TEMP_DESDE": "2022-01-01",
+  "TEMP_HASTA": "2024-01-01",
+  "TERMICA_AMPLITUD_MIN_C": 1.0,
+  "TILE_GRADOS": 10,
+  "VALOR_EN_MARTE": {
+    "aridez": 0.0
+  },
+  "VARIABLES": [
+    "pendiente_deg",
+    "desvio_m",
+    "albedo",
+    "pendiente_var",
+    "desvio_var",
+    "aridez"
+  ],
+  "generado": "2026-11-15T12:56:17-03:00",
+  "region": "mundo",
+  "targets": "mars/targets.json",
+  "targets_origen": "con seguimiento en git, traído de main (merge fab0bff); mismo contenido que el commit 5db5995 de marte-targets",
+  "targets_sha256": "3bda0684419b411a5b1bfb83dfb6dcf528d6c287f17730421c16b19299a56db8",
+  "conocidos": "earth/ejemplo/known_analogs.json",
+  "sigma": {
+    "pendiente_deg": 2.5531,
+    "desvio_m": 63.705,
+    "albedo": 0.0574,
+    "pendiente_var": 2.5531,
+    "desvio_var": 63.705,
+    "aridez": 0.05,
+    "termica": 0.15
+  },
+  "medicion": {
+    "region": "mundo",
+    "bbox": [
+      -180.0,
+      -80.0,
+      180.0,
+      84.0
+    ],
+    "celda_grados": 0.05,
+    "forma": [
+      3280,
+      7200
+    ],
+    "bandas": [
+      "elevacion_m",
+      "pendiente_deg",
+      "relieve_m",
+      "albedo",
+      "ndvi",
+      "frac_agua",
+      "frac_hielo"
+    ],
+    "dem": "COPERNICUS/DEM/GLO30_2024_1",
+    "albedo_anios": [
+      2021,
+      2022,
+      2023
+    ],
+    "ndvi_fechas": [
+      "2022-01-01",
+      "2024-01-01"
+    ],
+    "pedidos": 612,
+    "segundos": 2811.4,
+    "generado": "2026-11-15T15:55:26+00:00",
+    "extra": {
+      "region": "mundo",
+      "bbox": [
+        -180.0,
+        -80.0,
+        180.0,
+        84.0
+      ],
+      "celda_grados": 0.05,
+      "forma": [
+        3280,
+        7200
+      ],
+      "bandas": [
+        "desvio_m",
+        "temp_dia_C",
+        "temp_noche_C",
+        "aridez"
+      ],
+      "dem": "COPERNICUS/DEM/GLO30_2024_1",
+      "temp_fechas": [
+        "2022-01-01",
+        "2024-01-01"
+      ],
+      "pedidos": 612,
+      "segundos": 1529.3,
+      "generado": "2026-11-15T15:34:37+00:00"
+    }
+  },
+  "analisis_termica": {
+    "fecha": "2026-11-14",
+    "decision": "La térmica NO entra al puntaje. Se guarda en cada sitio como variable informativa (peso 0), calculada como percentil sobre suelo desnudo.",
+    "variable": "Inercia térmica aparente = (1 - albedo) / (LST día - LST noche), con MODIS MCD43A3 y MOD11A2, pasada a percentil ponderado por área. Se compara con 'thermal' de mars/targets.json (percentil de la inercia térmica TES dentro de Marte): Jezero 0.87, Gale 0.84, Arcadia 0.62.",
+    "motivos": [
+      "Con el percentil sobre toda la tierra firme la variable no discrimina: da score ~0 en todos los desiertos.",
+      "Con el percentil sobre suelo desnudo sí discrimina, pero la amplitud día-noche en la Tierra depende también de la altura, la humedad del aire y las nubes, no solo del suelo.",
+      "Atacama, el análogo de Marte más aceptado, tiene de las inercias aparentes más bajas del planeta (percentil 0.05 entre suelo desnudo) y cae en la validación si la térmica puntúa."
+    ],
+    "como_leer": "top15_se_mantienen = sitios del top 15 con térmica que están a menos de 150 km de alguno del top 15 sin térmica. 'atacama' = puntaje y percentil del análogo conocido Desierto de Atacama (Yungay) en la validación. Todo corrido para el mundo con los análogos de ejemplo (earth/ejemplo/known_analogs.json), sin tocar web/data/.",
+    "sin_termica": {
+      "jezero": {
+        "puntaje_1": 0.953,
+        "puntaje_15": 0.917,
+        "atacama": {
+          "puntaje": 0.807,
+          "percentil": 90.5
+        }
+      },
+      "gale": {
+        "puntaje_1": 0.805,
+        "puntaje_15": 0.7,
+        "atacama": {
+          "puntaje": 0.748,
+          "percentil": 99.9
+        }
+      },
+      "arcadia": {
+        "puntaje_1": 0.999,
+        "puntaje_15": 0.982,
+        "atacama": {
+          "puntaje": 0.788,
+          "percentil": 69.3
+        }
+      }
+    },
+    "prueba_1_percentil_sobre_toda_la_tierra_firme": {
+      "poblacion": "6.846.922 celdas de tierra firme con dato (incluye vegetación y hielo, excluye agua). Peso 1.0.",
+      "hallazgo": "El suelo desnudo queda entre los percentiles 0.02 y 0.21 (mediana 0.08) de esa población, lejos de lo que pide Marte. El score térmico es ~0 en casi todos los sitios: baja todos los puntajes un 25% y no cambia el orden.",
+      "tolerancia_0.10": {
+        "jezero": {
+          "top15_se_mantienen": 15,
+          "puntaje_1": 0.715,
+          "puntaje_15": 0.688,
+          "score_termico_top15": [
+            0.0,
+            0.0
+          ],
+          "atacama": {
+            "puntaje": 0.605,
+            "percentil": 90.1
+          }
+        },
+        "gale": {
+          "top15_se_mantienen": 15,
+          "puntaje_1": 0.604,
+          "puntaje_15": 0.525,
+          "score_termico_top15": [
+            0.0,
+            0.0
+          ],
+          "atacama": {
+            "puntaje": 0.561,
+            "percentil": 99.9
+          }
+        },
+        "arcadia": {
+          "top15_se_mantienen": 15,
+          "puntaje_1": 0.749,
+          "puntaje_15": 0.737,
+          "score_termico_top15": [
+            0.0,
+            0.0
+          ],
+          "atacama": {
+            "puntaje": 0.591,
+            "percentil": 69.0
+          }
+        }
+      },
+      "tolerancia_0.15": {
+        "jezero": {
+          "top15_se_mantienen": 15,
+          "puntaje_1": 0.715,
+          "puntaje_15": 0.688,
+          "score_termico_top15": [
+            0.0,
+            0.0
+          ],
+          "atacama": {
+            "puntaje": 0.605,
+            "percentil": 89.8
+          }
+        },
+        "gale": {
+          "top15_se_mantienen": 15,
+          "puntaje_1": 0.604,
+          "puntaje_15": 0.525,
+          "score_termico_top15": [
+            0.0,
+            0.01
+          ],
+          "atacama": {
+            "puntaje": 0.561,
+            "percentil": 99.8
+          }
+        },
+        "arcadia": {
+          "top15_se_mantienen": 12,
+          "puntaje_1": 0.779,
+          "puntaje_15": 0.738,
+          "score_termico_top15": [
+            0.0,
+            0.23
+          ],
+          "atacama": {
+            "puntaje": 0.591,
+            "percentil": 68.4
+          }
+        }
+      },
+      "tolerancia_0.25": {
+        "jezero": {
+          "top15_se_mantienen": 13,
+          "puntaje_1": 0.725,
+          "puntaje_15": 0.692,
+          "score_termico_top15": [
+            0.01,
+            0.11
+          ],
+          "atacama": {
+            "puntaje": 0.606,
+            "percentil": 88.8
+          }
+        },
+        "gale": {
+          "top15_se_mantienen": 14,
+          "puntaje_1": 0.606,
+          "puntaje_15": 0.527,
+          "score_termico_top15": [
+            0.0,
+            0.12
+          ],
+          "atacama": {
+            "puntaje": 0.562,
+            "percentil": 99.7
+          }
+        },
+        "arcadia": {
+          "top15_se_mantienen": 4,
+          "puntaje_1": 0.858,
+          "puntaje_15": 0.769,
+          "score_termico_top15": [
+            0.1,
+            0.54
+          ],
+          "atacama": {
+            "puntaje": 0.602,
+            "percentil": 63.9
+          }
+        }
+      }
+    },
+    "prueba_2_percentil_sobre_suelo_desnudo": {
+      "poblacion": "677.833 celdas que pasan la máscara (sin vegetación, agua ni hielo) y tienen temperatura. Peso 1.0.",
+      "hallazgo": "Discrimina y es poco sensible a la tolerancia (entre 0.15 y 0.25 el top 15 comparte 14, 15 y 14 sitios). Separa Arcadia (de 0.999-0.982 a 0.983-0.936 con tolerancia 0.15). Cambia mucho Gale (quedan 4 de 15) y saca del top 15 a los dos sitios de la Puna argentina: (-25.7, -66.9) pasa del puesto 11 al 52 (percentil térmico 0.40) y (-22.8, -66.5) queda fuera de los 60 primeros. Atacama baja en la validación; Death Valley sube (percentil térmico 0.73 a 0.88).",
+      "tolerancia_0.10": {
+        "jezero": {
+          "top15_se_mantienen": 8,
+          "puntaje_1": 0.948,
+          "puntaje_15": 0.876,
+          "score_termico_top15": [
+            0.83,
+            0.97
+          ],
+          "atacama": {
+            "puntaje": 0.605,
+            "percentil": 77.7
+          }
+        },
+        "gale": {
+          "top15_se_mantienen": 6,
+          "puntaje_1": 0.716,
+          "puntaje_15": 0.639,
+          "score_termico_top15": [
+            0.32,
+            0.83
+          ],
+          "atacama": {
+            "puntaje": 0.561,
+            "percentil": 96.6
+          }
+        },
+        "arcadia": {
+          "top15_se_mantienen": 6,
+          "puntaje_1": 0.975,
+          "puntaje_15": 0.908,
+          "score_termico_top15": [
+            0.71,
+            0.96
+          ],
+          "atacama": {
+            "puntaje": 0.591,
+            "percentil": 45.7
+          }
+        }
+      },
+      "tolerancia_0.15": {
+        "jezero": {
+          "top15_se_mantienen": 10,
+          "puntaje_1": 0.953,
+          "puntaje_15": 0.902,
+          "score_termico_top15": [
+            0.83,
+            0.98
+          ],
+          "atacama": {
+            "puntaje": 0.605,
+            "percentil": 73.8
+          }
+        },
+        "gale": {
+          "top15_se_mantienen": 4,
+          "puntaje_1": 0.761,
+          "puntaje_15": 0.67,
+          "score_termico_top15": [
+            0.75,
+            0.91
+          ],
+          "atacama": {
+            "puntaje": 0.561,
+            "percentil": 94.8
+          }
+        },
+        "arcadia": {
+          "top15_se_mantienen": 7,
+          "puntaje_1": 0.983,
+          "puntaje_15": 0.936,
+          "score_termico_top15": [
+            0.82,
+            0.97
+          ],
+          "atacama": {
+            "puntaje": 0.591,
+            "percentil": 37.4
+          }
+        }
+      },
+      "tolerancia_0.25": {
+        "jezero": {
+          "top15_se_mantienen": 10,
+          "puntaje_1": 0.959,
+          "puntaje_15": 0.913,
+          "score_termico_top15": [
+            0.87,
+            0.99
+          ],
+          "atacama": {
+            "puntaje": 0.607,
+            "percentil": 69.0
+          }
+        },
+        "gale": {
+          "top15_se_mantienen": 4,
+          "puntaje_1": 0.791,
+          "puntaje_15": 0.691,
+          "score_termico_top15": [
+            0.85,
+            0.96
+          ],
+          "atacama": {
+            "puntaje": 0.565,
+            "percentil": 92.8
+          }
+        },
+        "arcadia": {
+          "top15_se_mantienen": 7,
+          "puntaje_1": 0.992,
+          "puntaje_15": 0.961,
+          "score_termico_top15": [
+            0.9,
+            0.98
+          ],
+          "atacama": {
+            "puntaje": 0.602,
+            "percentil": 25.9
+          }
+        }
+      }
+    },
+    "sensibilidad_peso_0.5_sobre_suelo_desnudo": {
+      "configuracion": "Igual que la prueba 2, tolerancia 0.15, peso de la térmica 0.5 (las otras tres variables con peso 1.0).",
+      "hallazgo": "Resultado intermedio entre no usar la térmica y usarla con peso 1.0; no cambia la conclusión. Atacama sigue bajando en la validación (Jezero 90.5% -> 82.3%, Arcadia 69.3% -> 49.8%).",
+      "jezero": {
+        "top15_se_mantienen": 10,
+        "puntaje_1": 0.951,
+        "puntaje_15": 0.898,
+        "score_termico_top15": [
+          0.76,
+          0.98
+        ],
+        "atacama": {
+          "puntaje": 0.692,
+          "percentil": 82.3
+        }
+      },
+      "gale": {
+        "top15_se_mantienen": 7,
+        "puntaje_1": 0.756,
+        "puntaje_15": 0.67,
+        "score_termico_top15": [
+          0.06,
+          0.91
+        ],
+        "atacama": {
+          "puntaje": 0.641,
+          "percentil": 98.8
+        }
+      },
+      "arcadia": {
+        "top15_se_mantienen": 7,
+        "puntaje_1": 0.989,
+        "puntaje_15": 0.952,
+        "score_termico_top15": [
+          0.8,
+          0.97
+        ],
+        "atacama": {
+          "puntaje": 0.675,
+          "percentil": 49.8
+        }
+      }
+    }
+  }
+}

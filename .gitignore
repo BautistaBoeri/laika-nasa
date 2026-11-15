@@ -2,3 +2,4 @@
 __pycache__/
 # rasters pesados descargados (solo la carpeta de la raíz, no web/data/)
 /data/
+.playwright-mcp/
