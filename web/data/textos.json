@@ -2,149 +2,127 @@
  "jezero": {
   "region": "Isidis Planitia",
   "blurb": "Antiguo lago con un delta fluvial. Hoy lo explora el rover Perseverance.",
-  "mission": "Perseverance · desde 2021"
+  "mission": "Perseverance · desde 2021",
+  "section": {
+   "title": "Cráter Jezero: un lago que se secó hace miles de millones de años",
+   "paragraphs": [
+    "Jezero es un cráter de impacto de 45 km de diámetro en el borde oeste de Isidis Planitia. Hace unos 3.500 millones de años guardó un lago, y un río que entraba por el oeste dejó un delta en forma de abanico, con arcillas y carbonatos que se forman en presencia de agua.",
+    "Por eso la NASA lo eligió para el rover Perseverance, que aterrizó ahí el 18 de febrero de 2021: los sedimentos de un lago son de los mejores lugares para buscar rastros de vida antigua. El rover junta muestras de roca que una misión futura podría traer a la Tierra.",
+    "Su nombre viene de un pueblo de Bosnia y Herzegovina, y en varias lenguas eslavas «jezero» significa «lago»."
+   ],
+   "image": {
+    "src": "img/jezero-pia23239.jpg",
+    "width": 1865,
+    "height": 1495,
+    "alt": "Vista desde órbita del cráter Jezero: un canal entra desde la izquierda y se abre en un delta en forma de abanico sobre el fondo del cráter.",
+    "caption": "El delta de Jezero visto por el Mars Reconnaissance Orbiter. Los colores son falsos: resaltan los minerales que detecta su espectrómetro. Imagen: NASA/JPL-Caltech/MSSS/JHU-APL (PIA23239)."
+   },
+   "facts": [
+    {
+     "label": "Diámetro",
+     "value": "45 km",
+     "text": "de borde a borde. El lago llegó a medir unos 35 km de ancho."
+    },
+    {
+     "label": "El lago",
+     "value": "≈ 3.500",
+     "text": "millones de años atrás, cuando Marte tenía agua líquida en la superficie."
+    },
+    {
+     "label": "Perseverance",
+     "value": "2021",
+     "text": "aterrizó el 18 de febrero en el fondo del cráter, cerca del delta."
+    },
+    {
+     "label": "Ubicación",
+     "value": "18,4° N",
+     "text": "77,5° E, en el borde oeste de la cuenca de Isidis Planitia."
+    }
+   ]
+  }
  },
  "gale": {
   "region": "Aeolis Mons",
   "blurb": "Cráter de impacto con una montaña central de capas sedimentarias. Lo recorre Curiosity.",
-  "mission": "Curiosity · desde 2012"
+  "mission": "Curiosity · desde 2012",
+  "section": {
+   "title": "Cráter Gale: una montaña de capas en medio de un cráter",
+   "paragraphs": [
+    "Gale es un cráter de impacto de 154 km de diámetro, formado hace entre 3.500 y 3.800 millones de años cerca del ecuador de Marte. En su centro se levanta el monte Sharp, una montaña de unos 5,5 km de altura hecha de capas de sedimento apiladas.",
+    "Esas capas son un registro de cómo cambió el ambiente de Marte a lo largo del tiempo, y por eso la NASA mandó ahí al rover Curiosity, que aterrizó el 6 de agosto de 2012. Sus mediciones mostraron que el cráter tuvo un lago en el pasado. Desde entonces el rover sube por la ladera del monte, capa por capa.",
+    "Lleva el nombre de Walter Frederick Gale, un astrónomo aficionado australiano que observó Marte a fines del siglo XIX."
+   ],
+   "image": {
+    "src": "img/gale-pia15292.jpg",
+    "width": 2560,
+    "height": 1440,
+    "alt": "Vista oblicua del cráter Gale: un cráter redondo con una montaña ancha en el centro; una elipse marca la zona de aterrizaje al pie de la montaña.",
+    "caption": "El cráter Gale con el monte Sharp en el centro, en una vista armada con datos de tres orbitadores. La elipse marca la zona prevista de aterrizaje de Curiosity y la línea azul, una ruta posible de subida. Imagen: NASA/JPL-Caltech/ESA/DLR/FU Berlin/MSSS (PIA15292)."
+   },
+   "facts": [
+    {
+     "label": "Diámetro",
+     "value": "154 km",
+     "text": "más de tres veces el de Jezero."
+    },
+    {
+     "label": "Monte Sharp",
+     "value": "5,5 km",
+     "text": "de altura sobre el fondo del cráter. Su nombre oficial es Aeolis Mons."
+    },
+    {
+     "label": "Curiosity",
+     "value": "2012",
+     "text": "aterrizó el 6 de agosto al pie del monte y sigue activo."
+    },
+    {
+     "label": "Ubicación",
+     "value": "4,6° S",
+     "text": "137,4° E, casi sobre el ecuador de Marte."
+    }
+   ]
+  }
  },
  "arcadia": {
   "region": "Hemisferio norte",
   "blurb": "Llanura volcánica con hielo cerca de la superficie. Candidata para misiones tripuladas.",
-  "mission": "Candidato a misión tripulada"
- },
- "jezero:-24.1_-66.9": {
-  "name": "Puna de Atacama",
-  "country": "Argentina",
-  "why": "Planicie de altura con abanicos aluviales y depósitos de antiguos lagos salinos, de pendiente suave y superficie oscura, como el fondo del cráter.",
-  "breaks": "La presión atmosférica y la temperatura son mucho mayores, y hay agua subterránea activa: la química de los sedimentos no es la de Jezero hoy.",
-  "use": "Probar la navegación autónoma de un rover sobre un delta seco y ensayar la toma de muestras en sedimentos de lago."
- },
- "jezero:30.4_58.9": {
-  "name": "Desierto de Lut",
-  "country": "Irán",
-  "why": "Una de las superficies más secas y calientes del planeta, con relieve bajo y albedo parecido al del fondo de Jezero.",
-  "breaks": "El calor diurno es extremo pero muy distinto del frío marciano, y el relieve está modelado por viento y agua en proporciones distintas.",
-  "use": "Ensayar instrumentos de espectroscopía y sensores térmicos en condiciones de sequedad casi total."
- },
- "jezero:37.5_93.7": {
-  "name": "Qaidam",
-  "country": "China",
-  "why": "Cuenca cerrada a más de 2.700 m con lagos salinos secos y yardangs, un registro de desecación como el de un lago marciano.",
-  "breaks": "Hay vegetación y vida microbiana abundante en los bordes; el polvo tiene otra composición mineral.",
-  "use": "Estudiar cómo se preservan las biofirmas en sales y entrenar la interpretación de capas sedimentarias."
- },
- "jezero:-24.08_-69.93": {
-  "name": "Desierto de Atacama (Yungay)",
-  "country": "Chile",
-  "why": "Uno de los lugares más secos de la Tierra, con suelos casi estériles y oxidantes, usado por la NASA desde los años 2000.",
-  "breaks": "Recibe niebla costera esporádica y tiene una atmósfera densa que filtra la radiación ultravioleta.",
-  "use": "Ya se usa para probar detectores de vida y perforadoras. Aquí sirve para validar el método."
- },
- "jezero:38.41_-110.79": {
-  "name": "Desert Research Station (MDRS)",
-  "country": "Estados Unidos",
-  "why": "Sedimentos rojizos jurásicos y arcillas en un paisaje sin vegetación, con pendientes parecidas a las de un cráter erosionado.",
-  "breaks": "El clima es templado y las tormentas eléctricas modelan el relieve de forma muy distinta.",
-  "use": "Estación de simulación de misiones tripuladas desde 2001. Aquí sirve para validar el método."
- },
- "jezero:64.85_-16.83": {
-  "name": "Holuhraun",
-  "country": "Islandia",
-  "why": "Campo de lava basáltica reciente, mineralógicamente parecido a las llanuras volcánicas de Marte.",
-  "breaks": "Hay agua líquida, lluvia frecuente y actividad volcánica activa.",
-  "use": "Sitio de pruebas de rovers y entrenamiento de la ESA. Aquí sirve para validar el método."
- },
- "jezero:75.38_-89.68": {
-  "name": "Cráter Haughton, isla Devon",
-  "country": "Canadá",
-  "why": "Cráter de impacto en desierto polar, con suelo congelado y sin vegetación, comparable con cráteres marcianos de latitudes altas.",
-  "breaks": "El cráter es mucho más joven y está muy erosionado por glaciares y deshielo.",
-  "use": "Base del proyecto Haughton-Mars de la NASA. Aquí sirve para validar el método."
- },
- "gale:-21.3_118.8": {
-  "name": "Pilbara",
-  "country": "Australia",
-  "why": "Rocas sedimentarias muy antiguas, apiladas en capas, con pendientes y relieve local cercanos a la base del monte Sharp.",
-  "breaks": "La gravedad hace que las laderas sean más estables que en Marte, y la erosión por lluvia, aunque escasa, existe.",
-  "use": "Practicar la lectura de estratigrafía con cámaras de rover y calibrar la búsqueda de estromatolitos."
- },
- "gale:23.0_5.9": {
-  "name": "Macizo de Hoggar",
-  "country": "Argelia",
-  "why": "Relieve volcánico y sedimentario expuesto, sin cobertura vegetal y con un albedo similar al de las laderas de Gale.",
-  "breaks": "Su origen es volcánico en gran parte; Gale es un cráter de impacto relleno de sedimentos lacustres.",
-  "use": "Probar planificación de rutas en terreno escarpado y tiempos de comunicación con equipo remoto."
- },
- "gale:38.41_-110.79": {
-  "name": "Desert Research Station (MDRS)",
-  "country": "Estados Unidos",
-  "why": "Sedimentos rojizos jurásicos y arcillas en un paisaje sin vegetación, con pendientes parecidas a las de un cráter erosionado.",
-  "breaks": "El clima es templado y las tormentas eléctricas modelan el relieve de forma muy distinta.",
-  "use": "Estación de simulación de misiones tripuladas desde 2001. Aquí sirve para validar el método."
- },
- "gale:-24.08_-69.93": {
-  "name": "Desierto de Atacama (Yungay)",
-  "country": "Chile",
-  "why": "Uno de los lugares más secos de la Tierra, con suelos casi estériles y oxidantes, usado por la NASA desde los años 2000.",
-  "breaks": "Recibe niebla costera esporádica y tiene una atmósfera densa que filtra la radiación ultravioleta.",
-  "use": "Ya se usa para probar detectores de vida y perforadoras. Aquí sirve para validar el método."
- },
- "gale:75.38_-89.68": {
-  "name": "Cráter Haughton, isla Devon",
-  "country": "Canadá",
-  "why": "Cráter de impacto en desierto polar, con suelo congelado y sin vegetación, comparable con cráteres marcianos de latitudes altas.",
-  "breaks": "El cráter es mucho más joven y está muy erosionado por glaciares y deshielo.",
-  "use": "Base del proyecto Haughton-Mars de la NASA. Aquí sirve para validar el método."
- },
- "gale:64.85_-16.83": {
-  "name": "Holuhraun",
-  "country": "Islandia",
-  "why": "Campo de lava basáltica reciente, mineralógicamente parecido a las llanuras volcánicas de Marte.",
-  "breaks": "Hay agua líquida, lluvia frecuente y actividad volcánica activa.",
-  "use": "Sitio de pruebas de rovers y entrenamiento de la ESA. Aquí sirve para validar el método."
- },
- "arcadia:43.1_103.7": {
-  "name": "Gobi meridional",
-  "country": "Mongolia",
-  "why": "Llanura extensa, de pendiente casi nula, con suelos congelados en invierno y poco relieve local.",
-  "breaks": "El hielo no está estable todo el año y la superficie tiene vegetación rala; en Arcadia el hielo es permanente.",
-  "use": "Ensayar radares de penetración de suelo para detectar hielo y practicar operaciones de aterrizaje en llanura."
- },
- "arcadia:37.7_93.3": {
-  "name": "Qaidam",
-  "country": "China",
-  "why": "Cuenca fría y seca, con relieve suave y suelos salinos que retienen hielo y humedad cerca de la superficie.",
-  "breaks": "La temperatura media es decenas de grados más alta y la atmósfera protege de la radiación.",
-  "use": "Probar perforadoras someras y sensores de humedad del subsuelo."
- },
- "arcadia:64.85_-16.83": {
-  "name": "Holuhraun",
-  "country": "Islandia",
-  "why": "Campo de lava basáltica reciente, mineralógicamente parecido a las llanuras volcánicas de Marte.",
-  "breaks": "Hay agua líquida, lluvia frecuente y actividad volcánica activa.",
-  "use": "Sitio de pruebas de rovers y entrenamiento de la ESA. Aquí sirve para validar el método."
- },
- "arcadia:75.38_-89.68": {
-  "name": "Cráter Haughton, isla Devon",
-  "country": "Canadá",
-  "why": "Cráter de impacto en desierto polar, con suelo congelado y sin vegetación, comparable con cráteres marcianos de latitudes altas.",
-  "breaks": "El cráter es mucho más joven y está muy erosionado por glaciares y deshielo.",
-  "use": "Base del proyecto Haughton-Mars de la NASA. Aquí sirve para validar el método."
- },
- "arcadia:-24.08_-69.93": {
-  "name": "Desierto de Atacama (Yungay)",
-  "country": "Chile",
-  "why": "Uno de los lugares más secos de la Tierra, con suelos casi estériles y oxidantes, usado por la NASA desde los años 2000.",
-  "breaks": "Recibe niebla costera esporádica y tiene una atmósfera densa que filtra la radiación ultravioleta.",
-  "use": "Ya se usa para probar detectores de vida y perforadoras. Aquí sirve para validar el método."
- },
- "arcadia:38.41_-110.79": {
-  "name": "Desert Research Station (MDRS)",
-  "country": "Estados Unidos",
-  "why": "Sedimentos rojizos jurásicos y arcillas en un paisaje sin vegetación, con pendientes parecidas a las de un cráter erosionado.",
-  "breaks": "El clima es templado y las tormentas eléctricas modelan el relieve de forma muy distinta.",
-  "use": "Estación de simulación de misiones tripuladas desde 2001. Aquí sirve para validar el método."
+  "mission": "Candidato a misión tripulada",
+  "section": {
+   "title": "Arcadia Planitia: una llanura con hielo bajo la superficie",
+   "paragraphs": [
+    "Arcadia Planitia es una llanura extensa y muy plana del hemisferio norte de Marte. A diferencia de Jezero y Gale, no es un cráter ni tiene un rover: interesa por lo que hay debajo.",
+    "El radar SHARAD del Mars Reconnaissance Orbiter y la forma de algunos cráteres indican que bajo el suelo hay una capa de hielo de agua de decenas de metros de espesor. Cuando un meteorito abre un cráter nuevo, ese hielo queda a la vista, como en la foto.",
+    "El agua es el recurso más valioso para una misión tripulada: sirve para beber, para producir oxígeno y para fabricar combustible. Por eso la NASA mapea el hielo de esta zona con el proyecto SWIM, y Arcadia es una de las regiones que se estudian para futuros aterrizajes humanos."
+   ],
+   "image": {
+    "src": "img/arcadia-pia26321.jpg",
+    "width": 1600,
+    "height": 1000,
+    "alt": "Vista desde órbita de un terreno rojizo con una mancha blanca brillante: hielo expuesto por un cráter de impacto reciente, rodeado por una zona más oscura.",
+    "caption": "Hielo de agua (la mancha blanca) expuesto por un cráter reciente de 13 metros en Arcadia Planitia, fotografiado por la cámara HiRISE del Mars Reconnaissance Orbiter. Imagen: NASA/JPL-Caltech/University of Arizona (PIA26321)."
+   },
+   "facts": [
+    {
+     "label": "Hielo enterrado",
+     "value": "decenas de m",
+     "text": "de espesor, según el radar y la forma de los cráteres."
+    },
+    {
+     "label": "Cráter de la foto",
+     "value": "13 m",
+     "text": "de diámetro. Alcanzó para dejar el hielo a la vista."
+    },
+    {
+     "label": "Zona oscura",
+     "value": "850 m",
+     "text": "es lo que se extiende la marca del impacto alrededor del cráter."
+    },
+    {
+     "label": "Ubicación",
+     "value": "47,0° N",
+     "text": "176,0° O: el punto de la llanura que usamos para comparar."
+    }
+   ]
+  }
  }
 }

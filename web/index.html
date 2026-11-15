@@ -16,13 +16,13 @@
 <header class="top">
   <div class="top-row">
     <a class="brand" href="#top">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true"><circle cx="14" cy="14" r="6" fill="#E8794A"/><ellipse cx="14" cy="14" rx="12.5" ry="5" stroke="#B4C4DE" stroke-width="1.4" transform="rotate(-24 14 14)"/></svg>
       <span class="brand-name">Laika</span>
       <span class="brand-tag" data-t="tagline"></span>
     </a>
 
-    <div class="targets" role="group" id="targets">
-      <span class="targets-label" data-t="marsSite"></span>
+    <div class="targets">
+      <label class="targets-label" for="target-select" data-t="marsSite"></label>
+      <select class="target-select" id="target-select"></select>
     </div>
 
     <div class="top-tools">
@@ -31,6 +31,7 @@
         <span class="switch-long" data-t="layer"></span><span class="switch-short" data-t="layerShort"></span>
       </button>
       <nav class="top-nav">
+        <a href="#sitio" id="nav-site" data-t="siteEyebrow" hidden></a>
         <a href="#como" data-t="how"></a>
         <a href="#limites" data-t="limits"></a>
       </nav>
@@ -107,7 +108,7 @@
       <div class="score-row">
         <div class="score">
           <span class="score-num" id="p-score"></span>
-          <span class="score-label" id="p-score-label"></span>
+          <span class="score-label"><i class="sw" id="p-score-sw"></i><span id="p-score-label"></span></span>
         </div>
         <div class="figure">
           <img id="p-img" alt="" hidden>
@@ -142,28 +143,20 @@
   </aside>
 </section>
 
-<section id="jezero" class="section">
+<section id="sitio" class="section" hidden>
   <div class="section-inner">
     <div class="split">
       <div class="section-head">
-        <span class="eyebrow mars">El sitio de Marte</span>
-        <h2>Cráter Jezero: un lago que se secó hace miles de millones de años</h2>
-        <p class="lead">Jezero es un cráter de impacto de 45 km de diámetro en el borde oeste de Isidis Planitia. Hace unos 3.500 millones de años guardó un lago, y un río que entraba por el oeste dejó un delta en forma de abanico, con arcillas y carbonatos que se forman en presencia de agua.</p>
-        <p class="lead">Por eso la NASA lo eligió para el rover Perseverance, que aterrizó ahí el 18 de febrero de 2021: los sedimentos de un lago son de los mejores lugares para buscar rastros de vida antigua. El rover junta muestras de roca que una misión futura podría traer a la Tierra.</p>
-        <p class="lead">Su nombre viene de un pueblo de Bosnia y Herzegovina, y en varias lenguas eslavas <i>jezero</i> significa «lago».</p>
+        <span class="eyebrow mars" data-t="siteEyebrow"></span>
+        <h2 id="site-title"></h2>
+        <div class="site-text" id="site-text"></div>
       </div>
       <figure class="photo">
-        <img src="img/jezero-pia23239.jpg" width="1865" height="1495" loading="lazy"
-             alt="Vista desde órbita del cráter Jezero: un canal entra desde la izquierda y se abre en un delta en forma de abanico sobre el fondo del cráter.">
-        <figcaption>El delta de Jezero visto por el Mars Reconnaissance Orbiter. Los colores son falsos: resaltan los minerales que detecta su espectrómetro. Imagen: NASA/JPL-Caltech/MSSS/JHU-APL (PIA23239).</figcaption>
+        <img id="site-img" alt="">
+        <figcaption id="site-caption"></figcaption>
       </figure>
     </div>
-    <div class="grid4">
-      <div class="tile"><span class="tile-label">Diámetro</span><span class="big-num">45 km</span><span class="tile-text">de borde a borde. El lago llegó a medir unos 35 km de ancho.</span></div>
-      <div class="tile"><span class="tile-label">El lago</span><span class="big-num">≈ 3.500</span><span class="tile-text">millones de años atrás, cuando Marte tenía agua líquida en la superficie.</span></div>
-      <div class="tile"><span class="tile-label">Perseverance</span><span class="big-num">2021</span><span class="tile-text">aterrizó el 18 de febrero en el fondo del cráter, cerca del delta.</span></div>
-      <div class="tile"><span class="tile-label">Ubicación</span><span class="big-num">18,4° N</span><span class="tile-text">77,5° E, en el borde oeste de la cuenca de Isidis Planitia.</span></div>
-    </div>
+    <div class="grid4" id="site-facts"></div>
   </div>
 </section>
 
@@ -211,7 +204,7 @@
       <div class="tile"><span class="tile-label">Composición del aire</span><span class="big-num">95 % CO₂</span><span class="tile-text">casi sin oxígeno ni nitrógeno. La química de la superficie es otra.</span></div>
       <div class="tile"><span class="tile-label">Radiación</span><span class="big-num">≈ 100 ×</span><span class="tile-text">más dosis diaria en superficie. Sin campo magnético global ni capa de ozono que la frene.</span></div>
     </div>
-    <p class="footer-note">Laika · NASA Space Apps Challenge 2026<span id="sample-note" hidden> · Prototipo con datos de ejemplo: los valores son de relleno.</span></p>
+    <p class="footer-note">Laika · NASA Space Apps Challenge 2026<span id="sample-note" hidden></span></p>
   </div>
 </section>
 </main>

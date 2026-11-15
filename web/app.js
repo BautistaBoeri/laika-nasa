@@ -11,6 +11,7 @@ const T = {
   layer: 'Capa de similitud',
   layerShort: 'Capa',
   layerMissing: 'La capa de similitud de este sitio todavía no está disponible',
+  siteEyebrow: 'El sitio de Marte',
   how: 'Cómo funciona',
   limits: 'Límites',
   peek: 'Cómo funciona y límites',
@@ -21,10 +22,16 @@ const T = {
   panelLabel: 'Detalle del sitio',
   close: 'Cerrar detalle',
   rank: 'Puesto {n} de {total}',
+  rankKnown: 'Supera al {p} % del planeta',
   knownBadge: 'Análogo ya estudiado',
-  validation: 'Este lugar ya se usa como análogo de Marte. El método no lo sabía y lo encontró solo, en el puesto {n} de {total}: por eso sirve para validar los resultados.',
+  validation: 'Este lugar ya se usa como análogo de Marte. El método no lo sabía, y le dio más puntaje que al {p} % de la superficie analizada.',
+  validationNoPct: 'Este lugar ya se usa como análogo de Marte. El método no lo sabía: su puntaje sirve para validar los resultados.',
+  informative: 'Informativa: no entra en el puntaje',
+  provisional: ' · Resultados provisorios: el análisis sigue en curso.',
+  sample: ' · Prototipo con datos de ejemplo: los valores son de relleno.',
   scoreLabel: 'similitud total con {target}',
-  imageLabel: 'Imagen satelital',
+  imageLabel: 'Sentinel-2 · Copernicus/ESA',
+  imageAlt: 'Imagen satelital',
   locator: 'Ubicación',
   varsTitle: 'Variable por variable',
   varsCount: '{n} variables',
@@ -67,7 +74,7 @@ const pct = (x) => Math.round(x * 100);
 const step = (x) => STEPS.reduce((acc, s) => (x >= s.min ? s : acc), STEPS[0]);
 const coords = (lat, lon) =>
   `${fmt(Math.abs(lat), 2)}° ${lat >= 0 ? T.north : T.south} · ${fmt(Math.abs(lon), 2)}° ${lon >= 0 ? T.east : T.west}`;
-const DECIMALS = { slope: 1, roughness: 0, thermal: 0 };
+const DECIMALS = { slope: 1, roughness: 0 };
 const value = (v, x) => {
   if (x === undefined || x === null) return '—';
   const s = fmt(x, DECIMALS[v.id] ?? 2);
@@ -80,7 +87,7 @@ let map, locator, locatorDot, layerOverlay, landGeo, landStyle, markers = new Ma
 // ---------- Textos estáticos ----------
 document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = T[el.dataset.t]; });
 document.querySelectorAll('[data-t-aria]').forEach((el) => el.setAttribute('aria-label', T[el.dataset.tAria]));
-$('targets').setAttribute('aria-label', T.marsSite);
+$('target-select').setAttribute('aria-label', T.marsSite); // en celular la etiqueta visible se oculta
 
 // ---------- Carga ----------
 async function getJSON(url, optional) {
@@ -101,7 +108,8 @@ async function init() {
     state.data = data;
     state.textos = textos || {};
     if (land) drawLand(land);
-    $('sample-note').hidden = !data.sample;
+    $('sample-note').textContent = data.sample ? T.sample : data.provisional ? T.provisional : '';
+    $('sample-note').hidden = !(data.sample || data.provisional);
     buildChips();
     const fromHash = new URLSearchParams(location.hash.slice(1));
     setTarget(data.targets.find((t) => t.id === fromHash.get('sitio'))?.id || data.targets[0].id, true);
@@ -163,21 +171,17 @@ function drawLand(topo) {
 
 // ---------- Datos derivados ----------
 const target = () => state.data.targets.find((t) => t.id === state.target);
-const meta = (t, s) => state.textos[`${t.id}:${s.id}`] || state.textos[s.id] || null;
+const meta = (t, s) => {
+  const m = state.textos[`${t.id}:${s.id}`] || state.textos[s.id];
+  return m || s.name ? { name: s.name, ...m } : null;
+};
 const ranked = (t) => t.sites.slice().sort((a, b) => b.score - a.score);
 
 // ---------- Selector de sitio de Marte ----------
 function buildChips() {
-  const box = $('targets');
-  state.data.targets.forEach((t) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'chip';
-    b.dataset.id = t.id;
-    b.innerHTML = `<span class="chip-dot" aria-hidden="true"></span>${esc(t.name)}`;
-    b.addEventListener('click', () => setTarget(t.id));
-    box.appendChild(b);
-  });
+  const sel = $('target-select');
+  state.data.targets.forEach((t) => sel.add(new Option(t.name, t.id)));
+  sel.addEventListener('change', () => setTarget(sel.value));
 }
 
 let fadeTimer;
@@ -207,7 +211,7 @@ function setTarget(id, first) {
 function renderTarget() {
   const t = target();
   const m = state.textos[t.id] || {};
-  document.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.id === t.id)));
+  $('target-select').value = t.id;
   $('target-name').textContent = t.name;
   $('target-coords').textContent = coords(t.lat, t.lon);
   $('target-blurb').textContent = m.blurb || '';
@@ -222,9 +226,28 @@ function renderTarget() {
   $('legend-steps').innerHTML = STEPS.map((s) =>
     `<div class="legend-step"><span class="legend-swatch" style="background:${s.color}"></span><span>${s.label}</span></div>`).join('');
   $('hint-sub').textContent = tpl(T.hintSub, { n: t.sites.length, target: t.name });
+  renderSection(m.section);
   const toggle = $('layer-toggle');
   toggle.disabled = !t.layer;
   toggle.title = t.layer ? '' : T.layerMissing;
+}
+
+// Sección larga del sitio de Marte elegido (textos.json → <sitio>.section)
+function renderSection(sec) {
+  $('sitio').hidden = $('nav-site').hidden = !sec;
+  if (!sec) return;
+  $('site-title').textContent = sec.title || '';
+  $('site-text').innerHTML = (sec.paragraphs || []).map((p) => `<p class="lead">${esc(p)}</p>`).join('');
+  const im = sec.image, img = $('site-img');
+  img.closest('figure').hidden = !im;
+  if (im) {
+    img.src = im.src;
+    img.alt = im.alt || '';
+    if (im.width && im.height) { img.width = im.width; img.height = im.height; }
+    $('site-caption').textContent = im.caption || '';
+  }
+  $('site-facts').innerHTML = (sec.facts || []).map((f) =>
+    `<div class="tile"><span class="tile-label">${esc(f.label)}</span><span class="big-num">${esc(f.value)}</span><span class="tile-text">${esc(f.text)}</span></div>`).join('');
 }
 
 // ---------- Puntos ----------
@@ -246,7 +269,7 @@ function renderMarkers() {
       zIndexOffset: s.known ? 0 : Math.round(s.score * 500)
     });
     mk.bindTooltip(
-      `<span class="tip-name${m?.name ? '' : ' coords'}">${esc(name)}</span><span class="tip-pct" style="color:${color}">${pct(s.score)} %</span>`,
+      `<span class="tip-name${m?.name ? '' : ' coords'}">${esc(name)}</span><span class="tip-pct"><i class="sw" style="background:${color}"></i>${pct(s.score)} %</span>`,
       { direction: 'top', offset: [0, -16], className: 'tip' }
     );
     mk.on('click', (e) => { L.DomEvent.stopPropagation(e); select(s.id === state.selected ? null : s.id); });
@@ -320,33 +343,48 @@ function renderPanel() {
   const vars = state.data.variables.filter((v) => s.variables?.[v.id]);
 
   $('p-badge').hidden = !s.known;
-  $('p-rank').textContent = tpl(T.rank, { n: idx + 1, total: list.length });
+  // los conocidos no compiten por puesto: se muestra a qué porcentaje del planeta superan
+  const news = list.filter((x) => !x.known);
+  const hasPct = typeof s.percentile === 'number';
+  const p = hasPct ? fmt(s.percentile, 1) : '';
+  $('p-rank').textContent = s.known
+    ? (hasPct ? tpl(T.rankKnown, { p }) : '')
+    : tpl(T.rank, { n: s.rank ?? news.indexOf(s) + 1, total: news.length });
   $('p-title').textContent = m?.name || coords(s.lat, s.lon);
   $('p-title').classList.toggle('coords', !m?.name);
   $('p-subtitle').textContent = m?.name ? [m.country, coords(s.lat, s.lon)].filter(Boolean).join(' · ') : T.unnamed;
   $('p-score').innerHTML = `${pct(s.score)}<small>%</small>`;
-  $('p-score').style.color = color;
+  $('p-score-sw').style.background = color;
   $('p-score-label').textContent = tpl(T.scoreLabel, { target: t.name });
 
-  // imagen satelital si viene; si no, un mapa chico de ubicación
+  // imagen satelital del sitio (earth/imagenes.py la deja en data/img/<id>.jpg);
+  // si no existe, un mapa chico de ubicación
   const img = $('p-img');
-  img.hidden = !s.image;
-  $('p-locator').hidden = !!s.image;
-  $('p-figure-tag').textContent = s.image ? T.imageLabel : T.locator;
-  if (s.image) {
-    img.src = s.image;
-    img.alt = `${T.imageLabel}: ${m?.name || coords(s.lat, s.lon)}`;
-  } else {
+  const fallback = () => {
+    if (state.selected !== s.id) return;
+    img.hidden = true;
+    $('p-locator').hidden = false;
+    $('p-figure-tag').textContent = T.locator;
     showLocator(s, color);
-  }
+  };
+  img.hidden = false;
+  $('p-locator').hidden = true;
+  $('p-figure-tag').textContent = T.imageLabel;
+  img.alt = `${T.imageAlt}: ${m?.name || coords(s.lat, s.lon)}`;
+  img.onerror = fallback;
+  img.src = s.image || `data/img/${s.id}.jpg`;
 
-  const rows = vars.map((v) => ({ v, r: s.variables[v.id] }));
-  $('p-vars').parentElement.classList.toggle('many', rows.length > 4);
+  const all = vars.map((v) => ({ v, r: s.variables[v.id] }));
+  const rows = all.filter(({ v }) => !v.informative);
+  $('p-vars').parentElement.classList.toggle('many', all.length > 4);
   $('p-vars-count').textContent = tpl(T.varsCount, { n: rows.length });
-  $('p-vars').innerHTML = rows.map(({ v, r }) => `
-    <div class="var">
+  $('p-vars').innerHTML = all.map(({ v, r }) => `
+    <div class="var${v.informative ? ' informative' : ''}">
+      ${v.informative ? `
+      <div class="var-top"><span class="var-label">${esc(v.label)}</span></div>
+      <span class="var-note">${T.informative}</span>` : `
       <div class="var-top"><span class="var-label">${esc(v.label)}</span><span class="var-pct">${pct(r.score)} %</span></div>
-      <div class="bar" role="img" aria-label="${esc(v.label)}: ${pct(r.score)} %"><div class="bar-fill" style="width:${pct(r.score)}%;background:${step(r.score).color}"></div></div>
+      <div class="bar" role="img" aria-label="${esc(v.label)}: ${pct(r.score)} %"><div class="bar-fill" style="width:${pct(r.score)}%;background:${step(r.score).color}"></div></div>`}
       <div class="var-values">
         <span><span class="earth">${esc(value(v, r.earth))}</span> ${T.onEarth}</span>
         <span><span class="marsv">${esc(value(v, t.values?.[v.id]))}</span> ${T.onMars}</span>
@@ -354,7 +392,7 @@ function renderPanel() {
     </div>`).join('');
 
   $('p-validation').hidden = !s.known;
-  $('p-validation-text').textContent = tpl(T.validation, { n: idx + 1, total: list.length });
+  $('p-validation-text').textContent = hasPct ? tpl(T.validation, { p }) : T.validationNoPct;
 
   const texts = [['why', 'M8 12h8M12 8v8'], ['breaks', 'M8 12h8'], ['use', 'M12 3v2M12 19v2M3 12h2M19 12h2']]
     .filter(([k]) => m?.[k]);
@@ -370,11 +408,9 @@ function renderPanel() {
   if (sorted.length) {
     const best = sorted[0], worst = sorted[sorted.length - 1];
     $('p-best-label').textContent = best.v.label;
-    $('p-best-pct').textContent = `${pct(best.r.score)} %`;
-    $('p-best-pct').style.color = step(best.r.score).color;
+    $('p-best-pct').innerHTML = `<i class="sw" style="background:${step(best.r.score).color}"></i>${pct(best.r.score)} %`;
     $('p-worst-label').textContent = worst.v.label;
-    $('p-worst-pct').textContent = `${pct(worst.r.score)} %`;
-    $('p-worst-pct').style.color = step(worst.r.score).color;
+    $('p-worst-pct').innerHTML = `<i class="sw" style="background:${step(worst.r.score).color}"></i>${pct(worst.r.score)} %`;
   }
   panel.querySelector('.panel-body').scrollTop = 0;
 }

@@ -26,11 +26,13 @@
 
   --known: #7CCBFF;
 
-  --sim-1: #D94F4F;  /* < 0.40 */
-  --sim-2: #E8823F;  /* 0.40 – 0.55 */
-  --sim-3: #D6A13C;  /* 0.55 – 0.65 */
-  --sim-4: #A9D257;  /* 0.65 – 0.75 */
-  --sim-5: #6EF2AE;  /* ≥ 0.75 */
+  /* similitud, con los colores de Marte: rojo oscuro (no se parece) → blanco (muy parecido).
+     Un solo tono con pasos parejos de luminosidad, así el orden se lee también con daltonismo. */
+  --sim-1: #BD3B29;  /* < 0.40 */
+  --sim-2: #DD6D45;  /* 0.40 – 0.55 */
+  --sim-3: #EEA471;  /* 0.55 – 0.65 */
+  --sim-4: #F5D5B0;  /* 0.65 – 0.75 */
+  --sim-5: #FFFFFF;  /* ≥ 0.75 */
 
   --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
@@ -103,17 +105,18 @@ button { font: inherit; color: inherit; }
   font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--mars-text); margin-right: 4px; white-space: nowrap;
 }
-.chip {
-  display: flex; align-items: center; gap: 8px;
-  height: 40px; padding: 0 14px; border-radius: 999px;
-  border: 1px solid var(--line); background: var(--surface); color: var(--text-2);
-  font-size: 15px; font-weight: 500; white-space: nowrap; cursor: pointer;
-  transition: background var(--t-fast), border-color var(--t-fast);
+.target-select {
+  appearance: none; -webkit-appearance: none;
+  height: 40px; min-width: 200px; padding: 0 40px 0 34px; border-radius: 999px;
+  border: 1px solid var(--accent); color: var(--text);
+  font: 500 15px var(--font-sans); cursor: pointer;
+  /* punto color Marte a la izquierda y flecha a la derecha */
+  background:
+    radial-gradient(circle at 18px 50%, var(--mars) 4.5px, transparent 5px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23E8EEF7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center,
+    var(--accent-soft);
 }
-.chip:hover { color: var(--text); }
-.chip-dot { width: 9px; height: 9px; border-radius: 50%; background: #5E3727; }
-.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
-.chip[aria-pressed="true"] .chip-dot { background: var(--mars); }
+.target-select option { background: var(--surface); color: var(--text); }
 
 .top-tools { display: flex; align-items: center; gap: var(--sp-4); }
 .switch {
@@ -287,6 +290,10 @@ button { font: inherit; color: inherit; }
 .score-row { display: flex; gap: var(--sp-4); align-items: stretch; }
 .score { display: flex; flex-direction: column; justify-content: center; gap: 4px; flex-shrink: 0; width: 132px; }
 .score-num { font: 600 60px/1 var(--font-mono); letter-spacing: -0.04em; }
+.sw {
+  display: inline-block; flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%;
+  margin-right: 6px; border: 1px solid var(--line);
+}
 .score-num small { font-size: 28px; letter-spacing: 0; margin-left: 2px; }
 .score-label { font-size: 13px; line-height: 1.35; color: var(--text-2); }
 .figure {
@@ -316,6 +323,9 @@ button { font: inherit; color: inherit; }
   position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px;
   transition: width 260ms cubic-bezier(.2,.7,.2,1);
 }
+.var.informative { padding-top: 14px; border-top: 1px solid var(--line); }
+.var.informative .var-label { font-size: 14px; color: var(--text-2); }
+.var-note { font-size: 13px; color: var(--text-3); }
 .var-values { display: flex; gap: 16px; flex-wrap: wrap; font: 400 14px var(--font-mono); color: var(--text-2); }
 .var-values .earth { color: var(--text); }
 .var-values .marsv { color: var(--mars-text); }
@@ -377,6 +387,8 @@ button { font: inherit; color: inherit; }
 .big-num { font: 600 44px/1.05 var(--font-mono); letter-spacing: -0.03em; }
 .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-7); align-items: center; }
 .split .section-head { gap: 16px; }
+.site-text { display: flex; flex-direction: column; gap: 16px; }
+.big-num { overflow-wrap: anywhere; }
 .photo { margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .photo img {
   display: block; width: 100%; height: auto;
@@ -407,9 +419,8 @@ button { font: inherit; color: inherit; }
   .switch-short { display: inline; }
   .targets {
     order: 3; width: 100%; margin: 8px 0 0;
-    overflow-x: auto; scrollbar-width: none;
   }
-  .chip { font-size: 14px; }
+  .target-select { width: 100%; }
 
   .hint { top: 12px; padding: 8px 14px 8px 10px; }
   .hint-main { font-size: 14px; }

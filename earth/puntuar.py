@@ -257,8 +257,11 @@ def elegir_sitios(total, lats, lons, disponibles):
 
 # -------------------------------------------------------------------- Salidas
 
-PALETA = np.array([[68, 1, 84], [59, 82, 139], [33, 145, 140],
-                   [94, 201, 98], [253, 231, 37]], np.float32)
+# La misma escala de 5 pasos que la leyenda de la página (--sim-1..5 en web/styles.css):
+# rojo oscuro = no se parece, blanco = muy parecido. Si cambia allá, cambia acá.
+PALETA_CORTES = [0.40, 0.55, 0.65, 0.75]
+PALETA = np.array([[189, 59, 41], [221, 109, 69], [238, 164, 113],
+                   [245, 213, 176], [255, 255, 255]], np.uint8)
 
 
 def en_lienzo_del_contrato(grilla, bbox):
@@ -313,10 +316,7 @@ def exportar_png(grilla, bbox, ruta):
 
     ok = np.isfinite(g)
     s = np.where(ok, g, 0.0)
-    pos = np.clip(s, 0, 1) * (len(PALETA) - 1)
-    i0 = np.clip(pos.astype(int), 0, len(PALETA) - 2)
-    frac = (pos - i0)[..., None]
-    rgb = PALETA[i0] * (1 - frac) + PALETA[i0 + 1] * frac
+    rgb = PALETA[np.digitize(s, PALETA_CORTES)]
     alfa = np.clip((s - C.PNG_UMBRAL) / max(1 - C.PNG_UMBRAL, 1e-9), 0, 1) * 150 + 80
     alfa = np.where(ok & (s >= C.PNG_UMBRAL), alfa, 0)
     rgba = np.dstack([rgb, alfa]).astype(np.uint8)

@@ -22,10 +22,12 @@ Y abrir http://localhost:8000.
 | `app.js` | Mapa, puntos, panel de detalle. Los textos de la interfaz están juntos en el objeto `T` |
 | `data/sites.json` | Sitios y puntajes. Lo escribe `earth/` (formato en `docs/contratos.md`) |
 | `data/textos.json` | Nombres y textos. Lo escribe Contenido |
+| `data/img/<id>.jpg` | Imagen Sentinel-2 de cada sitio terrestre. Las baja `earth/imagenes.py`; si falta una, el panel muestra el mapa de ubicación |
+| `img/` | Fotos de la NASA de los sitios de Marte, con el crédito en `textos.json` |
 | `data/land-50m.json` | Contorno de los continentes (Natural Earth, dominio público, vía `world-atlas@2.0.2`) |
 | `vendor/` | Leaflet 1.9.4 y topojson-client 3.1.0, copiados para que la demo no dependa de internet |
 
-Los `sites.json` y `textos.json` actuales son **datos de ejemplo** sacados del prototipo de diseño (`"sample": true`), así que la página muestra un aviso al pie. Cuando `earth/` exporte los reales, se reemplazan los archivos y no hay que tocar código.
+`sites.json` y las capas `similarity_*.png` son los **datos reales** que exporta `earth/`. Mientras el archivo diga `"provisional": true`, la página avisa al pie que los resultados son provisorios. `textos.json` por ahora solo tiene las fichas de los tres sitios de Marte: los sitios terrestres sin nombre se muestran con sus coordenadas hasta que Contenido los complete.
 
 Sin internet, solo cambia la tipografía (IBM Plex viene de Google Fonts y cae a la del sistema).
 
