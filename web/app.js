@@ -125,15 +125,27 @@ async function init() {
 // ---------- Mapa ----------
 function initMap() {
   map = L.map('map', {
-    zoomSnap: 0.25, zoomDelta: 0.5, minZoom: 0, maxZoom: 8,
-    worldCopyJump: false, maxBounds: [[-85, -220], [85, 220]], maxBoundsViscosity: 0.8
+    zoomSnap: 0.25, zoomDelta: 0.5, maxZoom: 8,
+    wheelPxPerZoomLevel: 150, // media unidad de zoom por muesca de rueda; el valor por defecto salta más de una
+    worldCopyJump: false, maxBoundsViscosity: 1
   });
+  fitLimits();
+  map.on('resize', fitLimits);
   map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
   map.attributionControl.addAttribution('Continentes: <a href="https://www.naturalearthdata.com">Natural Earth</a>');
   map.createPane('land').style.zIndex = 250;
   map.createPane('similarity').style.zIndex = 300;
   map.fitBounds(WORLD);
   map.on('click', () => select(null));
+}
+
+// Límites del mapa: no se aleja más que "el mundo ocupa todo el ancho" ni se arrastra fuera del mundo.
+// Con el panel abierto se deja correr hacia el este el ancho del panel, para que no tape el punto elegido.
+function fitLimits() {
+  const z = Math.ceil(Math.log2(map.getSize().x / 256) * 4) / 4; // múltiplo de zoomSnap
+  const extra = state.selected && !mobile.matches ? ($('panel').offsetWidth + 48) * 360 / (256 * 2 ** z) : 0;
+  map.setMinZoom(z);
+  map.setMaxBounds([[-85, -180], [85, 180 + extra]]);
 }
 
 // Los contornos que cruzan los 180° (Rusia, Fiji) saltan de +180 a -180, y Leaflet une esos
@@ -195,6 +207,7 @@ function setTarget(id, first) {
     renderMarkers();
     renderLayer();
     renderPanel();
+    fitLimits();
     $('map').classList.remove('fading');
     if (mobile.matches) {
       const pts = target().sites.map((s) => [s.lat, s.lon]);
@@ -309,6 +322,7 @@ function select(id) {
   }
   history.replaceState(null, '', `#sitio=${t.id}${id ? `&punto=${id}` : ''}`);
   renderPanel();
+  fitLimits();
   if (id) {
     const s = t.sites.find((x) => x.id === id);
     // que el punto no quede tapado por el panel
