@@ -8,6 +8,8 @@ Para cada celda de 0.05° calcula:
                  reemplaza a relieve_m / RELIEVE_A_DESVIO.
   temp_dia_C     temperatura de superficie de día (MODIS MOD11A2), media del período
   temp_noche_C   temperatura de superficie de noche, media del período
+  aridez         lluvia / evapotranspiración potencial (TerraClimate), suma del
+                 período ARIDEZ_DESDE - ARIDEZ_HASTA. Menos de 0,05 = hiperárido.
 
 Usa la misma grilla, los mismos tiles y el mismo cache reanudable que medir.py.
 Escribe en earth/datos/<region>_extra/ y earth/cache/<region>_extra/.
@@ -29,7 +31,7 @@ import numpy as np
 import config as C
 import medir as M
 
-BANDAS = ["desvio_m", "temp_dia_C", "temp_noche_C"]
+BANDAS = ["desvio_m", "temp_dia_C", "temp_noche_C", "aridez"]
 
 
 def construir_imagen(dem_id):
@@ -50,10 +52,16 @@ def construir_imagen(dem_id):
     def celsius(banda):
         return lst.select(banda).mean().multiply(0.02).subtract(273.15)
 
+    tc = (ee.ImageCollection("IDAHO_EPSCOR/TERRACLIMATE")
+          .filterDate(C.ARIDEZ_DESDE, C.ARIDEZ_HASTA))
+    aridez = tc.select("pr").sum().divide(
+        tc.select("pet").sum().multiply(0.1))     # pet viene en décimas de mm
+
     capas = [
         desvio.rename("desvio_m"),
         celsius("LST_Day_1km").rename("temp_dia_C"),
         celsius("LST_Night_1km").rename("temp_noche_C"),
+        aridez.rename("aridez"),
     ]
     return ee.Image.cat(capas).unmask(C.NODATA).toFloat()
 
@@ -101,7 +109,11 @@ def main():
         mm = np.lib.format.open_memmap(salida / f"{nombre}.npy", mode="w+",
                                        dtype=np.float32, shape=(alto, ancho))
         for (_, _, w, h, f, k) in tiles:
-            t = np.load(cache / f"t_{f}_{k}.npy")[b]
+            tile = np.load(cache / f"t_{f}_{k}.npy")
+            if len(tile) != len(BANDAS):   # cache de antes de sumar "aridez"
+                raise SystemExit(f"El cache de {cache} tiene {len(tile)} bandas y ahora "
+                                 f"son {len(BANDAS)}. Corré de nuevo con --rehacer")
+            t = tile[b]
             mm[f:f + h, k:k + w] = np.where(t == C.NODATA, np.nan, t)
         ok = np.isfinite(mm)
         if ok.any():

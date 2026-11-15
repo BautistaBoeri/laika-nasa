@@ -1,5 +1,5 @@
 """
-Baja una imagen Sentinel-2 (color real) de cada sitio de web/data/sites.json.
+Baja una imagen Sentinel-2 (color real) de cada sitio de web/data/sites*.json.
 
   python earth/imagenes.py            # baja las que falten
   python earth/imagenes.py --todas    # las vuelve a bajar todas
@@ -37,8 +37,11 @@ def url_imagen(lat, lon):
     if abs(lat) > 50:  # en latitudes altas, solo el verano local: el resto del año es nieve
         meses = (7, 8) if lat > 0 else (1, 2)
         s2 = s2.filter(ee.Filter.calendarRange(*meses, "month"))
-    # la mediana de dos años saca nubes y sombras sueltas
-    img = s2.median().select(["B4", "B3", "B2"])
+    # la mediana de dos años saca nubes y sombras sueltas. Donde se cruzan varias
+    # pasadas hay más de mil imágenes y Earth Engine rechaza el pedido (error 400):
+    # alcanza con las 200 más despejadas.
+    img = (s2.sort("CLOUDY_PIXEL_PERCENTAGE").limit(200)
+           .median().select(["B4", "B3", "B2"]))
     # Web Mercator conserva la proporción 16:10 en cualquier latitud
     return img.getThumbURL({"region": region, "dimensions": TAMANO, "crs": "EPSG:3857",
                             "format": "jpg", "min": 0, "max": 3500, "gamma": 1.3})
@@ -47,8 +50,11 @@ def url_imagen(lat, lon):
 def main():
     ee.Initialize(project="laika-nasa")
     SALIDA.mkdir(parents=True, exist_ok=True)
-    datos = json.loads((RAIZ / "web" / "data" / "sites.json").read_text(encoding="utf-8"))
-    sitios = {s["id"]: s for t in datos["targets"] for s in t["sites"]}
+    # sites.json y sus variantes (sites_v2.json, ...): la foto se comparte por id
+    sitios = {s["id"]: s
+              for archivo in sorted((RAIZ / "web" / "data").glob("sites*.json"))
+              for t in json.loads(archivo.read_text(encoding="utf-8"))["targets"]
+              for s in t["sites"]}
     solo = [a for a in sys.argv[1:] if not a.startswith("--")]
     for id_, s in sorted(sitios.items()):
         ruta = SALIDA / f"{id_}.jpg"

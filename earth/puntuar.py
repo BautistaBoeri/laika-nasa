@@ -58,15 +58,23 @@ def leer_targets(ruta):
        "mars_global": {"slope": {"mean": 1.81, "std": 2.55}, ...}}
     C.NOMBRE_EN_MARTE traduce nuestras variables a los nombres de ese archivo.
     Se compara contra el "mean" del sitio; la tolerancia es el "std" global de Marte.
+    Dos excepciones (config.py): las de C.DISPERSION se comparan contra el "std" del
+    sitio en su variable de origen, y las de C.VALOR_EN_MARTE no salen del archivo.
     """
     j = json.loads(ruta.read_text(encoding="utf-8"))
+
+    def en_marte(v):          # nombre en targets.json de la variable de la que sale v
+        return C.NOMBRE_EN_MARTE[C.DISPERSION.get(v, v)]
+
     try:
-        sigma = {v: float(C.SIGMA_PROPIA.get(
-                     v, j["mars_global"][C.NOMBRE_EN_MARTE[v]]["std"]))
+        sigma = {v: float(C.SIGMA_PROPIA[v] if v in C.SIGMA_PROPIA
+                          else j["mars_global"][en_marte(v)]["std"])
                  for v in todas()}
         targets = []
         for t in j["targets"]:
-            valores = {v: float(t["values"][C.NOMBRE_EN_MARTE[v]]["mean"])
+            valores = {v: float(C.VALOR_EN_MARTE[v] if v in C.VALOR_EN_MARTE
+                                else t["values"][en_marte(v)][
+                                    "std" if v in C.DISPERSION else "mean"])
                        for v in todas()}
             targets.append({**t, "values": valores})
     except (KeyError, TypeError) as e:
@@ -102,7 +110,8 @@ def cargar_datos(region):
             datos[b] = np.load(extra / f"{b}.npy", mmap_mode="r")
         meta["extra"] = meta_x
 
-    faltan = [v for v in todas() if v not in datos and v != "termica"]
+    faltan = [v for v in todas()     # térmica y dispersión se calculan acá, no se bajan
+              if v not in datos and v != "termica" and v not in C.DISPERSION]
     if "termica" in todas():
         faltan += [b for b in ("temp_dia_C", "temp_noche_C") if b not in datos]
     if faltan:
@@ -241,6 +250,11 @@ class Circulo:
         """Promedio solo sobre las celdas válidas del círculo (valores medidos)."""
         return self._suma(vector) / self.validas
 
+    def desvio_validas(self, vector):
+        """Desvío estándar entre las celdas válidas del círculo."""
+        media = self.media_validas(vector)
+        return np.sqrt(np.maximum(self.media_validas(vector ** 2) - media ** 2, 0.0))
+
 
 def elegir_sitios(total, lats, lons, disponibles):
     """Los N de mayor puntaje, separados al menos SEPARACION_KM entre sí."""
@@ -336,6 +350,8 @@ def id_sitio(lat, lon):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--region", default="noa")
+    ap.add_argument("--sufijo", default="",
+                    help="se agrega al nombre de las salidas (p. ej. _v2) para no pisar las que hay")
     args = ap.parse_args()
 
     meta, datos = cargar_datos(args.region)
@@ -361,8 +377,11 @@ def main():
     filas, cols = np.unravel_index(idx, (alto, ancho))
     lats = bbox[3] - (filas + 0.5) * c
     lons = bbox[0] + (cols + 0.5) * c
+    dispersion = [v for v in C.VARIABLES if v in C.DISPERSION]
+    if dispersion and C.SUAVIZADO_KM <= 0:
+        raise SystemExit(f"{', '.join(dispersion)} necesitan SUAVIZADO_KM > 0 en config.py")
     valores = {v: np.asarray(datos[v])[filas, cols].astype(np.float64)
-               for v in C.VARIABLES}
+               for v in C.VARIABLES if v not in C.DISPERSION}
     # Marte mide "roughness" como desvío estándar; relieve_m es máximo - mínimo.
     if "relieve_m" in valores:
         valores["relieve_m"] = valores["relieve_m"] / C.RELIEVE_A_DESVIO
@@ -388,7 +407,10 @@ def main():
     frac_valida = np.ones(idx.size)
     if C.SUAVIZADO_KM > 0:
         circulo = Circulo(filas, cols, lats, (alto, ancho), c, C.SUAVIZADO_KM)
-        valores_sitio = {v: circulo.media_validas(valores[v]) for v in C.VARIABLES}
+        valores_sitio = {v: circulo.media_validas(valores[v]) for v in valores}
+        # Dispersión: un solo valor por círculo, el mismo para puntuar y para mostrar.
+        for v in dispersion:
+            valores[v] = valores_sitio[v] = circulo.desvio_validas(valores[C.DISPERSION[v]])
         info_sitio = {v: circulo.media_finitas(info[v]) for v in informativas}
         frac_valida = circulo.frac_valida
         libres &= frac_valida >= C.SUAVIZADO_MIN_FRAC
@@ -408,7 +430,9 @@ def main():
         total, parciales = similitud(valores, t, sigma)
         total_val, parciales_val = total, parciales
         if circulo:
-            parciales_val = {v: circulo.media_validas(parciales[v]) for v in C.VARIABLES}
+            parciales_val = {v: parciales[v] if v in C.DISPERSION   # ya es del círculo
+                             else circulo.media_validas(parciales[v])
+                             for v in C.VARIABLES}
             total_val = ponderar(parciales_val)
             parciales = {v: parciales_val[v] * frac_valida for v in C.VARIABLES}
             total = ponderar(parciales)
@@ -485,7 +509,7 @@ def main():
 
         grilla = np.full((alto, ancho), np.nan, np.float32)
         grilla[filas, cols] = total          # el mismo puntaje que ordena el ranking
-        archivo = f"similarity_{t['id']}.png"
+        archivo = f"similarity_{t['id']}{args.sufijo}.png"
         limites = exportar_png(grilla, bbox, web / archivo)
 
         salida.append({
@@ -498,7 +522,7 @@ def main():
         })
 
     generado = datetime.now().astimezone().isoformat(timespec="seconds")
-    (web / "sites.json").write_text(json.dumps({
+    (web / f"sites{args.sufijo}.json").write_text(json.dumps({
         "generated": generado,
         # "informative": true = la variable se muestra pero no entra en el score.
         "variables": [{"id": C.NOMBRE_EN_MARTE[v], "label": C.ETIQUETAS[v][0],
@@ -529,10 +553,10 @@ def main():
     analisis = AQUI / "analisis_termica.json"     # pruebas hechas con la térmica
     if analisis.exists():
         parametros["analisis_termica"] = json.loads(analisis.read_text(encoding="utf-8"))
-    (AQUI / "parametros_usados.json").write_text(
+    (AQUI / f"parametros_usados{args.sufijo}.json").write_text(
         json.dumps(parametros, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    print(f"\nGuardado web/data/sites.json y {len(salida)} capa(s) PNG en web/data/")
+    print(f"\nGuardado web/data/sites{args.sufijo}.json y {len(salida)} capa(s) PNG en web/data/")
     if t_ejemplo or c_ejemplo:
         print("OJO: se usaron archivos de ejemplo; el resultado es solo para probar.")
 

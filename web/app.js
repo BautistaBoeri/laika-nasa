@@ -1,5 +1,5 @@
 /* Laika: mapa de análogos de Marte.
-   Lee data/sites.json y data/textos.json (formato en docs/contratos.md). */
+   Lee data/sites_v2.json y data/textos.json (formato en docs/contratos.md). */
 'use strict';
 
 // Todos los textos de la interfaz, en un solo lugar (traducir acá).
@@ -105,13 +105,13 @@ async function init() {
   initMap();
   try {
     const [data, textos, land, countries, names] = await Promise.all([
-      getJSON('data/sites.json'),
+      getJSON('data/sites_v2.json'), // seis variables; data/sites.json es el ranking anterior, de tres
       getJSON('data/textos.json', true).catch(() => null),
       getJSON('data/land-50m.json', true).catch(() => null),
       getJSON('data/countries-50m.json', true).catch(() => null),
       getJSON('data/etiquetas-mapa.json', true).catch(() => null)
     ]);
-    if (!data?.targets?.length) throw new Error('sites.json sin sitios objetivo');
+    if (!data?.targets?.length) throw new Error('sites_v2.json sin sitios objetivo');
     state.data = data;
     state.textos = textos || {};
     if (land) drawLand(land);
