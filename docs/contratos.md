@@ -122,7 +122,6 @@ Para que la comparación valga, la misma variable se calcula igual en los dos pl
 - `variables` puede traer más o menos variables según la versión. La página dibuja las que vengan, usando la lista `variables` de arriba para el nombre y la unidad.
 - `sample: true` (opcional, en la raíz) marca datos de ejemplo: la página muestra un aviso al pie. Los datos reales no lo llevan.
 - Campos opcionales que la página también lee:
-  - `provisional: true` en la raíz: aviso al pie de que los resultados son provisorios.
   - `informative: true` en una variable: se muestra con sus valores pero sin barra ni porcentaje, y no cuenta como variable puntuada.
   - `name` en un sitio: nombre a mostrar si `textos.json` no trae otro. Lo usan los análogos conocidos.
   - `rank` en un sitio nuevo: su puesto entre los sitios nuevos.
@@ -163,7 +162,7 @@ Un PNG por sitio objetivo, con fondo transparente donde no hay dato.
 
 - Tres tipos de clave en el mismo archivo:
   - **`<sitio de Marte>`** (por ejemplo `jezero`): descripción del sitio marciano para la tarjeta de abajo a la izquierda. Todos los campos son opcionales.
-    Con el campo `section` se arma además la sección larga "El sitio de Marte", que cambia con el desplegable: `title`, `paragraphs` (lista de párrafos), `image` (`src`, `alt`, `caption` con el crédito, `width`, `height`) y `facts` (lista de `label`, `value`, `text` para las tarjetas de cifras). Si un sitio no tiene `section`, la sección no se muestra.
+    Con el campo `section` se arma además la sección larga "El sitio de Marte", que cambia con el desplegable: `title`, `paragraphs` (lista de párrafos), `image` (`src`, `alt`, `caption` con el crédito, `width`, `height`) y `facts` (lista de `label`, `value`, `text` para las tarjetas de cifras) y `sources` (lista de `label`, `url` que se muestra como línea de fuentes). Si un sitio no tiene `section`, la sección no se muestra.
   - **`<sitio de Marte>:<id del sitio>`**: textos de un sitio terrestre comparado con ese sitio de Marte. Es la forma recomendada para `why`, `breaks` y `use`, porque por qué un lugar se parece a Jezero no es lo mismo que por qué se parece a Gale.
   - **`<id del sitio>`**: vale para cualquier sitio de Marte. Sirve para nombre y país. Si existen las dos claves, gana la que incluye el sitio de Marte.
 - El `id` del sitio es el de `sites.json`.

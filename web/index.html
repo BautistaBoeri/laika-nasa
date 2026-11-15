@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Laika · Análogos de Marte</title>
 <meta name="description" content="Lugares de la Tierra parecidos a sitios de Marte, encontrados comparando datos orbitales variable por variable.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23E8794A'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/fonts.css">
 <link rel="stylesheet" href="vendor/leaflet.css">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -16,7 +15,7 @@
 <header class="top">
   <div class="top-row">
     <a class="brand" href="#top">
-      <span class="brand-name">Laika</span>
+      <h1 class="brand-name">Laika</h1>
     </a>
 
     <div class="targets">
@@ -25,17 +24,14 @@
     </div>
 
     <div class="top-tools">
-      <button type="button" class="switch" id="layer-toggle" aria-pressed="false">
+      <button type="button" class="switch" id="layer-toggle" aria-pressed="false" data-t-aria="layer">
         <span class="switch-track"><span class="switch-knob"></span></span>
         <span class="switch-long" data-t="layer"></span><span class="switch-short" data-t="layerShort"></span>
       </button>
-      <button type="button" class="switch" id="sat-toggle" aria-pressed="false">
+      <button type="button" class="switch" id="sat-toggle" aria-pressed="false" data-t-aria="satellite">
         <span class="switch-track"><span class="switch-knob"></span></span>
         <span class="switch-long" data-t="satellite"></span><span class="switch-short" data-t="satelliteShort"></span>
       </button>
-      <nav class="top-nav">
-        <a href="#sitio" id="nav-site" data-t="siteEyebrow" hidden></a>
-      </nav>
     </div>
   </div>
 </header>
@@ -43,7 +39,7 @@
 <main>
 <section id="top" class="screen" data-t-aria="mapLabel">
   <div id="map" class="map"></div>
-  <p id="status" class="status" hidden></p>
+  <p id="status" class="status" role="status" data-t="loading"></p>
 
   <div class="hint" id="hint">
     <span class="hint-icon">
@@ -66,7 +62,7 @@
         <circle id="globe-dot" cx="36" cy="36" r="2.5" fill="#FFFFFF"/>
       </svg>
       <div class="target-info">
-        <span class="eyebrow mars" data-t="marsSite"></span>
+        <span class="eyebrow" data-t="marsSite"></span>
         <span class="target-name" id="target-name"></span>
         <span class="mono small dim" id="target-coords"></span>
         <p class="target-blurb" id="target-blurb"></p>
@@ -133,17 +129,20 @@
           <div class="extreme"><span class="extreme-title" data-t="bestVar"></span><span id="p-best-label"></span><span class="mono extreme-pct" id="p-best-pct"></span></div>
           <div class="extreme"><span class="extreme-title" data-t="worstVar"></span><span id="p-worst-label"></span><span class="mono extreme-pct" id="p-worst-pct"></span></div>
         </div>
-        <p class="small dim" data-t="noText"></p>
+        <p class="small dim" id="p-desc"></p>
       </div>
     </div>
   </aside>
 </section>
 
+<nav class="below-nav" data-t-aria="sections">
+  <a href="#sitio" class="nav-site" data-t="siteEyebrow" hidden></a>
+</nav>
+
 <section id="sitio" class="section" hidden>
   <div class="section-inner">
     <div class="split">
       <div class="section-head">
-        <span class="eyebrow mars" data-t="siteEyebrow"></span>
         <h2 id="site-title"></h2>
         <div class="site-text" id="site-text"></div>
       </div>
@@ -153,16 +152,16 @@
       </figure>
     </div>
     <div class="grid4" id="site-facts"></div>
+    <p class="sources" id="site-sources"></p>
   </div>
 </section>
 
-<footer class="section">
-  <div class="section-inner">
-    <p class="footer-note">Laika · NASA Space Apps Challenge 2026<span id="sample-note" hidden></span></p>
-    <p class="footer-team">Bautista Boeri · Nicolas Grüner · Luciana Larrosa · Luciano Serra</p>
-  </div>
-</footer>
 </main>
+
+<footer class="footer">
+  <p class="footer-note">Laika · NASA Space Apps Challenge 2026<span id="sample-note" hidden></span></p>
+  <p class="footer-team">Bautista Boeri · Nicolas Grüner · Luciana Larrosa · Luciano Serra</p>
+</footer>
 
 <script src="vendor/leaflet.js"></script>
 <script src="vendor/topojson-client.min.js"></script>

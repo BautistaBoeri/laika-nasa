@@ -13,8 +13,15 @@ const T = {
   satellite: 'Vista satelital',
   satelliteShort: 'Satélite',
   siteEyebrow: 'El sitio de Marte',
+  loading: 'Cargando el mapa…',
+  empty: 'Todavía no hay resultados para este sitio.',
+  noValue: 'sin dato',
+  zoomIn: 'Acercar',
+  zoomOut: 'Alejar',
   hint: 'Tocá un punto para ver por qué se parece',
-  hintSub: '{n} lugares de la Tierra, ordenados por similitud con {target}',
+  hintSub: 'Lugares nuevos: {n}. Análogos conocidos: {k}.',
+  sections: 'Secciones',
+  sources: 'Fuentes',
   legendTitle: 'Similitud con {target}',
   legendKnown: 'Análogo ya estudiado',
   panelLabel: 'Detalle del sitio',
@@ -24,8 +31,6 @@ const T = {
   knownBadge: 'Análogo ya estudiado',
   validation: 'Este lugar ya se usa como análogo de Marte. El método no lo sabía, y le dio más puntaje que al {p} % de la superficie analizada.',
   validationNoPct: 'Este lugar ya se usa como análogo de Marte. El método no lo sabía: su puntaje sirve para validar los resultados.',
-  informative: 'Informativa: no entra en el puntaje',
-  provisional: ' · Resultados provisorios: el análisis sigue en curso.',
   sample: ' · Prototipo con datos de ejemplo: los valores son de relleno.',
   scoreLabel: 'similitud total con {target}',
   imageLabel: 'Sentinel-2 · Copernicus/ESA',
@@ -40,7 +45,18 @@ const T = {
   use: 'Para qué serviría',
   bestVar: 'Donde más se parece',
   worstVar: 'Donde más se aleja',
-  noText: 'Sitio encontrado por el método, todavía sin descripción. Lo que se ve arriba es todo lo que dicen los datos.',
+  // Descripción breve de cada lugar, armada con lo medido (ver describe()). Cada lista es
+  // [valor máximo, texto]: pendiente media en grados, aridez = lluvia / evaporación potencial
+  // (clases de la UNEP) y albedo.
+  desc: {
+    terrain: [[1, 'Llanura casi plana'], [3, 'Terreno suavemente ondulado'], [6, 'Terreno de lomas'], [Infinity, 'Terreno montañoso']],
+    place: 'Lugar',
+    in: 'en {country}',
+    above: 'a {m} m sobre el nivel del mar', below: 'a {m} m bajo el nivel del mar',
+    climate: [[0.05, 'clima hiperárido'], [0.2, 'clima árido'], [0.5, 'clima semiárido'], [Infinity, 'clima sin déficit de agua']],
+    soil: [[0.2, 'suelo oscuro'], [0.3, 'suelo de tono medio'], [Infinity, 'suelo claro']],
+    and: ' y '
+  },
   unnamed: 'Sin nombre registrado',
   pointAria: '{name}, similitud {pct} %',
   knownAria: 'análogo ya estudiado',
@@ -80,7 +96,7 @@ const coords = (lat, lon) =>
   `${fmt(Math.abs(lat), 2)}° ${lat >= 0 ? T.north : T.south} · ${fmt(Math.abs(lon), 2)}° ${lon >= 0 ? T.east : T.west}`;
 const DECIMALS = { slope: 1, roughness: 0 };
 const value = (v, x) => {
-  if (x === undefined || x === null) return '—';
+  if (x === undefined || x === null) return T.noValue;
   const s = fmt(x, DECIMALS[v.id] ?? 2);
   return !v.unit ? s : v.unit === '°' ? s + '°' : `${s} ${v.unit}`;
 };
@@ -88,11 +104,11 @@ const value = (v, x) => {
 const state = { data: null, textos: {}, target: null, selected: null, layerOn: false, satellite: false };
 let map, locator, locatorDot, layerOverlay, landGeo, landStyle, markers = new Map();
 let landLayer, borderLayer, satLayer, labels = [];
+let countryFeatures = [], countryNames = []; // para countryOf()
 
 // ---------- Textos estáticos ----------
 document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = T[el.dataset.t]; });
 document.querySelectorAll('[data-t-aria]').forEach((el) => el.setAttribute('aria-label', T[el.dataset.tAria]));
-$('target-select').setAttribute('aria-label', T.marsSite); // en celular la etiqueta visible se oculta
 
 // ---------- Carga ----------
 async function getJSON(url, optional) {
@@ -115,18 +131,24 @@ async function init() {
     state.data = data;
     state.textos = textos || {};
     if (land) drawLand(land);
-    if (countries) drawBorders(countries);
-    if (names) drawLabels(names);
-    const h = new URLSearchParams(location.hash.slice(1));
-    state.satellite = h.get('mapa') === 'satelite';
-    state.layerOn = h.get('capa') === 'similitud';
+    if (countries) {
+      drawBorders(countries);
+      countryFeatures = topojson.feature(countries, countries.objects.countries).features;
+    }
+    if (names) {
+      drawLabels(names);
+      // a igual país, gana la etiqueta que se muestra desde más lejos (Italia antes que San Marino)
+      countryNames = names.etiquetas.filter((e) => !e.mar && !e.oceano).sort((a, b) => a.z - b.z);
+    }
+    const params = new URLSearchParams(location.search);
+    state.satellite = params.get('mapa') === 'satelite';
+    state.layerOn = params.get('capa') === 'similitud';
     renderBase();
-    $('sample-note').textContent = data.sample ? T.sample : data.provisional ? T.provisional : '';
-    $('sample-note').hidden = !(data.sample || data.provisional);
+    $('sample-note').textContent = data.sample ? T.sample : '';
+    $('sample-note').hidden = !data.sample;
     buildChips();
-    const fromHash = new URLSearchParams(location.hash.slice(1));
-    setTarget(data.targets.find((t) => t.id === fromHash.get('sitio'))?.id || data.targets[0].id, true);
-    if (fromHash.get('punto')) select(fromHash.get('punto'));
+    setTarget(data.targets.find((t) => t.id === params.get('sitio'))?.id || data.targets[0].id, true);
+    if (params.get('punto')) select(params.get('punto'));
   } catch (err) {
     console.error(err);
     $('status').textContent = T.loadError;
@@ -137,11 +159,16 @@ async function init() {
 
 // ---------- Mapa ----------
 function initMap() {
+  // si el sistema pide menos movimiento, el mapa cambia de zoom y de posición sin animar
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   map = L.map('map', {
     zoomSnap: 0.25, zoomDelta: 0.5, maxZoom: 8,
     wheelPxPerZoomLevel: 150, // media unidad de zoom por muesca de rueda; el valor por defecto salta más de una
-    worldCopyJump: false, maxBoundsViscosity: 1
+    worldCopyJump: false, maxBoundsViscosity: 1, zoomControl: false,
+    zoomAnimation: !calm, fadeAnimation: !calm, markerZoomAnimation: !calm, inertia: !calm
   });
+  if (calm) { const panBy = map.panBy; map.panBy = (o, opt) => panBy.call(map, o, { ...opt, animate: false }); }
+  L.control.zoom({ zoomInTitle: T.zoomIn, zoomOutTitle: T.zoomOut }).addTo(map);
   fitLimits();
   map.on('resize', fitLimits);
   map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
@@ -161,10 +188,14 @@ function initMap() {
   map.on('click', () => select(null));
 }
 
-// Límites del mapa: no se aleja más que "el mundo ocupa todo el ancho" ni se arrastra fuera del mundo.
-// Con el panel abierto se deja correr hacia el este el ancho del panel, para que no tape el punto elegido.
+// Límites del mapa: no se aleja más que "el mundo entero entra justo en pantalla" ni se arrastra
+// fuera del mundo. Con el panel abierto se deja correr hacia el este el ancho del panel, para que
+// no tape el punto elegido.
 function fitLimits() {
-  const z = Math.ceil(Math.log2(map.getSize().x / 256) * 4) / 4; // múltiplo de zoomSnap
+  const size = map.getSize(), b = L.latLngBounds(WORLD);
+  const nw = map.project(b.getNorthWest(), 0), se = map.project(b.getSouthEast(), 0);
+  // zoom exacto en que el encuadre WORLD entra a lo ancho y a lo alto: así ningún punto queda afuera
+  const z = Math.log2(Math.min(size.x / (se.x - nw.x), size.y / (se.y - nw.y)));
   const extra = state.selected && !mobile.matches ? ($('panel').offsetWidth + 48) * 360 / (256 * 2 ** z) : 0;
   map.setMinZoom(z);
   map.setMaxBounds([[-85, -180], [85, 180 + extra]]);
@@ -276,14 +307,14 @@ $('sat-toggle').addEventListener('click', () => {
   writeHash();
 });
 
-// La URL guarda el estado: #sitio=gale&punto=-21.3_118.8&mapa=satelite&capa=similitud
+// La URL guarda el estado: ?sitio=gale&punto=-21.3_118.8&mapa=satelite&capa=similitud
 function writeHash() {
   if (!state.target) return;
   const p = [`sitio=${state.target}`];
   if (state.selected) p.push(`punto=${state.selected}`);
   if (state.satellite) p.push('mapa=satelite');
   if (state.layerOn) p.push('capa=similitud');
-  history.replaceState(null, '', '#' + p.join('&'));
+  history.replaceState(null, '', '?' + p.join('&') + location.hash); // el # queda libre para saltar a las secciones
 }
 
 // ---------- Datos derivados ----------
@@ -293,6 +324,41 @@ const meta = (t, s) => {
   return m || s.name ? { name: s.name, ...m } : null;
 };
 const ranked = (t) => t.sites.slice().sort((a, b) => b.score - a.score);
+
+// País de un punto, con lo que ya se carga para el mapa: el polígono de countries-50m.json que lo
+// contiene y, para el nombre en español, la etiqueta de etiquetas-mapa.json que cae dentro de ese
+// país. Devuelve '' si el punto no cae en ningún país o si esos archivos no cargaron.
+const inRing = (lon, lat, ring) => {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i], [xj, yj] = ring[j];
+    if ((yi > lat) !== (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) inside = !inside;
+  }
+  return inside;
+};
+const inCountry = (lon, lat, f) => {
+  if (!f.geometry) return false;
+  const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+  return polys.some((p) => inRing(lon, lat, p[0]) && !p.slice(1).some((hole) => inRing(lon, lat, hole)));
+};
+// Descripción breve de un lugar con lo que se midió ahí. No inventa nada: si falta un dato,
+// esa parte de la frase no aparece.
+function describe(s, country) {
+  const D = T.desc;
+  const cls = (k, cuts) => { const x = s.variables?.[k]?.earth; return typeof x === 'number' ? cuts.find(([max]) => x < max)[1] : ''; };
+  const h = s.elevation_m;
+  const where = [cls('slope', D.terrain) || D.place, country && tpl(D.in, { country })].filter(Boolean).join(' ');
+  const height = typeof h === 'number' ? tpl(h < 0 ? D.below : D.above, { m: fmt(Math.abs(h), 0) }) : '';
+  const rest = [cls('aridity', D.climate), cls('albedo', D.soil)].filter(Boolean).join(D.and);
+  return [[where, height].filter(Boolean).join(', '), rest && rest[0].toUpperCase() + rest.slice(1)].filter(Boolean).join('. ') + '.';
+}
+
+function countryOf(lat, lon) {
+  const f = countryFeatures.find((c) => inCountry(lon, lat, c));
+  if (!f) return '';
+  f.es ??= countryNames.find((e) => inCountry(e.lon, e.lat, f))?.n || f.properties.name;
+  return f.es;
+}
 
 // ---------- Selector de sitio de Marte ----------
 function buildChips() {
@@ -343,27 +409,39 @@ function renderTarget() {
   $('legend-title').textContent = tpl(T.legendTitle, { target: t.name });
   $('legend-steps').innerHTML = STEPS.map((s) =>
     `<div class="legend-step"><span class="legend-swatch" style="background:${s.color}"></span><span>${s.label}</span></div>`).join('');
-  $('hint-sub').textContent = tpl(T.hintSub, { n: t.sites.length, target: t.name });
+  const known = t.sites.filter((s) => s.known).length;
+  $('hint-sub').textContent = tpl(T.hintSub, { n: t.sites.length - known, k: known });
+  // también saca el aviso de "Cargando"; si el sitio no trae resultados, lo dice en vez de dejar el mapa vacío
+  $('status').textContent = T.empty;
+  $('status').hidden = t.sites.length > 0;
+  $('hint').hidden = !t.sites.length;
   renderSection(m.section);
   const toggle = $('layer-toggle');
   toggle.disabled = !t.layer;
   toggle.title = t.layer ? '' : T.layerMissing;
 }
 
+const sourcesHTML = (list) => (list?.length
+  ? `${T.sources}: ` + list.map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join(' · ')
+  : '');
+
 // Sección larga del sitio de Marte elegido (textos.json → <sitio>.section)
 function renderSection(sec) {
-  $('sitio').hidden = $('nav-site').hidden = !sec;
+  $('sitio').hidden = !sec;
+  document.querySelectorAll('.nav-site').forEach((a) => { a.hidden = !sec; });
   if (!sec) return;
   $('site-title').textContent = sec.title || '';
   $('site-text').innerHTML = (sec.paragraphs || []).map((p) => `<p class="lead">${esc(p)}</p>`).join('');
   const im = sec.image, img = $('site-img');
   img.closest('figure').hidden = !im;
   if (im) {
+    img.onerror = () => { img.closest('figure').hidden = true; };
     img.src = im.src;
     img.alt = im.alt || '';
     if (im.width && im.height) { img.width = im.width; img.height = im.height; }
     $('site-caption').textContent = im.caption || '';
   }
+  $('site-sources').innerHTML = sourcesHTML(sec.sources);
   $('site-facts').innerHTML = (sec.facts || []).map((f) =>
     `<div class="tile"><span class="tile-label">${esc(f.label)}</span><span class="big-num">${esc(f.value)}</span><span class="tile-text">${esc(f.text)}</span></div>`).join('');
 }
@@ -379,7 +457,7 @@ function renderMarkers() {
     const color = s.known ? KNOWN_COLOR : step(s.score).color;
     const mk = L.marker([s.lat, s.lon], {
       icon: L.divIcon({
-        className: `pt${s.known ? ' known' : ''}`,
+        className: `pt${s.known ? ' known' : s.score < STEPS[1].min ? ' low' : ''}`, // low: el rojo oscuro necesita un aro claro para verse sobre la tierra
         html: `<span class="pt-hit" style="--c:${color}"><span class="pt-dot"></span></span>`,
         iconSize: [44, 44]
       }),
@@ -396,6 +474,11 @@ function renderMarkers() {
     el.setAttribute('aria-label', tpl(T.pointAria, { name, pct: pct(s.score) }) + (s.known ? `, ${T.knownAria}` : ''));
     el.setAttribute('aria-pressed', 'false');
     el.removeAttribute('title');
+    el.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault(); // Espacio desplazaría la página
+      select(s.id === state.selected ? null : s.id);
+    });
     markers.set(s.id, mk);
   });
   layoutLabels(); // los nombres esquivan los puntos del sitio elegido
@@ -493,7 +576,9 @@ function renderPanel() {
     : tpl(T.rank, { n: s.rank ?? news.indexOf(s) + 1, total: news.length });
   $('p-title').textContent = m?.name || coords(s.lat, s.lon);
   $('p-title').classList.toggle('coords', !m?.name);
-  $('p-subtitle').textContent = m?.name ? [m.country, coords(s.lat, s.lon)].filter(Boolean).join(' · ') : T.unnamed;
+  const country = m?.country || countryOf(s.lat, s.lon);
+  $('p-subtitle').textContent = m?.name ? [country, coords(s.lat, s.lon)].filter(Boolean).join(' · ') : country || T.unnamed;
+  $('p-desc').textContent = describe(s, country);
   $('p-score').innerHTML = `${pct(s.score)}<small>%</small>`;
   $('p-score-sw').style.background = color;
   $('p-score-label').textContent = tpl(T.scoreLabel, { target: t.name });
@@ -522,8 +607,7 @@ function renderPanel() {
   $('p-vars').innerHTML = all.map(({ v, r }) => `
     <div class="var${v.informative ? ' informative' : ''}">
       ${v.informative ? `
-      <div class="var-top"><span class="var-label">${esc(v.label)}</span></div>
-      <span class="var-note">${T.informative}</span>` : `
+      <div class="var-top"><span class="var-label">${esc(v.label)}</span></div>` : `
       <div class="var-top"><span class="var-label">${esc(v.label)}</span><span class="var-pct">${pct(r.score)} %</span></div>
       <div class="bar" role="img" aria-label="${esc(v.label)}: ${pct(r.score)} %"><div class="bar-fill" style="width:${pct(r.score)}%;background:${step(r.score).color}"></div></div>`}
       <div class="var-values">
